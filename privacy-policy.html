@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>プライバシーポリシー | LogApp</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap');
+
+    :root {
+      --bg: #0a0a0a;
+      --surface: #141414;
+      --border: #2a2a2a;
+      --text: #ffffff;
+      --text-secondary: #888888;
+      --text-tertiary: #444444;
+      --accent: #9090ff;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Noto Sans JP', sans-serif;
+      font-weight: 300;
+      line-height: 1.8;
+      min-height: 100vh;
+    }
+
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 24px 40px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo {
+      font-family: 'Space Mono', monospace;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: var(--text);
+    }
+
+    .logo span {
+      color: var(--accent);
+    }
+
+    .divider-dot {
+      color: var(--text-tertiary);
+      font-size: 20px;
+    }
+
+    .page-label {
+      font-size: 13px;
+      color: var(--text-secondary);
+      letter-spacing: 0.5px;
+    }
+
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 60px 40px 100px;
+    }
+
+    .hero {
+      margin-bottom: 56px;
+    }
+
+    .hero h1 {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 12px;
+    }
+
+    .hero .updated {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      font-family: 'Space Mono', monospace;
+    }
+
+    .intro {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 24px;
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 48px;
+      line-height: 1.9;
+    }
+
+    section {
+      margin-bottom: 44px;
+    }
+
+    h2 {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: var(--accent);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    h2::before {
+      content: '';
+      display: block;
+      width: 3px;
+      height: 14px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+
+    p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 14px;
+      line-height: 1.9;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    ul li {
+      font-size: 14px;
+      color: var(--text-secondary);
+      padding: 8px 0;
+      padding-left: 16px;
+      border-bottom: 1px solid var(--border);
+      line-height: 1.8;
+      position: relative;
+    }
+
+    ul li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--text-tertiary);
+      font-size: 12px;
+    }
+
+    ul li:last-child {
+      border-bottom: none;
+    }
+
+    .highlight-box {
+      background: #1a1a2e;
+      border: 1px solid rgba(144, 144, 255, 0.2);
+      border-radius: 10px;
+      padding: 16px 20px;
+      font-size: 13px;
+      color: #b0b0ff;
+      line-height: 1.8;
+    }
+
+    .contact-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+    }
+
+    .contact-box a {
+      color: var(--accent);
+      text-decoration: none;
+      font-family: 'Space Mono', monospace;
+      font-size: 13px;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 24px 40px;
+      text-align: center;
+      font-size: 11px;
+      color: var(--text-tertiary);
+      font-family: 'Space Mono', monospace;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">Log<span>App</span></div>
+    <div class="divider-dot">·</div>
+    <div class="page-label">プライバシーポリシー</div>
+  </header>
+
+  <main>
+    <div class="hero">
+      <h1>プライバシーポリシー</h1>
+      <div class="updated">最終更新日：2026年3月4日</div>
+    </div>
+
+    <div class="intro">
+      LogApp（以下「本アプリ」）は、ユーザーのプライバシーを尊重し、個人情報の保護に真剣に取り組んでいます。本ポリシーでは、本アプリが収集する情報、その使用方法、および保護方法について説明します。
+    </div>
+
+    <section>
+      <h2>収集する情報</h2>
+      <ul>
+        <li>本アプリは、ユーザーが入力したログ・メモ・タグ等のデータをデバイス上にローカル保存します</li>
+        <li>Proプランをご利用の場合、クラウド同期のためSupabaseサーバーにデータを保存します</li>
+        <li>AIチャット機能をご利用の場合、入力内容が各AIサービス（Anthropic / OpenAI / Google）に送信されます</li>
+        <li>本アプリ自体は、氏名・メールアドレス・位置情報等の個人識別情報を収集しません</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>APIキーの取り扱い</h2>
+      <p>AIチャット機能のご利用にあたり、ユーザーが入力したAPIキーは：</p>
+      <div class="highlight-box">
+        ✓ お使いのデバイス内にのみ保存されます<br>
+        ✓ 弊社サーバーへは一切送信・保存されません<br>
+        ✓ 各AIプロバイダーへの通信にのみ使用されます
+      </div>
+    </section>
+
+    <section>
+      <h2>情報の使用目的</h2>
+      <ul>
+        <li>アプリ機能の提供（ログ保存・検索・AI連携）</li>
+        <li>Proプランにおけるクラウド同期機能の提供</li>
+        <li>アプリの改善・不具合修正</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>第三者へのデータ提供</h2>
+      <p>以下の場合を除き、ユーザーのデータを第三者に提供することはありません。</p>
+      <ul>
+        <li>AIチャット機能使用時：入力内容が各AIサービスに送信されます（Anthropic / OpenAI / Google 各社のプライバシーポリシーが適用されます）</li>
+        <li>法令に基づく開示が必要な場合</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>データの保管と削除</h2>
+      <ul>
+        <li>ローカルデータ：アプリのアンインストールにより削除されます</li>
+        <li>クラウドデータ（Proプラン）：アカウント削除のリクエストにより完全に削除します</li>
+        <li>データの削除をご希望の場合は、下記お問い合わせ先までご連絡ください</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>子どものプライバシー</h2>
+      <p>本アプリは13歳未満の方を対象としておらず、意図的に13歳未満の個人情報を収集することはありません。</p>
+    </section>
+
+    <section>
+      <h2>ポリシーの変更</h2>
+      <p>本プライバシーポリシーは予告なく変更される場合があります。重要な変更がある場合は、アプリ内でお知らせします。最終更新日を定期的にご確認ください。</p>
+    </section>
+
+    <section>
+      <h2>お問い合わせ</h2>
+      <div class="contact-box">
+        <p style="color: var(--text); margin-bottom: 12px;">プライバシーに関するご質問・ご要望は以下までお問い合わせください。</p>
+        <a href="mailto:support@logapp.jp">support@logapp.jp</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © 2026 LogApp · All rights reserved
+  </footer>
+</body>
+</html>
