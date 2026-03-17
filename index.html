@@ -1,31 +1,29 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LogApp — 思考を育てる、一行から。</title>
-  <meta name="description" content="気づき・学び・ひらめきを一行で記録し、AIと深掘りする思考ツール。">
+  <title>Log — 思いつきを、消さない。</title>
+  <meta name="description" content="思いついた瞬間に1行で残す。そのログが次の行動になる。">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=DM+Serif+Display:ital@0;1&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Shippori+Mincho:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #080808;
-      --surface: #111111;
-      --surface2: #181818;
-      --border: #222222;
-      --border2: #2e2e2e;
+      --bg: #0a0a0a;
+      --surface: #111;
+      --surface2: #161616;
+      --border: #1e1e1e;
+      --border2: #2a2a2a;
       --text: #f0f0f0;
-      --text-secondary: #777777;
-      --text-tertiary: #333333;
-      --accent: #a0a0ff;
-      --accent-dim: rgba(160,160,255,0.12);
-      --accent-border: rgba(160,160,255,0.25);
+      --text2: #888;
+      --text3: #333;
+      --green: #4ade80;
+      --green-dim: rgba(74,222,128,0.1);
+      --green-border: rgba(74,222,128,0.2);
     }
-
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
     html { scroll-behavior: smooth; }
-
     body {
       background: var(--bg);
       color: var(--text);
@@ -34,19 +32,14 @@
       line-height: 1.7;
       overflow-x: hidden;
     }
-
-    /* ── NOISE OVERLAY ── */
-    body::before {
+    body::after {
       content: '';
       position: fixed;
       inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
       pointer-events: none;
-      z-index: 0;
-      opacity: 0.4;
+      z-index: 999;
     }
-
-    /* ── NAV ── */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -55,897 +48,664 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      transition: background 0.3s, border-color 0.3s;
       border-bottom: 1px solid transparent;
-      transition: border-color 0.3s, background 0.3s;
     }
-
     nav.scrolled {
-      background: rgba(8,8,8,0.92);
+      background: rgba(10,10,10,0.95);
       border-color: var(--border);
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(16px);
     }
-
     .nav-logo {
-      font-family: 'Space Mono', monospace;
-      font-size: 16px;
+      font-family: 'Shippori Mincho', serif;
+      font-size: 22px;
       font-weight: 700;
-      letter-spacing: -0.5px;
       color: var(--text);
       text-decoration: none;
+      letter-spacing: 2px;
     }
-
-    .nav-logo em { color: var(--accent); font-style: normal; }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 32px;
-      list-style: none;
-    }
-
-    .nav-links a {
-      font-size: 13px;
-      color: var(--text-secondary);
-      text-decoration: none;
-      letter-spacing: 0.3px;
-      transition: color 0.2s;
-    }
-
-    .nav-links a:hover { color: var(--text); }
-
     .nav-cta {
-      background: var(--text) !important;
-      color: var(--bg) !important;
-      padding: 8px 20px;
+      background: var(--green);
+      color: #000;
+      padding: 9px 22px;
       border-radius: 6px;
-      font-size: 13px !important;
-      font-weight: 500 !important;
-      transition: opacity 0.2s !important;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: opacity 0.2s;
     }
+    .nav-cta:hover { opacity: 0.85; }
+    section { position: relative; z-index: 1; }
+    .divider { height: 1px; background: var(--border); max-width: 720px; margin: 0 auto; }
 
-    .nav-cta:hover { opacity: 0.85 !important; }
-
-    /* ── HERO ── */
+    /* HERO */
     .hero {
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      align-items: center;
       justify-content: center;
-      text-align: center;
-      padding: 120px 40px 80px;
-      position: relative;
+      padding: 140px 32px 80px;
+      max-width: 720px;
+      margin: 0 auto;
     }
-
-    .hero-eyebrow {
-      font-family: 'Space Mono', monospace;
+    .hero-label {
       font-size: 11px;
-      letter-spacing: 3px;
-      color: var(--accent);
-      margin-bottom: 32px;
+      letter-spacing: 4px;
+      color: var(--green);
+      margin-bottom: 40px;
       opacity: 0;
-      animation: fadeUp 0.8s ease 0.1s forwards;
+      animation: up 0.8s ease 0.1s forwards;
     }
-
     .hero h1 {
-      font-family: 'DM Serif Display', serif;
-      font-size: clamp(52px, 9vw, 96px);
-      font-weight: 400;
-      line-height: 1.05;
+      font-family: 'Shippori Mincho', serif;
+      font-size: clamp(52px, 10vw, 88px);
+      font-weight: 800;
+      line-height: 1.15;
       letter-spacing: -2px;
-      color: var(--text);
-      margin-bottom: 28px;
+      margin-bottom: 40px;
       opacity: 0;
-      animation: fadeUp 0.9s ease 0.2s forwards;
+      animation: up 0.9s ease 0.2s forwards;
     }
-
-    .hero h1 em {
-      font-style: italic;
-      color: var(--accent);
-    }
-
-    .hero-sub {
+    .hero-body {
       font-size: 17px;
-      color: var(--text-secondary);
-      max-width: 460px;
-      line-height: 1.8;
-      margin-bottom: 48px;
+      color: var(--text2);
+      line-height: 2.4;
+      margin-bottom: 52px;
       opacity: 0;
-      animation: fadeUp 0.9s ease 0.35s forwards;
+      animation: up 0.9s ease 0.35s forwards;
     }
-
+    .hero-body strong { color: var(--text); font-weight: 500; }
     .hero-actions {
       display: flex;
-      gap: 14px;
       align-items: center;
+      gap: 20px;
       opacity: 0;
-      animation: fadeUp 0.9s ease 0.5s forwards;
+      animation: up 0.9s ease 0.5s forwards;
     }
-
-    .btn-primary {
-      display: flex;
+    .btn-green {
+      display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: var(--text);
-      color: var(--bg);
-      padding: 14px 28px;
+      background: var(--green);
+      color: #000;
+      padding: 15px 30px;
       border-radius: 8px;
-      font-size: 14px;
-      font-weight: 500;
+      font-size: 15px;
+      font-weight: 700;
       text-decoration: none;
       transition: opacity 0.2s, transform 0.2s;
     }
-
-    .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
-
-    .btn-primary svg { width: 18px; height: 18px; }
-
-    .btn-secondary {
-      font-size: 14px;
-      color: var(--text-secondary);
-      text-decoration: none;
-      padding: 14px 4px;
-      border-bottom: 1px solid var(--border2);
-      transition: color 0.2s, border-color 0.2s;
+    .btn-green:hover { opacity: 0.88; transform: translateY(-1px); }
+    .hero-sub-text { font-size: 13px; color: var(--text3); }
+    .hero-image {
+      max-width: 720px;
+      margin: 60px auto 0;
+      padding: 0 32px;
     }
-
-    .btn-secondary:hover { color: var(--text); border-color: var(--text-secondary); }
-
-    /* ── MOCKUP ── */
-    .mockup-section {
-      padding: 0 40px 120px;
-      display: flex;
-      justify-content: center;
-      opacity: 0;
-      animation: fadeUp 1s ease 0.7s forwards;
-    }
-
-    .phone-frame {
-      width: 280px;
-      height: 560px;
+    .hero-image img { width: 100%; border-radius: 16px; border: 1px solid var(--border2); }
+    .hero-image-placeholder {
+      width: 100%;
+      aspect-ratio: 16/9;
       background: var(--surface);
-      border-radius: 36px;
-      border: 1px solid var(--border2);
-      overflow: hidden;
-      position: relative;
-      box-shadow: 0 40px 120px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04);
-    }
-
-    .phone-notch {
-      position: absolute;
-      top: 12px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80px;
-      height: 20px;
-      background: var(--bg);
-      border-radius: 10px;
-      z-index: 2;
-    }
-
-    .phone-screen {
-      padding: 48px 0 0;
-      height: 100%;
-      overflow: hidden;
-    }
-
-    .phone-header {
-      padding: 12px 16px;
+      border-radius: 16px;
+      border: 1px dashed var(--border2);
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid var(--border);
+      justify-content: center;
+      color: var(--text3);
+      font-size: 13px;
     }
 
-    .phone-title {
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--text);
+    /* COMMON */
+    .sec {
+      padding: 120px 32px;
+      max-width: 720px;
+      margin: 0 auto;
     }
-
-    .phone-icons {
-      display: flex;
-      gap: 8px;
-    }
-
-    .phone-icon {
-      width: 20px;
-      height: 20px;
-      background: var(--surface2);
-      border-radius: 4px;
-    }
-
-    .phone-tags {
-      display: flex;
-      gap: 6px;
-      padding: 10px 16px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .phone-tag {
+    .sec-num {
       font-size: 11px;
-      padding: 3px 10px;
-      border-radius: 12px;
-      background: var(--surface2);
-      color: var(--text-secondary);
+      letter-spacing: 3px;
+      color: var(--text3);
+      margin-bottom: 48px;
     }
-
-    .phone-tag.active {
-      background: var(--accent-dim);
-      color: var(--accent);
-      border: 1px solid var(--accent-border);
+    .sec h2 {
+      font-family: 'Shippori Mincho', serif;
+      font-size: clamp(30px, 5vw, 52px);
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 40px;
+      letter-spacing: -0.5px;
     }
+    .sec p { font-size: 16px; color: var(--text2); line-height: 2.2; }
 
-    .phone-row {
+    /* PROBLEM */
+    .problem-list {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 48px;
+    }
+    .problem-item {
+      padding: 18px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 18px;
+      color: var(--text2);
       display: flex;
       align-items: center;
-      padding: 13px 16px;
-      border-bottom: 1px solid var(--border);
-      gap: 10px;
-      animation: slideIn 0.6s ease both;
+      gap: 16px;
     }
-
-    .phone-row:nth-child(1) { animation-delay: 1.0s; }
-    .phone-row:nth-child(2) { animation-delay: 1.15s; }
-    .phone-row:nth-child(3) { animation-delay: 1.3s; }
-    .phone-row:nth-child(4) { animation-delay: 1.45s; }
-    .phone-row:nth-child(5) { animation-delay: 1.6s; }
-
-    .phone-row-icon {
-      width: 14px;
-      height: 14px;
-      border: 1px solid var(--border2);
-      border-radius: 3px;
+    .problem-item::before {
+      content: '';
+      width: 5px; height: 5px;
+      background: var(--text3);
+      border-radius: 50%;
       flex-shrink: 0;
     }
-
-    .phone-row-text {
-      flex: 1;
+    .conclusion {
+      font-family: 'Shippori Mincho', serif;
+      font-size: clamp(22px, 3vw, 34px);
+      font-weight: 600;
+      line-height: 1.6;
+      color: var(--text);
     }
 
-    .phone-row-name {
-      font-size: 12px;
+    /* SOLUTION */
+    .steps { display: flex; flex-direction: column; gap: 2px; }
+    .step {
+      background: var(--surface);
+      padding: 24px 28px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      transition: background 0.2s;
+    }
+    .step:first-child { border-radius: 12px 12px 0 0; }
+    .step:last-child { border-radius: 0 0 12px 12px; }
+    .step:hover { background: var(--surface2); }
+    .step-icon { font-size: 24px; flex-shrink: 0; }
+    .step-title { font-size: 16px; color: var(--text); font-weight: 500; }
+    .step-desc { font-size: 13px; color: var(--text2); margin-top: 3px; }
+
+    /* STORY */
+    .timeline { position: relative; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 7px; top: 8px; bottom: 8px;
+      width: 1px;
+      background: var(--border2);
+    }
+    .t-event { display: flex; gap: 28px; padding-bottom: 44px; }
+    .t-dot {
+      width: 15px; height: 15px;
+      border-radius: 50%;
+      background: var(--border2);
+      flex-shrink: 0;
+      margin-top: 5px;
+      position: relative; z-index: 1;
+    }
+    .t-dot.on { background: var(--green); box-shadow: 0 0 14px rgba(74,222,128,0.4); }
+    .t-date { font-size: 11px; letter-spacing: 2px; color: var(--text3); margin-bottom: 8px; }
+    .t-body { font-size: 15px; color: var(--text2); line-height: 1.9; }
+    .t-log {
+      display: inline-block;
+      background: var(--surface2);
+      border: 1px solid var(--border2);
+      border-radius: 6px;
+      padding: 8px 16px;
+      font-size: 14px;
       color: var(--text);
       font-weight: 500;
+      margin: 10px 0;
     }
-
-    .phone-row-date {
-      font-size: 10px;
-      color: var(--text-tertiary);
-      margin-top: 1px;
-    }
-
-    .phone-chip {
-      font-size: 9px;
-      padding: 2px 7px;
-      border-radius: 8px;
-      font-weight: 500;
-    }
-
-    /* ── SECTIONS ── */
-    section { position: relative; z-index: 1; }
-
-    .section-label {
-      font-family: 'Space Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 3px;
-      color: var(--text-tertiary);
-      margin-bottom: 16px;
-      text-transform: uppercase;
-    }
-
-    /* ── CONCEPT ── */
-    .concept {
-      padding: 120px 40px;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .concept-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2px;
-      margin-top: 60px;
-    }
-
-    .concept-card {
-      background: var(--surface);
-      padding: 40px;
-      position: relative;
-      overflow: hidden;
-      transition: background 0.3s;
-    }
-
-    .concept-card:hover { background: var(--surface2); }
-
-    .concept-card:first-child { border-radius: 16px 0 0 0; }
-    .concept-card:nth-child(2) { border-radius: 0 16px 0 0; }
-    .concept-card:nth-child(3) { border-radius: 0 0 0 16px; }
-    .concept-card:last-child { border-radius: 0 0 16px 0; }
-
-    .concept-num {
-      font-family: 'DM Serif Display', serif;
-      font-size: 72px;
-      color: var(--text-tertiary);
-      line-height: 1;
-      margin-bottom: 20px;
-      opacity: 0.4;
-    }
-
-    .concept-title {
-      font-size: 20px;
+    .t-big {
+      font-family: 'Shippori Mincho', serif;
+      font-size: clamp(20px, 3vw, 30px);
       font-weight: 700;
-      margin-bottom: 12px;
-      letter-spacing: -0.3px;
+      color: var(--text);
+      line-height: 1.6;
+      margin-top: 8px;
     }
 
-    .concept-desc {
-      font-size: 14px;
-      color: var(--text-secondary);
-      line-height: 1.8;
-    }
-
-    .concept-tag {
-      display: inline-block;
-      margin-top: 16px;
-      font-family: 'Space Mono', monospace;
-      font-size: 10px;
-      color: var(--accent);
-      background: var(--accent-dim);
-      border: 1px solid var(--accent-border);
-      padding: 4px 10px;
-      border-radius: 4px;
-      letter-spacing: 1px;
-    }
-
-    /* ── FEATURES ── */
-    .features {
-      padding: 120px 40px;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .features-header {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
-      align-items: end;
-      margin-bottom: 80px;
-    }
-
-    .features-header h2 {
-      font-family: 'DM Serif Display', serif;
-      font-size: clamp(36px, 5vw, 56px);
-      font-weight: 400;
-      line-height: 1.1;
-      letter-spacing: -1px;
-    }
-
-    .features-header p {
+    /* PAIN LIST */
+    .pain-list { display: flex; flex-direction: column; gap: 10px; margin: 32px 0; }
+    .pain-item {
+      background: var(--surface);
+      border-left: 3px solid var(--border2);
+      padding: 14px 20px;
       font-size: 15px;
-      color: var(--text-secondary);
-      line-height: 1.9;
+      color: var(--text2);
+      border-radius: 0 8px 8px 0;
     }
 
-    .feature-list {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      overflow: hidden;
-    }
+    /* BA */
+    .ba-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+    .ba-card { background: var(--surface); padding: 32px 28px; }
+    .ba-card:first-child { border-radius: 12px 0 0 12px; }
+    .ba-card:last-child { border-radius: 0 12px 12px 0; }
+    .ba-label { font-size: 11px; letter-spacing: 3px; margin-bottom: 16px; font-weight: 500; }
+    .ba-label.b { color: var(--text3); }
+    .ba-label.a { color: var(--green); }
+    .ba-title { font-size: 17px; font-weight: 700; margin-bottom: 20px; }
+    .ba-items { display: flex; flex-direction: column; gap: 10px; }
+    .ba-item { font-size: 14px; color: var(--text2); display: flex; align-items: center; gap: 10px; }
+    .ba-card.before .ba-item::before { content: '✕'; color: var(--text3); font-size: 12px; }
+    .ba-card.after .ba-item::before { content: '✓'; color: var(--green); font-size: 12px; }
 
-    .feature-item {
-      background: var(--bg);
+    /* LOG EXAMPLES */
+    .log-list { display: flex; flex-direction: column; gap: 2px; margin-bottom: 32px; }
+    .log-row {
+      background: var(--surface);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: background 0.2s;
+    }
+    .log-row:first-child { border-radius: 12px 12px 0 0; }
+    .log-row:last-child { border-radius: 0 0 12px 12px; }
+    .log-row:hover { background: var(--surface2); }
+    .log-icon {
+      width: 28px; height: 28px;
+      background: var(--surface2);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+    .log-name { flex: 1; font-size: 14px; color: var(--text); font-weight: 500; }
+    .log-tag { font-size: 11px; padding: 3px 10px; border-radius: 4px; font-weight: 500; }
+    .log-date { font-size: 11px; color: var(--text3); }
+
+    /* FEATURES */
+    .feature-list { display: flex; flex-direction: column; gap: 2px; }
+    .f-item {
+      background: var(--surface);
       padding: 36px 32px;
       transition: background 0.2s;
     }
-
-    .feature-item:hover { background: var(--surface); }
-
-    .feature-icon {
-      width: 40px;
-      height: 40px;
+    .f-item:first-child { border-radius: 12px 12px 0 0; }
+    .f-item:last-child { border-radius: 0 0 12px 12px; }
+    .f-item:hover { background: var(--surface2); }
+    .f-icon { font-size: 28px; margin-bottom: 16px; }
+    .f-name { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+    .f-desc { font-size: 14px; color: var(--text2); line-height: 1.9; }
+    .v-chain { display: flex; align-items: center; gap: 8px; margin-top: 16px; }
+    .v-node {
       background: var(--surface2);
       border: 1px solid var(--border2);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 20px;
-      font-size: 18px;
-    }
-
-    .feature-name {
-      font-size: 15px;
-      font-weight: 600;
-      margin-bottom: 8px;
-      letter-spacing: -0.2px;
-    }
-
-    .feature-desc {
-      font-size: 13px;
-      color: var(--text-secondary);
-      line-height: 1.8;
-    }
-
-    /* ── PRICING ── */
-    .pricing {
-      padding: 120px 40px;
-      max-width: 800px;
-      margin: 0 auto;
-      text-align: center;
-    }
-
-    .pricing h2 {
-      font-family: 'DM Serif Display', serif;
-      font-size: clamp(36px, 5vw, 52px);
-      font-weight: 400;
-      letter-spacing: -1px;
-      margin-bottom: 16px;
-    }
-
-    .pricing-sub {
-      font-size: 15px;
-      color: var(--text-secondary);
-      margin-bottom: 60px;
-    }
-
-    .pricing-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      text-align: left;
-    }
-
-    .pricing-card {
-      background: var(--surface);
-      border: 1px solid var(--border2);
-      border-radius: 16px;
-      padding: 36px;
-    }
-
-    .pricing-card.pro {
-      background: #0e0e1e;
-      border-color: var(--accent-border);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .pricing-card.pro::before {
-      content: '';
-      position: absolute;
-      top: -60px;
-      right: -60px;
-      width: 180px;
-      height: 180px;
-      background: radial-gradient(circle, rgba(160,160,255,0.08) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .pricing-plan {
-      font-family: 'Space Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 2px;
-      color: var(--text-secondary);
-      margin-bottom: 20px;
-    }
-
-    .pricing-card.pro .pricing-plan { color: var(--accent); }
-
-    .pricing-price {
-      font-size: 40px;
-      font-weight: 700;
-      letter-spacing: -1px;
-      line-height: 1;
-      margin-bottom: 6px;
-    }
-
-    .pricing-period {
-      font-size: 13px;
-      color: var(--text-secondary);
-      margin-bottom: 28px;
-    }
-
-    .pricing-divider {
-      height: 1px;
-      background: var(--border);
-      margin-bottom: 24px;
-    }
-
-    .pricing-features {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .pricing-features li {
-      font-size: 13px;
-      color: var(--text-secondary);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .pricing-features li::before {
-      content: '✓';
-      color: var(--accent);
+      padding: 4px 10px;
+      border-radius: 4px;
       font-size: 12px;
-      flex-shrink: 0;
+      color: var(--text2);
     }
+    .v-node.on { border-color: var(--green-border); color: var(--green); background: var(--green-dim); }
+    .v-arrow { color: var(--text3); font-size: 12px; }
 
-    .pricing-features li.dim { color: var(--text-tertiary); }
-    .pricing-features li.dim::before { color: var(--text-tertiary); content: '–'; }
-
-    .pricing-cta {
-      display: block;
-      margin-top: 28px;
-      background: var(--text);
-      color: var(--bg);
-      text-align: center;
-      padding: 13px;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 500;
-      text-decoration: none;
-      transition: opacity 0.2s;
-    }
-
-    .pricing-cta:hover { opacity: 0.85; }
-
-    .pricing-cta.outline {
-      background: transparent;
-      border: 1px solid var(--border2);
-      color: var(--text-secondary);
-    }
-
-    .pricing-cta.outline:hover { border-color: var(--text-secondary); color: var(--text); }
-
-    /* ── CTA BANNER ── */
-    .cta-banner {
-      margin: 40px;
-      padding: 80px 60px;
+    /* AI */
+    .ai-providers { display: flex; gap: 2px; }
+    .ai-p {
+      flex: 1;
       background: var(--surface);
-      border: 1px solid var(--border2);
-      border-radius: 24px;
+      padding: 28px 20px;
       text-align: center;
-      position: relative;
-      overflow: hidden;
+      transition: background 0.2s;
     }
+    .ai-p:first-child { border-radius: 12px 0 0 12px; }
+    .ai-p:last-child { border-radius: 0 12px 12px 0; }
+    .ai-p:hover { background: var(--surface2); }
+    .ai-logo { font-size: 24px; margin-bottom: 8px; }
+    .ai-name { font-size: 14px; font-weight: 600; }
+    .ai-sub { font-size: 11px; color: var(--text2); margin-top: 4px; }
 
-    .cta-banner::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 600px;
-      height: 300px;
-      background: radial-gradient(ellipse, rgba(160,160,255,0.06) 0%, transparent 70%);
-      pointer-events: none;
+    /* FOR WHO */
+    .who-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+    .who-item {
+      background: var(--surface);
+      padding: 28px 24px;
+      transition: background 0.2s;
     }
+    .who-item:nth-child(1) { border-radius: 12px 0 0 0; }
+    .who-item:nth-child(2) { border-radius: 0 12px 0 0; }
+    .who-item:nth-child(3) { border-radius: 0 0 0 12px; }
+    .who-item:nth-child(4) { border-radius: 0 0 12px 0; }
+    .who-item:hover { background: var(--surface2); }
+    .who-icon { font-size: 24px; margin-bottom: 12px; }
+    .who-name { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+    .who-desc { font-size: 13px; color: var(--text2); }
 
-    .cta-banner h2 {
-      font-family: 'DM Serif Display', serif;
-      font-size: clamp(32px, 5vw, 52px);
-      font-weight: 400;
-      letter-spacing: -1px;
-      margin-bottom: 16px;
-    }
+    /* VISION / CTA */
+    .center { text-align: center; }
+    .center h2 { margin-left: auto; margin-right: auto; }
+    .center p { max-width: 480px; margin: 0 auto; }
 
-    .cta-banner p {
-      font-size: 15px;
-      color: var(--text-secondary);
-      margin-bottom: 36px;
-    }
-
-    /* ── FOOTER ── */
+    /* FOOTER */
     footer {
       border-top: 1px solid var(--border);
-      padding: 40px;
+      padding: 40px 32px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       font-size: 12px;
-      color: var(--text-tertiary);
+      color: var(--text3);
+      max-width: 720px;
+      margin: 0 auto;
     }
+    footer a { color: var(--text3); text-decoration: none; transition: color 0.2s; }
+    footer a:hover { color: var(--text2); }
+    .footer-links { display: flex; gap: 24px; }
 
-    footer a {
-      color: var(--text-tertiary);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
-    footer a:hover { color: var(--text-secondary); }
-
-    .footer-links {
-      display: flex;
-      gap: 24px;
-    }
-
-    /* ── ANIMATIONS ── */
-    @keyframes fadeUp {
+    @keyframes up {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateX(-10px); }
-      to { opacity: 1; transform: translateX(0); }
-    }
-
     .reveal {
       opacity: 0;
-      transform: translateY(24px);
+      transform: translateY(28px);
       transition: opacity 0.7s ease, transform 0.7s ease;
     }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
 
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* ── MOBILE ── */
-    @media (max-width: 768px) {
+    @media (max-width: 640px) {
       nav { padding: 16px 20px; }
-      .nav-links { display: none; }
-      .hero { padding: 100px 24px 60px; }
-      .hero h1 { letter-spacing: -1px; }
-      .concept { padding: 80px 24px; }
-      .concept-grid { grid-template-columns: 1fr; gap: 2px; }
-      .concept-card:first-child { border-radius: 16px 16px 0 0; }
-      .concept-card:nth-child(2) { border-radius: 0; }
-      .concept-card:nth-child(3) { border-radius: 0; }
-      .concept-card:last-child { border-radius: 0 0 16px 16px; }
-      .features { padding: 80px 24px; }
-      .features-header { grid-template-columns: 1fr; }
-      .feature-list { grid-template-columns: 1fr; }
-      .pricing { padding: 80px 24px; }
-      .pricing-grid { grid-template-columns: 1fr; }
-      .cta-banner { margin: 20px; padding: 60px 28px; }
-      footer { flex-direction: column; gap: 20px; text-align: center; }
+      .sec, .hero { padding-left: 20px; padding-right: 20px; }
+      .ba-grid, .who-grid { grid-template-columns: 1fr; }
+      .ba-card:first-child { border-radius: 12px 12px 0 0; }
+      .ba-card:last-child { border-radius: 0 0 12px 12px; }
+      .who-item:nth-child(1) { border-radius: 12px 12px 0 0; }
+      .who-item:nth-child(2), .who-item:nth-child(3) { border-radius: 0; }
+      .who-item:nth-child(4) { border-radius: 0 0 12px 12px; }
+      .ai-providers { flex-direction: column; }
+      .ai-p:first-child { border-radius: 12px 12px 0 0; }
+      .ai-p:last-child { border-radius: 0 0 12px 12px; }
+      footer { flex-direction: column; gap: 16px; text-align: center; }
     }
   </style>
 </head>
 <body>
 
-  <nav id="nav">
-    <a href="/" class="nav-logo">Log<em>App</em></a>
-    <ul class="nav-links">
-      <li><a href="#features">機能</a></li>
-      <li><a href="#pricing">料金</a></li>
-      <li><a href="privacy-policy.html">プライバシー</a></li>
-      <li><a href="terms-of-service.html">利用規約</a></li>
-      <li><a href="#download" class="nav-cta">App Storeで入手</a></li>
-    </ul>
-  </nav>
+<nav id="nav">
+  <a href="/" class="nav-logo">Log</a>
+  <a href="#download" class="nav-cta">試してみる</a>
+</nav>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-eyebrow">THOUGHT LOGGING TOOL</div>
-    <h1>思考を、<em>育てよう</em>。<br>一行から。</h1>
-    <p class="hero-sub">気づき・学び・ひらめきを記録し、AIと深掘りする。<br>メモじゃない、思考が育つツール。</p>
+<!-- HERO -->
+<section>
+  <div class="hero">
+    <div class="hero-label">THOUGHT LOGGING APP</div>
+    <h1>思いつきを、<br>消さない。</h1>
+    <div class="hero-body">
+      思いついた瞬間に<strong>1行で残す。</strong><br>
+      そのログが<br>
+      <strong>次の行動になる。</strong>
+    </div>
     <div class="hero-actions">
-      <a href="#download" class="btn-primary">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-        App Storeで入手
+      <a href="#download" class="btn-green">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+        Logを試す
       </a>
-      <a href="#features" class="btn-secondary">機能を見る →</a>
+      <span class="hero-sub-text">iOS / Android · 無料で始める</span>
     </div>
-  </section>
+  </div>
+  <!-- ヒーロー画像：チャッピーの画像をここに -->
+  <div class="hero-image reveal">
+    <!-- <img src="hero.png" alt="Log app"> -->
+    <div class="hero-image-placeholder">← チャッピーのヒーロー画像をここに差し込んでね（hero.pngとして同フォルダに置いてコメントアウトを外す）</div>
+  </div>
+</section>
 
-  <!-- PHONE MOCKUP -->
-  <div class="mockup-section">
-    <div class="phone-frame">
-      <div class="phone-notch"></div>
-      <div class="phone-screen">
-        <div class="phone-header">
-          <div class="phone-title">学習ログ</div>
-          <div class="phone-icons">
-            <div class="phone-icon"></div>
-            <div class="phone-icon"></div>
-          </div>
-        </div>
-        <div class="phone-tags">
-          <div class="phone-tag active">学習</div>
-          <div class="phone-tag">読書</div>
-          <div class="phone-tag">思考</div>
-          <div class="phone-tag">開発</div>
-        </div>
-        <div class="phone-row">
-          <div class="phone-row-icon"></div>
-          <div class="phone-row-text">
-            <div class="phone-row-name">人間は環境で変わる</div>
-            <div class="phone-row-date">03/01</div>
-          </div>
-          <div class="phone-chip" style="background:#1a2a1a;color:#81c784">学習</div>
-        </div>
-        <div class="phone-row">
-          <div class="phone-row-icon"></div>
-          <div class="phone-row-text">
-            <div class="phone-row-name">教育は環境設計である</div>
-            <div class="phone-row-date">03/05</div>
-          </div>
-          <div class="phone-chip" style="background:#1a1a2e;color:#9090ff">思考</div>
-        </div>
-        <div class="phone-row">
-          <div class="phone-row-icon"></div>
-          <div class="phone-row-text">
-            <div class="phone-row-name">社会設計 ＝ 環境設計</div>
-            <div class="phone-row-date">03/12</div>
-          </div>
-          <div class="phone-chip" style="background:#2a1a1a;color:#e57373">読書</div>
-        </div>
-        <div class="phone-row">
-          <div class="phone-row-icon"></div>
-          <div class="phone-row-text">
-            <div class="phone-row-name">LogAppは思考ツールだ</div>
-            <div class="phone-row-date">03/20</div>
-          </div>
-          <div class="phone-chip" style="background:#1a2a1a;color:#81c784">開発</div>
-        </div>
+<div class="divider"></div>
+
+<!-- PROBLEM -->
+<section class="sec reveal">
+  <div class="sec-num">02 — PROBLEM</div>
+  <h2>思いつきは、<br>消える。</h2>
+  <div class="problem-list">
+    <div class="problem-item">アイデア</div>
+    <div class="problem-item">ひらめき</div>
+    <div class="problem-item">やりたいこと</div>
+  </div>
+  <p style="margin-bottom:40px">
+    思いついた瞬間は<br>覚えているのに<br><br>
+    数時間後には<br>消えてしまう。
+  </p>
+  <div class="conclusion">人間の思考は、<br>揮発する。</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SOLUTION -->
+<section class="sec reveal">
+  <div class="sec-num">03 — SOLUTION</div>
+  <h2>流れる前に、<br>ログする。</h2>
+  <p style="margin-bottom:40px">Logは思いつきを1行で残す<strong style="color:var(--text)">ログアプリ</strong>です。</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-icon">📝</div>
+      <div><div class="step-title">思考を記録する</div><div class="step-desc">1行で素早く。タグで整理。</div></div>
+    </div>
+    <div class="step">
+      <div class="step-icon">🔗</div>
+      <div><div class="step-title">ログをつなぐ</div><div class="step-desc">関連するアイデアをリンクで接続。</div></div>
+    </div>
+    <div class="step">
+      <div class="step-icon">🚀</div>
+      <div><div class="step-title">行動に変える</div><div class="step-desc">AIと深掘りして、次の一手を見つける。</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- STORY -->
+<section class="sec reveal">
+  <div class="sec-num">04 — STORY</div>
+  <h2>すべては、<br>1行から。</h2>
+  <div class="timeline">
+    <div class="t-event">
+      <div class="t-dot"></div>
+      <div>
+        <div class="t-date">2026.02.25</div>
+        <div class="t-body">Notionのデータベースに<br>こう書きました。</div>
+        <div class="t-log">一行ログアプリ開発</div>
+        <div class="t-body" style="margin-top:10px">ただのメモでした。</div>
+      </div>
+    </div>
+    <div class="t-event">
+      <div class="t-dot"></div>
+      <div>
+        <div class="t-date">その後</div>
+        <div class="t-body">その1行を何度も見返しました。<br>ログを書きました。<br>アイデアを足しました。</div>
+      </div>
+    </div>
+    <div class="t-event">
+      <div class="t-dot on"></div>
+      <div>
+        <div class="t-date">2026.03.05</div>
+        <div class="t-big">アプリは<br>完成しました。</div>
+        <div class="t-body" style="margin-top:14px">Logは本当に<br><strong style="color:var(--text)">1行のログから生まれたアプリです。</strong></div>
       </div>
     </div>
   </div>
+</section>
 
-  <!-- CONCEPT -->
-  <section class="concept" id="concept">
-    <div class="reveal">
-      <div class="section-label">CONCEPT</div>
-      <h2 style="font-family:'DM Serif Display',serif;font-size:clamp(32px,4vw,48px);font-weight:400;letter-spacing:-1px;line-height:1.2;max-width:500px">
-        点から線へ。<br>線から<em style="font-style:italic;color:var(--accent)">構造</em>へ。
-      </h2>
-    </div>
-    <div class="concept-grid reveal" style="transition-delay:0.1s">
-      <div class="concept-card">
-        <div class="concept-num">01</div>
-        <div class="concept-title">記録する</div>
-        <div class="concept-desc">気づき・学び・ひらめきを一行で素早くログ。タグとレイヤーで整理するだけでいい。</div>
-        <span class="concept-tag">LOG</span>
-      </div>
-      <div class="concept-card">
-        <div class="concept-num">02</div>
-        <div class="concept-title">つなぐ</div>
-        <div class="concept-desc">バラバラなログをリンクで接続。「この気づきとあの学びはつながっている」という発見を記録。</div>
-        <span class="concept-tag">LINK</span>
-      </div>
-      <div class="concept-card">
-        <div class="concept-num">03</div>
-        <div class="concept-title">変遷を追う</div>
-        <div class="concept-desc">考えがどう深まったか系列として可視化。v1→v2→v3の思考バージョニング。</div>
-        <span class="concept-tag">VERSION</span>
-      </div>
-      <div class="concept-card">
-        <div class="concept-num">04</div>
-        <div class="concept-title">AIと深掘りする</div>
-        <div class="concept-desc">ログをAIのコンテキストとして渡し対話。Claude・ChatGPT・Geminiから選択可能。</div>
-        <span class="concept-tag">AI</span>
-      </div>
-    </div>
-  </section>
+<div class="divider"></div>
 
-  <!-- FEATURES -->
-  <section class="features" id="features">
-    <div class="features-header reveal">
-      <h2>思考ツールに<br>必要な全てが、<br><em style="font-style:italic;color:var(--accent)">ここに。</em></h2>
-      <p>Notionは重すぎる。Obsidianは難しい。<br>LogAppはその間を埋める、軽くて深いツールです。</p>
-    </div>
-    <div class="feature-list reveal" style="transition-delay:0.15s">
-      <div class="feature-item">
-        <div class="feature-icon">📝</div>
-        <div class="feature-name">一行ログ</div>
-        <div class="feature-desc">タグ・レイヤー・メモ・Next Actionで構造化。素早く、深く記録できる。</div>
-      </div>
-      <div class="feature-item">
-        <div class="feature-icon">🔗</div>
-        <div class="feature-name">関連ログ</div>
-        <div class="feature-desc">ログ同士を横につなぐ。Notionのリレーション的な発想を、ライトに実現。</div>
-      </div>
-      <div class="feature-item">
-        <div class="feature-icon">🌿</div>
-        <div class="feature-name">思考バージョニング</div>
-        <div class="feature-desc">考えの前身を設定し、縦の系列を作る。成長の証拠が自動で残る。</div>
-      </div>
-      <div class="feature-item">
-        <div class="feature-icon">🤖</div>
-        <div class="feature-name">AIチャット</div>
-        <div class="feature-desc">ログをAIに渡してそのまま対話。Claude・ChatGPT・Geminiに対応。</div>
-      </div>
-      <div class="feature-item">
-        <div class="feature-icon">🏷️</div>
-        <div class="feature-name">タグフィルター</div>
-        <div class="feature-desc">YouTubeライクなタグチップで素早くフィルタリング。検索と組み合わせ可能。</div>
-      </div>
-      <div class="feature-item">
-        <div class="feature-icon">☁️</div>
-        <div class="feature-name">クラウド同期</div>
-        <div class="feature-desc">Proプランでデバイス間同期。どこからでも思考にアクセスできる。</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PRICING -->
-  <section class="pricing" id="pricing">
-    <div class="reveal">
-      <div class="section-label">PRICING</div>
-      <h2>シンプルな<br>料金体系</h2>
-      <p class="pricing-sub">まず無料で試して、深めたくなったらProへ。</p>
-    </div>
-    <div class="pricing-grid reveal" style="transition-delay:0.1s">
-      <div class="pricing-card">
-        <div class="pricing-plan">FREE</div>
-        <div class="pricing-price">¥0</div>
-        <div class="pricing-period">ずっと無料</div>
-        <div class="pricing-divider"></div>
-        <ul class="pricing-features">
-          <li>セクション 3個まで</li>
-          <li>ログ 50件まで</li>
-          <li>関連ログ・思考バージョン</li>
-          <li>タグフィルター・検索</li>
-          <li class="dim">AIチャット</li>
-          <li class="dim">クラウド同期</li>
-        </ul>
-        <a href="#download" class="pricing-cta outline">無料で始める</a>
-      </div>
-      <div class="pricing-card pro">
-        <div class="pricing-plan">PRO</div>
-        <div class="pricing-price">¥300</div>
-        <div class="pricing-period">/ 月（税込）</div>
-        <div class="pricing-divider"></div>
-        <ul class="pricing-features">
-          <li>セクション・ログ 無制限</li>
-          <li>AIチャット（Claude/GPT/Gemini）</li>
-          <li>クラウド同期</li>
-          <li>AIプロジェクト管理</li>
-          <li>関連ログ・思考バージョン</li>
-          <li>全機能アクセス</li>
-        </ul>
-        <a href="#download" class="pricing-cta">7日間無料で試す</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <div class="cta-banner reveal" id="download">
-    <h2>今日から、<em style="font-style:italic;color:var(--accent)">思考を育てよう</em>。</h2>
-    <p>まずは無料でダウンロード。一行書くだけでいい。</p>
-    <a href="#" class="btn-primary" style="display:inline-flex">
-      <svg viewBox="0 0 24 24" fill="currentColor" style="width:18px;height:18px"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-      App Storeで入手
-    </a>
+<!-- CREATOR -->
+<section class="sec reveal">
+  <div class="sec-num">05 — FOR CREATORS</div>
+  <h2>ネタは、<br>思考から生まれる。</h2>
+  <p>芸人は日常の中でネタを思いつく。<br>クリエイターはひらめきを形にする。<br>学習者は気づきを積み重ねる。<br><br>でも、こんな悩みがある。</p>
+  <div class="pain-list">
+    <div class="pain-item">忘れる</div>
+    <div class="pain-item">アイデアがつながらない</div>
+    <div class="pain-item">思いつきで終わってしまう</div>
   </div>
+  <p>Logなら<br><br>思いつきをその瞬間に残せる。<br>ログが増え、アイデアがつながり<br><br><strong style="color:var(--text);font-size:19px">そして、行動が生まれる。</strong></p>
+</section>
 
-  <footer>
-    <a href="/" class="nav-logo" style="font-family:'Space Mono',monospace;font-size:14px;font-weight:700;color:var(--text-tertiary);text-decoration:none">Log<span style="color:var(--accent)">App</span></a>
-    <div class="footer-links">
-      <a href="privacy-policy.html">プライバシーポリシー</a>
-      <a href="terms-of-service.html">利用規約</a>
-      <a href="mailto:support@logapp.jp">サポート</a>
+<div class="divider"></div>
+
+<!-- BEFORE / AFTER -->
+<section class="sec reveal">
+  <div class="sec-num">06 — BEFORE / AFTER</div>
+  <h2>ネタ帳から、<br>Logへ。</h2>
+  <div class="ba-grid">
+    <div class="ba-card before">
+      <div class="ba-label b">BEFORE</div>
+      <div class="ba-title">紙のネタ帳</div>
+      <div class="ba-items">
+        <div class="ba-item">アイデアが散らばる</div>
+        <div class="ba-item">思いつきで終わる</div>
+        <div class="ba-item">見返さない</div>
+        <div class="ba-item">つながらない</div>
+      </div>
     </div>
-    <div>© 2026 LogApp</div>
-  </footer>
+    <div class="ba-card after">
+      <div class="ba-label a">AFTER</div>
+      <div class="ba-title">Log</div>
+      <div class="ba-items">
+        <div class="ba-item">思考が残る</div>
+        <div class="ba-item">アイデアがつながる</div>
+        <div class="ba-item">行動が生まれる</div>
+        <div class="ba-item">AIで深掘りできる</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <script>
-    // Nav scroll effect
-    const nav = document.getElementById('nav');
-    window.addEventListener('scroll', () => {
-      nav.classList.toggle('scrolled', window.scrollY > 40);
-    });
+<div class="divider"></div>
 
-    // Reveal on scroll
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('visible');
-          observer.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.12 });
+<!-- LOG EXAMPLES -->
+<section class="sec reveal">
+  <div class="sec-num">07 — HOW IT WORKS</div>
+  <h2>1行ログ、<br>こんな感じ。</h2>
+  <div class="log-list">
+    <div class="log-row">
+      <div class="log-icon">📋</div>
+      <div class="log-name">Supabase実装</div>
+      <div class="log-tag" style="background:rgba(74,222,128,0.1);color:#4ade80">#build</div>
+      <div class="log-date">03/05</div>
+    </div>
+    <div class="log-row">
+      <div class="log-icon">📋</div>
+      <div class="log-name">線形代数復習</div>
+      <div class="log-tag" style="background:rgba(96,165,250,0.1);color:#60a5fa">#数学</div>
+      <div class="log-date">03/04</div>
+    </div>
+    <div class="log-row">
+      <div class="log-icon">📋</div>
+      <div class="log-name">Log LP制作</div>
+      <div class="log-tag" style="background:rgba(251,191,36,0.1);color:#fbbf24">#product</div>
+      <div class="log-date">03/03</div>
+    </div>
+    <div class="log-row">
+      <div class="log-icon">📋</div>
+      <div class="log-name">コンビ解散の本質は価値観のズレ</div>
+      <div class="log-tag" style="background:rgba(244,114,182,0.1);color:#f472b6">#哲学</div>
+      <div class="log-date">03/02</div>
+    </div>
+  </div>
+  <p>思いついた瞬間に1行で残せます。<br><span style="color:var(--text3)">#タグで自動分類</span></p>
+</section>
 
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-  </script>
+<div class="divider"></div>
+
+<!-- FEATURES -->
+<section class="sec reveal">
+  <div class="sec-num">08 — FEATURES</div>
+  <h2>思考が育つ、<br>3つの機能。</h2>
+  <div class="feature-list">
+    <div class="f-item">
+      <div class="f-icon">📝</div>
+      <div class="f-name">思考ログ</div>
+      <div class="f-desc">思いつきを1行で記録。ログはすべて時系列で残ります。タグ・レイヤーで整理、検索で探せる。</div>
+    </div>
+    <div class="f-item">
+      <div class="f-icon">🔗</div>
+      <div class="f-name">思考リンク</div>
+      <div class="f-desc">ログ同士をつなぐ。関連するアイデアが自然に広がります。バラバラな思考が、構造になる。</div>
+    </div>
+    <div class="f-item">
+      <div class="f-icon">🌿</div>
+      <div class="f-name">思考履歴</div>
+      <div class="f-desc">思考の変化もそのまま残せます。</div>
+      <div class="v-chain">
+        <div class="v-node">💡 v1</div>
+        <div class="v-arrow">→</div>
+        <div class="v-node">🗣 v2</div>
+        <div class="v-arrow">→</div>
+        <div class="v-node on">⚙️ v3</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- AI -->
+<section class="sec reveal">
+  <div class="sec-num">09 — AI</div>
+  <h2>AIで思考を<br>加速する。</h2>
+  <p style="margin-bottom:40px">LogはAIとも連携できます。<br>ログを元にアイデアを広げ、思考を深掘りします。</p>
+  <div class="ai-providers">
+    <div class="ai-p"><div class="ai-logo">🟠</div><div class="ai-name">Claude</div><div class="ai-sub">Anthropic</div></div>
+    <div class="ai-p"><div class="ai-logo">🟢</div><div class="ai-name">ChatGPT</div><div class="ai-sub">OpenAI</div></div>
+    <div class="ai-p"><div class="ai-logo">🔵</div><div class="ai-name">Gemini</div><div class="ai-sub">Google</div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FOR WHO -->
+<section class="sec reveal">
+  <div class="sec-num">10 — FOR WHO</div>
+  <h2>Logはこんな人に。</h2>
+  <div class="who-grid">
+    <div class="who-item"><div class="who-icon">💡</div><div class="who-name">アイデアマン</div><div class="who-desc">思いつきを残したい人</div></div>
+    <div class="who-item"><div class="who-icon">📚</div><div class="who-name">学習者</div><div class="who-desc">学習ログを取りたい人</div></div>
+    <div class="who-item"><div class="who-icon">🧠</div><div class="who-name">思考整理したい人</div><div class="who-desc">頭の中をスッキリさせたい人</div></div>
+    <div class="who-item"><div class="who-icon">🎭</div><div class="who-name">クリエイター</div><div class="who-desc">芸人・作家・デザイナーなど</div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- VISION -->
+<section class="sec center reveal">
+  <div class="sec-num" style="text-align:center">11 — VISION</div>
+  <h2>思考は、<br>資産になる。</h2>
+  <p>人は毎日<br>たくさん考えている。<br><br>でも<br>そのほとんどは消える。<br><br>Logは<br>思考を残し<br>つなぎ<br>行動に変える。</p>
+</section>
+
+<div class="divider"></div>
+
+<!-- CTA -->
+<section class="sec center reveal" id="download">
+  <h2 style="font-size:clamp(40px,7vw,72px);letter-spacing:-2px">思いつきを、<br>消さない。</h2>
+  <p style="margin-bottom:40px">今すぐLogを始めよう。</p>
+  <a href="#" class="btn-green" style="display:inline-flex">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+    Logを試す — 無料
+  </a>
+</section>
+
+<div class="divider"></div>
+
+<footer>
+  <a href="/" style="font-family:'Shippori Mincho',serif;font-size:18px;font-weight:700;letter-spacing:2px">Log</a>
+  <div class="footer-links">
+    <a href="privacy-policy.html">プライバシーポリシー</a>
+    <a href="terms-of-service.html">利用規約</a>
+    <a href="mailto:support@logapp.jp">サポート</a>
+  </div>
+  <div>© 2026 Log</div>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
+  const obs = new IntersectionObserver((es) => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } }), { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
 </body>
 </html>
