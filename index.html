@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -370,6 +368,56 @@
     .who-name { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
     .who-desc { font-size: 13px; color: var(--text2); }
 
+    /* COMEDIAN FULLSCREEN */
+    .comedian-hero {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      min-height: 600px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+    }
+    .comedian-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: right center;
+    }
+    .comedian-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, rgba(10,10,10,0.85) 40%, rgba(10,10,10,0.1) 100%);
+    }
+    .comedian-text {
+      position: relative;
+      z-index: 1;
+      padding: 0 40px;
+      max-width: 480px;
+    }
+    .comedian-h2 {
+      font-family: 'Shippori Mincho', serif;
+      font-size: clamp(36px, 6vw, 64px);
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: -1px;
+      margin: 16px 0 24px;
+      color: var(--text);
+    }
+    .comedian-p {
+      font-size: 16px;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.8;
+    }
+    @media (max-width: 640px) {
+      .comedian-text { padding: 0 24px; }
+      .comedian-overlay {
+        background: linear-gradient(to bottom, rgba(10,10,10,0.7) 0%, rgba(10,10,10,0.5) 50%, rgba(10,10,10,0.8) 100%);
+      }
+    }
+
     /* VISION / CTA */
     .center { text-align: center; }
     .center h2 { margin-left: auto; margin-right: auto; }
@@ -529,11 +577,20 @@
 
 <div class="divider"></div>
 
+<!-- COMEDIAN FULLSCREEN -->
+<section class="comedian-hero reveal">
+  <img src="assets/comedian.png" alt="芸人" class="comedian-bg">
+  <div class="comedian-overlay"></div>
+  <div class="comedian-text">
+    <div class="sec-num" style="color:rgba(255,255,255,0.4)">05 — FOR CREATORS</div>
+    <h2 class="comedian-h2">ネタは、<br>思考から<br>生まれる。</h2>
+    <p class="comedian-p">芸人は日常の中でネタを思いつく。</p>
+  </div>
+</section>
+
 <!-- CREATOR -->
 <section class="sec reveal">
-  <div class="sec-num">05 — FOR CREATORS</div>
-  <h2>ネタは、<br>思考から生まれる。</h2>
-  <p>芸人は日常の中でネタを思いつく。<br>クリエイターはひらめきを形にする。<br>学習者は気づきを積み重ねる。<br><br>でも、こんな悩みがある。</p>
+  <p>クリエイターはひらめきを形にする。<br>学習者は気づきを積み重ねる。<br><br>でも、こんな悩みがある。</p>
   <div class="pain-list">
     <div class="pain-item">忘れる</div>
     <div class="pain-item">アイデアがつながらない</div>
