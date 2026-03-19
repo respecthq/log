@@ -384,10 +384,13 @@
       object-fit: cover;
       object-position: 65% center;
     }
+    .sp-bg { display: none; }
     @media (max-width: 640px) {
-      .top-hero-bg { object-position: 85% center; }
+      .top-hero-bg { object-position: center; }
+      .pc-bg { display: none; }
+      .sp-bg { display: block; }
       .top-hero-overlay {
-        background: linear-gradient(to right, rgba(10,10,10,0.92) 50%, rgba(10,10,10,0.4) 100%);
+        background: linear-gradient(to bottom, rgba(10,10,10,0.7) 0%, rgba(10,10,10,0.4) 50%, rgba(10,10,10,0.8) 100%);
       }
       .top-hero .hero { padding-left: 20px; max-width: 100%; }
     }
@@ -525,7 +528,8 @@
 
 <!-- HERO -->
 <section class="top-hero">
-  <img src="assets/comedian.png" alt="Log" class="top-hero-bg">
+  <img src="assets/comedian.png" alt="Log" class="top-hero-bg pc-bg">
+  <img src="assets/comedian_sp.png" alt="Log" class="top-hero-bg sp-bg">
   <div class="top-hero-overlay"></div>
   <div class="hero">
     <div class="hero-label">THOUGHT LOGGING APP</div>
