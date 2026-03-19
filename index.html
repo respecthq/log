@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -36,8 +37,8 @@
       position: fixed;
       top: 0; left: 0; right: 0;
       z-index: 100;
-      padding: 0 40px;
-      height: 60px;
+      padding: 0 28px;
+      height: 56px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -48,7 +49,7 @@
     .nav-logo {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 4px;
       text-decoration: none;
     }
     .nav-logo img {
@@ -56,11 +57,10 @@
       border-radius: 7px;
     }
     .nav-logo-text {
-      font-family: 'Noto Sans JP', sans-serif;
-      font-size: 18px;
-      font-weight: 700;
+      font-size: 16px;
+      font-weight: 600;
       color: var(--text);
-      letter-spacing: 1px;
+      letter-spacing: -0.3px;
     }
     .nav-cta {
       background: var(--green);
@@ -422,7 +422,7 @@
 <body>
 
 <nav id="nav">
-  <a href="/" class="nav-logo"><img src="assets/logo.png" alt="Log"><span class="nav-logo-text">Log</span></a>
+  <a href="/" class="nav-logo"><img src="assets/logo.png" alt="Log" width="28" height="28"><span class="nav-logo-text">Log</span></a>
   <a href="#download" class="nav-cta">試してみる</a>
 </nav>
 
@@ -701,7 +701,6 @@
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   const nav = document.getElementById('nav');
-  
   const obs = new IntersectionObserver((es) => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } }), { threshold: 0.08 });
   document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 </script>
