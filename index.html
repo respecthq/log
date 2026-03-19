@@ -393,19 +393,20 @@
       position: relative;
       z-index: 1;
       padding-top: 80px;
+      margin: 0;
+      max-width: 560px;
+      padding-left: 40px;
     }
 
     /* CREATOR HERO IMAGE */
     .sec-hero-image {
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 0 32px 80px;
+      margin: 0 0 40px;
+      padding: 0;
     }
     .sec-hero-image img { width: 100%; border-radius: 16px; border: 1px solid var(--border2); }
     .sec-hero-image img.sp { display: none; }
     .sec-hero-image img.pc { display: block; }
     @media (max-width: 640px) {
-      .sec-hero-image { padding: 0 20px 60px; }
       .sec-hero-image img.sp { display: block; }
       .sec-hero-image img.pc { display: none; }
     }
@@ -617,14 +618,14 @@
 <div class="divider"></div>
 
 <!-- CREATOR HERO IMAGE -->
-<div class="sec-hero-image reveal">
-  <img src="assets/HERO_PC.png" alt="Log app" class="pc">
-  <img src="assets/HERO_SP.png" alt="Log app" class="sp">
-</div>
-
-<!-- CREATOR -->
 <section class="sec reveal">
-  <p>クリエイターはひらめきを形にする。<br>学習者は気づきを積み重ねる。<br><br>でも、こんな悩みがある。</p>
+  <div class="sec-num">05 — FOR CREATORS</div>
+  <div class="sec-hero-image">
+    <img src="assets/HERO_PC.png" alt="Log app" class="pc">
+    <img src="assets/HERO_SP.png" alt="Log app" class="sp">
+  </div>
+  <h2>ネタは、<br>思考から生まれる。</h2>
+  <p>芸人は日常の中でネタを思いつく。<br>クリエイターはひらめきを形にする。<br>学習者は気づきを積み重ねる。<br><br>でも、こんな悩みがある。</p>
   <div class="pain-list">
     <div class="pain-item">忘れる</div>
     <div class="pain-item">アイデアがつながらない</div>
@@ -802,3 +803,4 @@
   document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 </script>
 </body>
+</html>
