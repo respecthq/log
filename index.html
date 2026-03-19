@@ -143,6 +143,31 @@
       padding: 0 32px;
     }
     .hero-image img { width: 100%; border-radius: 16px; border: 1px solid var(--border2); }
+    .hero-caption {
+      max-width: 720px;
+      margin: 60px auto 0;
+      padding: 0 32px;
+      text-align: center;
+    }
+    .hero-caption-num {
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: var(--text3);
+      margin-bottom: 16px;
+    }
+    .hero-caption-title {
+      font-family: 'Shippori Mincho', serif;
+      font-size: clamp(20px, 3vw, 28px);
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 12px;
+      letter-spacing: -0.3px;
+    }
+    .hero-caption-sub {
+      font-size: 14px;
+      color: var(--text2);
+      line-height: 1.8;
+    }
     .hero-image img.sp { display: none; }
     .hero-image img.pc { display: block; }
     @media (max-width: 640px) {
@@ -551,6 +576,11 @@
   </div>
 </section>
 
+<div class="hero-caption reveal">
+  <p class="hero-caption-num">01 — ORIGIN</p>
+  <p class="hero-caption-title">あのネタは、ここから始まった。</p>
+  <p class="hero-caption-sub">一行のログからアイデアが現実になるまでを支援する思考ログアプリ</p>
+</div>
 <div class="hero-image reveal">
     <img src="assets/HERO_PC.png" alt="Log app" class="pc">
     <img src="assets/HERO_SP.png" alt="Log app" class="sp">
@@ -580,7 +610,7 @@
 <section class="sec reveal">
   <div class="sec-num">03 — SOLUTION</div>
   <h2>流れる前に、<br>ログする。</h2>
-  <p style="margin-bottom:40px">Logは思いつきを1行で残す<strong style="color:var(--text)">ログアプリ</strong>です。</p>
+  <p style="margin-bottom:40px">一行でいい。<br><br>Logは、思考を逃さない。<br><br>タスクになる前のPre-Taskの記録と管理で<strong style="color:var(--text)">思考を現実に。</strong></p>
   <div class="steps">
     <div class="step">
       <div class="step-icon">📝</div>
@@ -749,7 +779,7 @@
 <section class="sec reveal">
   <div class="sec-num">09 — AI</div>
   <h2>AIで思考を<br>加速する。</h2>
-  <p style="margin-bottom:40px">LogはAIとも連携できます。<br>ログを元にアイデアを広げ、思考を深掘りします。</p>
+  <p style="margin-bottom:40px">「思考を進化させるAI」<br><br>AIが次のLayerへの行動をDeep / Wide / Nextで生成する。<br>思考ループが止まらない。これがLogの本質。</p>
   <div class="ai-providers">
     <div class="ai-p"><div class="ai-logo">🟠</div><div class="ai-name">Claude</div><div class="ai-sub">Anthropic</div></div>
     <div class="ai-p"><div class="ai-logo">🟢</div><div class="ai-name">ChatGPT</div><div class="ai-sub">OpenAI</div></div>
