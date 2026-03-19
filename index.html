@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -135,6 +136,8 @@
       transition: opacity 0.2s, transform 0.2s;
     }
     .btn-green:hover { opacity: 0.88; transform: translateY(-1px); }
+    .appstore-badge { display: inline-flex; transition: opacity 0.2s, transform 0.2s; }
+    .appstore-badge:hover { opacity: 0.85; transform: translateY(-1px); }
     .hero-sub-text { font-size: 13px; color: var(--text3); }
     .hero-image {
       max-width: 720px;
@@ -142,17 +145,12 @@
       padding: 0 32px;
     }
     .hero-image img { width: 100%; border-radius: 16px; border: 1px solid var(--border2); }
-    .hero-image-placeholder {
-      width: 100%;
-      aspect-ratio: 16/9;
-      background: var(--surface);
-      border-radius: 16px;
-      border: 1px dashed var(--border2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text3);
-      font-size: 13px;
+    .hero-image img.sp { display: none; }
+    .hero-image img.pc { display: block; }
+    @media (max-width: 640px) {
+      .hero-image { padding: 0 20px; }
+      .hero-image img.sp { display: block; }
+      .hero-image img.pc { display: none; }
     }
 
     /* COMMON */
@@ -442,13 +440,15 @@
         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
         Logを試す
       </a>
-      <span class="hero-sub-text">iOS / Android · 無料で始める</span>
+      <a href="#" class="appstore-badge">
+        <img src="assets/appstore_badge_jp.svg" alt="App Storeからダウンロード" height="40">
+      </a>
     </div>
   </div>
   <!-- ヒーロー画像をここに -->
   <div class="hero-image reveal">
-    <!-- <img src="hero.png" alt="Log app"> -->
-    <div class="hero-image-placeholder">← ヒーロー画像をここに差し込んでね（hero.pngとして同フォルダに置いてコメントアウトを外す）</div>
+    <img src="assets/HERO_PC.png" alt="Log app" class="pc">
+    <img src="assets/HERO_SP.png" alt="Log app" class="sp">
   </div>
 </section>
 
@@ -682,10 +682,15 @@
 <section class="sec center reveal" id="download">
   <h2 style="font-size:clamp(40px,7vw,72px);letter-spacing:-2px">思いつきを、<br>消さない。</h2>
   <p style="margin-bottom:40px">今すぐLogを始めよう。</p>
-  <a href="#" class="btn-green" style="display:inline-flex">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-    Logを試す — 無料
-  </a>
+  <div style="display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap">
+    <a href="#" class="btn-green" style="display:inline-flex">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+      Logを試す — 無料
+    </a>
+    <a href="#" class="appstore-badge">
+      <img src="assets/appstore_badge_jp.svg" alt="App Storeからダウンロード" height="40">
+    </a>
+  </div>
 </section>
 
 <div class="divider"></div>
