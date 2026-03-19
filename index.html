@@ -241,7 +241,8 @@
     .step:first-child { border-radius: 12px 12px 0 0; }
     .step:last-child { border-radius: 0 0 12px 12px; }
     .step:hover { background: var(--surface2); }
-    .step-icon { font-size: 24px; flex-shrink: 0; }
+    .step-icon { font-size: 24px; flex-shrink: 0; color: var(--text2); }
+    .step-icon svg { display: block; }
     .step-title { font-size: 16px; color: var(--text); font-weight: 500; }
     .step-desc { font-size: 13px; color: var(--text2); margin-top: 3px; }
 
@@ -264,6 +265,14 @@
       position: relative; z-index: 1;
     }
     .t-dot.on { background: var(--green); box-shadow: 0 0 14px rgba(74,222,128,0.4); }
+    .t-dot.active { background: var(--green); box-shadow: 0 0 14px rgba(74,222,128,0.4); }
+    .t-event.t-scroll .t-body,
+    .t-event.t-scroll .t-date,
+    .t-event.t-scroll .t-big,
+    .t-event.t-scroll .t-log { transition: color 0.4s ease; }
+    .t-event.t-active .t-body { color: var(--text); }
+    .t-event.t-active .t-date { color: var(--text2); }
+    .t-event.t-active .t-big { color: var(--text); }
     .t-date { font-size: 11px; letter-spacing: 2px; color: var(--text3); margin-bottom: 8px; }
     .t-body { font-size: 15px; color: var(--text2); line-height: 1.9; }
     .t-log {
@@ -346,7 +355,8 @@
     .f-item:first-child { border-radius: 12px 12px 0 0; }
     .f-item:last-child { border-radius: 0 0 12px 12px; }
     .f-item:hover { background: var(--surface2); }
-    .f-icon { font-size: 28px; margin-bottom: 16px; }
+    .f-icon { font-size: 28px; margin-bottom: 16px; color: var(--green); }
+    .f-icon svg { display: block; }
     .f-name { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
     .f-desc { font-size: 14px; color: var(--text2); line-height: 1.9; }
     .v-chain { display: flex; align-items: center; gap: 8px; margin-top: 16px; }
@@ -373,7 +383,8 @@
     .ai-p:first-child { border-radius: 12px 0 0 12px; }
     .ai-p:last-child { border-radius: 0 12px 12px 0; }
     .ai-p:hover { background: var(--surface2); }
-    .ai-logo { font-size: 24px; margin-bottom: 8px; }
+    .ai-logo { font-size: 24px; margin-bottom: 8px; color: var(--text2); }
+    .ai-logo svg { display: block; margin: 0 auto; }
     .ai-name { font-size: 14px; font-weight: 600; }
     .ai-sub { font-size: 11px; color: var(--text2); margin-top: 4px; }
 
@@ -389,7 +400,8 @@
     .who-item:nth-child(3) { border-radius: 0 0 0 12px; }
     .who-item:nth-child(4) { border-radius: 0 0 12px 0; }
     .who-item:hover { background: var(--surface2); }
-    .who-icon { font-size: 24px; margin-bottom: 12px; }
+    .who-icon { font-size: 24px; margin-bottom: 12px; color: var(--text2); }
+    .who-icon svg { display: block; }
     .who-name { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
     .who-desc { font-size: 13px; color: var(--text2); }
 
@@ -613,15 +625,15 @@
   <p style="margin-bottom:40px">一行でいい。<br><br>Logは、思考を逃さない。<br><br>タスクになる前のPre-Taskの記録と管理で<strong style="color:var(--text)">思考を現実に。</strong></p>
   <div class="steps">
     <div class="step">
-      <div class="step-icon">📝</div>
+      <div class="step-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
       <div><div class="step-title">思考を記録する</div><div class="step-desc">1行で素早く。タグで整理。</div></div>
     </div>
     <div class="step">
-      <div class="step-icon">🔗</div>
+      <div class="step-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
       <div><div class="step-title">ログをつなぐ</div><div class="step-desc">関連するアイデアをリンクで接続。</div></div>
     </div>
     <div class="step">
-      <div class="step-icon">🚀</div>
+      <div class="step-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg></div>
       <div><div class="step-title">行動に変える</div><div class="step-desc">AIと深掘りして、次の一手を見つける。</div></div>
     </div>
   </div>
@@ -634,27 +646,27 @@
   <div class="sec-num">04 — STORY</div>
   <h2>すべては、<br>1行から。</h2>
   <div class="timeline">
-    <div class="t-event">
+    <div class="t-event t-scroll">
       <div class="t-dot"></div>
       <div>
         <div class="t-date">2026.02.25</div>
-        <div class="t-body">Notionのデータベースに<br>こう書きました。</div>
+        <div class="t-body">Notionのデータベースに<br>こう書いた。</div>
         <div class="t-log">一行ログアプリ開発</div>
-        <div class="t-body" style="margin-top:10px">ただのメモでした。</div>
+        <div class="t-body" style="margin-top:10px">ただのメモだった。</div>
       </div>
     </div>
-    <div class="t-event">
+    <div class="t-event t-scroll">
       <div class="t-dot"></div>
       <div>
         <div class="t-date">その後</div>
-        <div class="t-body">その1行を何度も見返しました。<br>ログを書きました。<br>アイデアを足しました。</div>
+        <div class="t-body">その1行を何度も見返した。<br>ログを書いた。<br>アイデアを足した。</div>
       </div>
     </div>
-    <div class="t-event">
-      <div class="t-dot on"></div>
+    <div class="t-event t-scroll">
+      <div class="t-dot"></div>
       <div>
         <div class="t-date">2026.03.05</div>
-        <div class="t-big">アプリは<br>完成しました。</div>
+        <div class="t-big">アプリ完成。</div>
         <div class="t-body" style="margin-top:14px">Logは本当に<br><strong style="color:var(--text)">1行のログから生まれたアプリです。</strong></div>
       </div>
     </div>
@@ -749,21 +761,21 @@
   <h2>思考が育つ、<br>3つの機能。</h2>
   <div class="feature-list">
     <div class="f-item">
-      <div class="f-icon">📝</div>
+      <div class="f-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
       <div class="f-name">思考ログ</div>
       <div class="f-desc">思いつきを1行で記録。ログはすべて時系列で残ります。タグ・レイヤーで整理、検索で探せる。</div>
     </div>
     <div class="f-item">
-      <div class="f-icon">🔗</div>
+      <div class="f-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
       <div class="f-name">思考リンク</div>
       <div class="f-desc">ログ同士をつなぐ。関連するアイデアが自然に広がります。バラバラな思考が、構造になる。</div>
     </div>
     <div class="f-item">
-      <div class="f-icon">🌿</div>
+      <div class="f-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
       <div class="f-name">思考履歴</div>
       <div class="f-desc">思考の変化もそのまま残せます。</div>
       <div class="v-chain">
-        <div class="v-node">💡 v1</div>
+        <div class="v-node">v1</div>
         <div class="v-arrow">→</div>
         <div class="v-node">🗣 v2</div>
         <div class="v-arrow">→</div>
@@ -781,9 +793,9 @@
   <h2>AIで思考を<br>加速する。</h2>
   <p style="margin-bottom:40px">「思考を進化させるAI」<br><br>AIが次のLayerへの行動をDeep / Wide / Nextで生成する。<br>思考ループが止まらない。これがLogの本質。</p>
   <div class="ai-providers">
-    <div class="ai-p"><div class="ai-logo">🟠</div><div class="ai-name">Claude</div><div class="ai-sub">Anthropic</div></div>
-    <div class="ai-p"><div class="ai-logo">🟢</div><div class="ai-name">ChatGPT</div><div class="ai-sub">OpenAI</div></div>
-    <div class="ai-p"><div class="ai-logo">🔵</div><div class="ai-name">Gemini</div><div class="ai-sub">Google</div></div>
+    <div class="ai-p"><div class="ai-logo"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div><div class="ai-name">Claude</div><div class="ai-sub">Anthropic</div></div>
+    <div class="ai-p"><div class="ai-logo"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div><div class="ai-name">ChatGPT</div><div class="ai-sub">OpenAI</div></div>
+    <div class="ai-p"><div class="ai-logo"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div><div class="ai-name">Gemini</div><div class="ai-sub">Google</div></div>
   </div>
 </section>
 
@@ -794,10 +806,10 @@
   <div class="sec-num">10 — FOR WHO</div>
   <h2>Logはこんな人に。</h2>
   <div class="who-grid">
-    <div class="who-item"><div class="who-icon">💡</div><div class="who-name">アイデアマン</div><div class="who-desc">思いつきを残したい人</div></div>
-    <div class="who-item"><div class="who-icon">📚</div><div class="who-name">学習者</div><div class="who-desc">学習ログを取りたい人</div></div>
-    <div class="who-item"><div class="who-icon">🧠</div><div class="who-name">思考整理したい人</div><div class="who-desc">頭の中をスッキリさせたい人</div></div>
-    <div class="who-item"><div class="who-icon">🎭</div><div class="who-name">クリエイター</div><div class="who-desc">芸人・作家・デザイナーなど</div></div>
+    <div class="who-item"><div class="who-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="4"/><line x1="4.93" y1="4.93" x2="6.34" y2="6.34"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="4.93" y1="19.07" x2="6.34" y2="17.66"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="17.66" y1="6.34" x2="19.07" y2="4.93"/><path d="M12 6a6 6 0 0 1 0 12 6 6 0 0 1 0-12z"/></svg></div><div class="who-name">アイデアマン</div><div class="who-desc">思いつきを残したい人</div></div>
+    <div class="who-item"><div class="who-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div><div class="who-name">学習者</div><div class="who-desc">学習ログを取りたい人</div></div>
+    <div class="who-item"><div class="who-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="who-name">思考整理したい人</div><div class="who-desc">頭の中をスッキリさせたい人</div></div>
+    <div class="who-item"><div class="who-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div class="who-name">クリエイター</div><div class="who-desc">芸人・作家・デザイナーなど</div></div>
   </div>
 </section>
 
@@ -841,6 +853,23 @@
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   const nav = document.getElementById('nav');
+  // タイムライン スクロール連動
+  const tEvents = document.querySelectorAll('.t-scroll');
+  const tObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      const dot = e.target.querySelector('.t-dot');
+      if (e.isIntersecting) {
+        tEvents.forEach(ev => {
+          ev.classList.remove('t-active');
+          ev.querySelector('.t-dot').classList.remove('active');
+        });
+        e.target.classList.add('t-active');
+        dot.classList.add('active');
+      }
+    });
+  }, { threshold: 0.5, rootMargin: '-20% 0px -40% 0px' });
+  tEvents.forEach(el => tObs.observe(el));
+
   const obs = new IntersectionObserver((es) => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } }), { threshold: 0.08 });
   document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 </script>
