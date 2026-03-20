@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -36,8 +37,8 @@
       position: fixed;
       top: 0; left: 0; right: 0;
       z-index: 100;
-      padding: 0 28px;
-      height: 56px;
+      padding: 0 32px;
+      height: 80px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -48,19 +49,19 @@
     .nav-logo {
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 8px;
       text-decoration: none;
     }
     .nav-logo img {
-      width: 28px; height: 28px;
-      border-radius: 7px;
+      width: 48px; height: 48px;
+      border-radius: 12px;
     }
     .nav-logo-text {
       font-family: 'DM Sans', sans-serif;
-      font-size: 16px;
-      font-weight: 600;
+      font-size: 28px;
+      font-weight: 700;
       color: var(--text);
-      letter-spacing: -0.3px;
+      letter-spacing: -0.5px;
     }
     .nav-cta {
       background: var(--green);
@@ -142,7 +143,8 @@
       margin: 60px auto 0;
       padding: 0 32px;
     }
-    .hero-image img { width: 100%; border-radius: 16px; border: 1px solid var(--border2); }
+    .hero-image img.pc { width: 100%; border-radius: 16px; border: 1px solid var(--border2); }
+    .hero-image img.sp { width: 100%; border-radius: 0; border: none; }
     .hero-caption {
       max-width: 720px;
       margin: 60px auto 0;
@@ -171,9 +173,20 @@
     .hero-image img.sp { display: none; }
     .hero-image img.pc { display: block; }
     @media (max-width: 640px) {
-      .hero-image { padding: 0 20px; }
+      .hero-image { padding: 0; }
       .hero-image img.sp { display: block; }
       .hero-image img.pc { display: none; }
+    }
+
+    /* SEC IMG AREA */
+    .sec-img-area {
+      margin-top: 48px;
+    }
+    .sec-img-area img {
+      width: 100%;
+      border-radius: 16px;
+      border: 1px solid var(--border2);
+      display: block;
     }
 
     /* COMMON */
@@ -439,7 +452,7 @@
     .top-hero .hero {
       position: relative;
       z-index: 1;
-      padding-top: 80px;
+      padding-top: 100px;
       margin: 0;
       max-width: 560px;
       padding-left: 40px;
@@ -565,8 +578,8 @@
 
 <!-- HERO -->
 <section class="top-hero">
-  <img src="assets/comedian.png" alt="Log" class="top-hero-bg pc-bg">
-  <img src="assets/comedian_sp.png" alt="Log" class="top-hero-bg sp-bg">
+  <img src="assets/fv_pc.png" alt="Log" class="top-hero-bg pc-bg">
+  <img src="assets/fv_sp.png" alt="Log" class="top-hero-bg sp-bg">
   <div class="top-hero-overlay"></div>
   <div class="hero">
     <div class="hero-label">THOUGHT LOGGING APP</div>
@@ -600,50 +613,9 @@
 
 <div class="divider"></div>
 
-<!-- PROBLEM -->
-<section class="sec reveal">
-  <div class="sec-num">02 — PROBLEM</div>
-  <h2>思いつきは、<br>消える。</h2>
-  <div class="problem-list">
-    <div class="problem-item">アイデア</div>
-    <div class="problem-item">ひらめき</div>
-    <div class="problem-item">やりたいこと</div>
-  </div>
-  <p style="margin-bottom:40px">
-    思いついた瞬間は<br>覚えているのに<br><br>
-    数時間後には<br>消えてしまう。
-  </p>
-  <div class="conclusion">人間の思考は、<br>揮発する。</div>
-</section>
-
-<div class="divider"></div>
-
-<!-- SOLUTION -->
-<section class="sec reveal">
-  <div class="sec-num">03 — SOLUTION</div>
-  <h2>流れる前に、<br>ログする。</h2>
-  <p style="margin-bottom:40px">一行でいい。<br><br>Logは、思考を逃さない。<br><br>タスクになる前のPre-Taskの記録と管理で<strong style="color:var(--text)">思考を現実に。</strong></p>
-  <div class="steps">
-    <div class="step">
-      <div class="step-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
-      <div><div class="step-title">思考を記録する</div><div class="step-desc">1行で素早く。タグで整理。</div></div>
-    </div>
-    <div class="step">
-      <div class="step-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
-      <div><div class="step-title">ログをつなぐ</div><div class="step-desc">関連するアイデアをリンクで接続。</div></div>
-    </div>
-    <div class="step">
-      <div class="step-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg></div>
-      <div><div class="step-title">行動に変える</div><div class="step-desc">AIと深掘りして、次の一手を見つける。</div></div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
 <!-- STORY -->
 <section class="sec reveal">
-  <div class="sec-num">04 — STORY</div>
+  <div class="sec-num">02 — STORY</div>
   <h2>すべては、<br>1行から。</h2>
   <div class="timeline">
     <div class="t-event t-scroll">
@@ -671,9 +643,59 @@
       </div>
     </div>
   </div>
+
+  <div class="sec-img-area">
+    <img src="assets/story.png" alt="" loading="lazy">
+  </div>
 </section>
 
 <div class="divider"></div>
+
+<!-- PROBLEM -->
+<section class="sec reveal">
+  <div class="sec-num">03 — PROBLEM</div>
+  <h2>思いつきは、<br>消える。</h2>
+  <div class="problem-list">
+    <div class="problem-item">アイデア</div>
+    <div class="problem-item">ひらめき</div>
+    <div class="problem-item">やりたいこと</div>
+  </div>
+  <p style="margin-bottom:40px">
+    思いついた瞬間は<br>覚えているのに<br><br>
+    数時間後には<br>消えてしまう。
+  </p>
+  <div class="conclusion">人間の思考は、<br>揮発する。</div>
+
+  <div class="sec-img-area">
+    <img src="assets/problem.png" alt="" loading="lazy">
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SOLUTION -->
+<section class="sec reveal">
+  <div class="sec-num">04 — SOLUTION</div>
+  <h2>流れる前に、<br>ログする。</h2>
+  <p style="margin-bottom:40px">一行でいい。<br><br>Logは、思考を逃さない。<br><br>タスクになる前のPre-Taskの記録と管理で<strong style="color:var(--text)">思考を現実に。</strong></p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
+      <div><div class="step-title">思考を記録する</div><div class="step-desc">1行で素早く。タグで整理。</div></div>
+    </div>
+    <div class="step">
+      <div class="step-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
+      <div><div class="step-title">ログをつなぐ</div><div class="step-desc">関連するアイデアをリンクで接続。</div></div>
+    </div>
+    <div class="step">
+      <div class="step-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg></div>
+      <div><div class="step-title">行動に変える</div><div class="step-desc">AIと深掘りして、次の一手を見つける。</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
 
 <!-- CREATOR -->
 <section class="sec reveal">
@@ -686,6 +708,10 @@
     <div class="pain-item">思いつきで終わってしまう</div>
   </div>
   <p>Logなら<br><br>思いつきをその瞬間に残せる。<br>ログが増え、アイデアがつながり<br><br><strong style="color:var(--text);font-size:19px">そして、行動が生まれる。</strong></p>
+
+  <div class="sec-img-area">
+    <img src="assets/creators.png" alt="" loading="lazy">
+  </div>
 </section>
 
 <div class="divider"></div>
@@ -715,6 +741,10 @@
         <div class="ba-item">AIで深掘りできる</div>
       </div>
     </div>
+  </div>
+
+  <div class="sec-img-area">
+    <img src="assets/before_after.png" alt="" loading="lazy">
   </div>
 </section>
 
@@ -811,6 +841,10 @@
     <div class="who-item"><div class="who-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="who-name">思考整理したい人</div><div class="who-desc">頭の中をスッキリさせたい人</div></div>
     <div class="who-item"><div class="who-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div class="who-name">クリエイター</div><div class="who-desc">芸人・作家・デザイナーなど</div></div>
   </div>
+
+  <div class="sec-img-area">
+    <img src="assets/for_who.png" alt="" loading="lazy">
+  </div>
 </section>
 
 <div class="divider"></div>
@@ -820,6 +854,10 @@
   <div class="sec-num" style="text-align:center">11 — VISION</div>
   <h2>思考は、<br>資産になる。</h2>
   <p>人は毎日<br>たくさん考えている。<br><br>でも<br>そのほとんどは消える。<br><br>Logは<br>思考を残し<br>つなぎ<br>行動に変える。</p>
+
+  <div class="sec-img-area">
+    <img src="assets/vision.png" alt="" loading="lazy">
+  </div>
 </section>
 
 <div class="divider"></div>
