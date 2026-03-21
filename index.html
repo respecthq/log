@@ -121,22 +121,27 @@
       overflow: hidden;
       padding: 100px 32px 60px;
     }
-    .fv-canvas {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      opacity: 0.35;
-    }
+
     /* 背景数式 */
     .fv-formula {
       position: absolute;
       font-family: 'DM Mono', monospace;
       font-size: 11px;
-      color: rgba(74,222,128,0.15);
+      color: rgba(74,222,128,0.25);
       pointer-events: none;
       white-space: nowrap;
       z-index: 0;
+    }
+    /* ページ全体の数式装飾 */
+    .formula-bg {
+      position: fixed;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: rgba(74,222,128,0.12);
+      pointer-events: none;
+      white-space: nowrap;
+      z-index: 0;
+      user-select: none;
     }
     .fv-content {
       position: relative;
@@ -599,6 +604,21 @@
 </head>
 <body>
 
+
+<!-- ページ全体の数式装飾 -->
+<!-- ページ全体の数式装飾 -->
+<div class="formula-bg" style="top:4%;left:62%;transform:rotate(-5deg)">b = λ/κ</div>
+<div class="formula-bg" style="top:9%;left:18%;transform:rotate(4deg)">∆φ ≠ 0</div>
+<div class="formula-bg" style="top:16%;left:44%;transform:rotate(-3deg)">Δ(t) = x(t) - x̄(t)</div>
+<div class="formula-bg" style="top:24%;left:78%;transform:rotate(6deg)">w(t,s) = 1/(t-s+1)^1.3</div>
+<div class="formula-bg" style="top:31%;left:8%;transform:rotate(-7deg)">Δφ = Z△ · κ</div>
+<div class="formula-bg" style="top:40%;left:52%;transform:rotate(5deg)">x(t+1) = x(t) + α(t)Δ(t)</div>
+<div class="formula-bg" style="top:49%;left:22%;transform:rotate(-4deg)">r(θ) = r₀·e^(bθ)</div>
+<div class="formula-bg" style="top:57%;left:70%;transform:rotate(3deg)">log(Z△) → depth</div>
+<div class="formula-bg" style="top:66%;left:35%;transform:rotate(-6deg)">α(t) = α₀exp(λ|Δ|) / (1+κZ△)</div>
+<div class="formula-bg" style="top:74%;left:6%;transform:rotate(5deg)">Z△(t+1) = Z△(t) + |Δ(t)|</div>
+<div class="formula-bg" style="top:83%;left:58%;transform:rotate(-5deg)">P(genius) ~ ρ × Z△</div>
+<div class="formula-bg" style="top:91%;left:28%;transform:rotate(4deg)">∫ d(thought) → structure</div>
 <nav id="nav">
   <a href="/" class="nav-logo">
     <img src="assets/logo.png" alt="Log" width="48" height="48">
@@ -609,16 +629,9 @@
 
 <!-- FV -->
 <section class="fv">
-  <canvas class="fv-canvas" id="spiralCanvas"></canvas>
 
   <!-- 背景数式 -->
-  <div class="fv-formula" style="top:15%;left:5%;transform:rotate(-8deg)">x(t+1) = x(t) + α(t)Δ(t)</div>
-  <div class="fv-formula" style="top:25%;right:6%;transform:rotate(6deg)">Z△ → ∞</div>
-  <div class="fv-formula" style="bottom:30%;left:8%;transform:rotate(-4deg)">r = ae^(bθ)</div>
-  <div class="fv-formula" style="bottom:20%;right:10%;transform:rotate(10deg)">Δφ ≠ 0</div>
-  <div class="fv-formula" style="top:60%;left:3%;transform:rotate(-6deg)">log(Z△) → depth</div>
-  <div class="fv-formula" style="top:45%;right:4%;transform:rotate(5deg)">∫ d(thought) → structure</div>
-
+            
   <div class="fv-content">
     <div class="fv-label">THOUGHT LOGGING APP</div>
     <h1>思考は、<br>螺旋を描く。</h1>
@@ -980,67 +993,6 @@
 
   startTimer();
 
-  // ===== FV 背景螺旋アニメーション =====
-  const canvas = document.getElementById('spiralCanvas');
-  const ctx = canvas.getContext('2d');
-  let w, h, animId;
-
-  function resize() {
-    w = canvas.width = canvas.offsetWidth * window.devicePixelRatio;
-    h = canvas.height = canvas.offsetHeight * window.devicePixelRatio;
-    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
-  }
-
-  let progress = 0;
-  function drawFvSpiral() {
-    const cw = canvas.offsetWidth;
-    const ch = canvas.offsetHeight;
-    ctx.clearRect(0, 0, cw, ch);
-
-    const cx = cw / 2;
-    const cy = ch / 2;
-    const maxTheta = progress * Math.PI * 10;
-    const a = 0;
-    const b = 18;
-
-    ctx.beginPath();
-    ctx.strokeStyle = 'rgba(74,222,128,0.6)';
-    ctx.lineWidth = 1.5;
-
-    let first = true;
-    for (let theta = 0; theta <= maxTheta; theta += 0.05) {
-      const r = a + b * (theta / (2 * Math.PI));
-      const x = cx + r * Math.cos(theta);
-      const y = cy + r * Math.sin(theta);
-      if (first) { ctx.moveTo(x, y); first = false; }
-      else ctx.lineTo(x, y);
-    }
-    ctx.stroke();
-
-    // 先端に光る点
-    if (maxTheta > 0) {
-      const r = a + b * (maxTheta / (2 * Math.PI));
-      const x = cx + r * Math.cos(maxTheta);
-      const y = cy + r * Math.sin(maxTheta);
-      ctx.beginPath();
-      ctx.arc(x, y, 3, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(74,222,128,0.9)';
-      ctx.fill();
-    }
-
-    progress += 0.003;
-    if (progress > 1) progress = 0;
-    animId = requestAnimationFrame(drawFvSpiral);
-  }
-
-  window.addEventListener('resize', () => {
-    cancelAnimationFrame(animId);
-    resize();
-    drawFvSpiral();
-  });
-  resize();
-  drawFvSpiral();
-
   // ===== 03 螺旋チャート（静的・Layer表示） =====
   const sc = document.getElementById('spiralChart');
   const sctx = sc.getContext('2d');
@@ -1120,7 +1072,7 @@
     sctx.fill();
 
     if (scProgress < 1) {
-      scProgress += 0.006;
+      scProgress += 0.004;
       requestAnimationFrame(drawSpiralChart);
     } else {
       scProgress = 1;
