@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Log — 思考は、螺旋を描く。</title>
+  <title>Log — 思考は、記録では進化しない。</title>
   <meta name="description" content="1行のログが、思考を進化させる。AIと連携した思考ログアプリ。">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Shippori+Mincho:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -49,10 +49,10 @@
     .nav-logo {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 4px;
       text-decoration: none;
     }
-    .nav-logo img { width: 48px; height: 48px; border-radius: 12px; }
+    .nav-logo img { width: 28px; height: 28px; border-radius: 7px; }
     .nav-logo-text {
       font-family: 'DM Sans', sans-serif;
       font-size: 28px;
@@ -137,7 +137,7 @@
       position: fixed;
       font-family: 'DM Mono', monospace;
       font-size: 11px;
-      color: rgba(74,222,128,0.12);
+      color: rgba(74,222,128,0.25);
       pointer-events: none;
       white-space: nowrap;
       z-index: 0;
@@ -634,9 +634,9 @@
             
   <div class="fv-content">
     <div class="fv-label">THOUGHT LOGGING APP</div>
-    <h1>思考は、<br>螺旋を描く。</h1>
+    <h1>思考は、<br>記録では進化しない。</h1>
     <p class="fv-sub">
-      1行のログが、<strong>あなたの思考構造を変える。</strong><br>
+      1行のログが、つなぎ、深め、<strong>前に進める。</strong><br>
       記録ではなく、構造をつくる。
     </p>
     <div class="fv-actions">
@@ -682,11 +682,13 @@
 <!-- 00 CONTEXT -->
 <section class="sec reveal">
   <div class="sec-num">00 — CONTEXT</div>
-  <h2>情報過多時代。<br>思考は、消費される。</h2>
+  <h2>情報過多時代。<br>思考は、流されていく。</h2>
   <p style="margin-bottom:48px">
     毎日、無数の情報が流れ込む。<br>
-    考える暇もなく、次の情報が上書きする。<br>
-    思考は深まる前に、消費されていく。
+    思いついても、すぐ次の情報に上書きされる。<br>
+    考えたはずなのに、振り返ると何も残っていない。<br><br>
+    問題は、忘れることだけじゃない。<br>
+    思考が、つながらないこと。
   </p>
   <div class="context-block">
     <div class="context-item">
@@ -709,7 +711,7 @@
     <div class="problem-item">アイデアが、構造にならない</div>
     <div class="problem-item">深く考えたはずなのに、何も残らない</div>
   </div>
-  <div class="conclusion">思考は「保存」では<br>進化しない。</div>
+  <div class="conclusion">残すだけでは、<br>思考は前に進まない。</div>
 </section>
 
 <div class="divider"></div>
@@ -736,7 +738,7 @@
   <div class="sec-num" style="text-align:center">03 — THE SPIRAL</div>
   <h2 style="font-family:'Shippori Mincho',serif;font-size:clamp(28px,4vw,48px);font-weight:700;margin-bottom:16px;">思考の螺旋</h2>
   <p style="color:var(--text2);font-size:15px;margin-bottom:8px">思考はループではない。螺旋である。</p>
-  <p style="color:var(--text3);font-size:13px;font-family:'DM Mono',monospace">戻るのではない。外側へ進む。</p>
+  <p style="color:var(--text2);font-size:14px;line-height:1.9">同じ場所に戻るのではなく、<br>考えるたびに、少しずつ外側へ進んでいく。</p>
 
   <div class="spiral-canvas-wrap">
     <canvas id="spiralChart" width="320" height="320"></canvas>
@@ -751,6 +753,10 @@
     <span class="spiral-label">🔥 Trend</span>
     <span class="spiral-label">♾️ Next</span>
   </div>
+  <p style="margin-top:48px;color:var(--text2);font-size:15px;line-height:2">
+    1行のログは、そこで終わらない。<br>
+    次の思考を生み、やがて螺旋のように広がっていく。
+  </p>
 </section>
 
 <div class="divider"></div>
@@ -816,6 +822,7 @@
       <div class="diff-log">Logは、<strong>未来を生成する。</strong></div>
     </div>
   </div>
+  <p style="margin-top:40px;font-size:15px;color:var(--text2)">Logは、メモの置き場ではない。<br><strong style="color:var(--text)">思考を前に進めるための場だ。</strong></p>
 </section>
 
 <div class="divider"></div>
@@ -891,8 +898,8 @@
 <!-- 07 FOR WHO -->
 <section class="sec reveal">
   <div class="sec-num">08 — FOR WHO</div>
-  <h2>Logは、すべての人の<br>ためではない。</h2>
-  <p style="margin-bottom:40px">思考を消費したくない人のためのツールだ。</p>
+  <h2>Logは、<br>思考を止めたくない人へ。</h2>
+  <p style="margin-bottom:40px">ただ残すだけでは足りない。考えたことを、つながる思考に変えたい人へ。</p>
   <div class="who-grid">
     <div class="who-item">
       <div class="who-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="4"/><line x1="4.93" y1="4.93" x2="6.34" y2="6.34"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="4.93" y1="19.07" x2="6.34" y2="17.66"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="17.66" y1="6.34" x2="19.07" y2="4.93"/><path d="M12 6a6 6 0 0 1 0 12 6 6 0 0 1 0-12z"/></svg></div>
@@ -906,7 +913,7 @@
     </div>
     <div class="who-item">
       <div class="who-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
-      <div class="who-name">思考するビジネスマン</div>
+      <div class="who-name">起業家・ビジネスマン</div>
       <div class="who-desc">思考を整理・深化させたい人</div>
     </div>
     <div class="who-item">
@@ -922,8 +929,8 @@
 <!-- 08 CTA -->
 <section class="cta-sec reveal" id="download">
   <h2>思考を、<br>進化させよう。</h2>
-  <p style="margin-bottom:16px">あなたの中にある構造を、外に出せ。</p>
-  <p style="color:var(--text3);font-size:14px;margin-bottom:48px">1行から始まる。その一行が、やがて螺旋になる。</p>
+  <p style="margin-bottom:16px">あなたの中にあるアイデアを、<br>消える記録で終わらせない。</p>
+  <p style="color:var(--text3);font-size:14px;margin-bottom:48px">1行から始まる。その一行が、次の思考を生み、やがて大きな流れになる。</p>
   <div class="cta-actions">
     <a href="#" class="btn-green">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
