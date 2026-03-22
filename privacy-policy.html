@@ -21,21 +21,34 @@
     body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; font-size:15px; line-height:1.8; }
 
     nav {
-      position:sticky; top:0; z-index:100;
-      background:rgba(14,14,14,0.92); backdrop-filter:blur(14px);
-      border-bottom:1px solid var(--border);
-      padding:0 32px; height:80px;
-      display:flex; align-items:center; justify-content:space-between;
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 0 32px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(10,10,10,0.95);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(16px);
     }
-    .logo { display:flex; align-items:center; gap:6px; text-decoration:none; }
-    .logo-icon {
-      width:38px; height:38px; border-radius:10px;
-      display:flex; align-items:center; justify-content:center;
-      overflow:hidden;
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      text-decoration: none;
     }
-    .logo-text { font-size:28px; font-weight:700; color:var(--text); letter-spacing:-0.5px; }
+    .nav-logo img { width: 28px; height: 28px; border-radius: 7px; }
+    .nav-logo-text {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.5px;
+    }
     .nav-links { display:flex; gap:24px; list-style:none; }
-    .nav-links a { color:var(--text-secondary); text-decoration:none; font-size:13px; transition:color 0.2s; }
+    .nav-links a { color:var(--text2); text-decoration:none; font-size:13px; transition:color 0.2s; }
     .nav-links a:hover, .nav-links a.active { color:var(--green); }
 
     main { max-width:720px; margin:0 auto; padding:64px 28px 96px; }
@@ -111,9 +124,9 @@
 <body>
 
 <nav>
-  <a href="https://respecthq.github.io/log/" class="logo">
-    <div class="logo-icon"><img src="assets/logo.png" alt="Log" width="28" height="28"></div>
-    <span class="logo-text">Log</span>
+  <a href="/" class="nav-logo">
+    <img src="assets/logo.png" alt="Log" width="28" height="28">
+    <span class="nav-logo-text">Log</span>
   </a>
   <ul class="nav-links">
     <li><a href="https://respecthq.github.io/log/">ホーム</a></li>
