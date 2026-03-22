@@ -89,7 +89,7 @@
       font-family: 'DM Mono', monospace;
     }
     .sec h2 {
-      font-family: 'Shippori Mincho', serif;
+      font-family: 'Noto Sans JP', sans-serif;
       font-size: clamp(28px, 4vw, 48px);
       font-weight: 700;
       line-height: 1.4;
@@ -152,7 +152,7 @@
       animation: up 0.8s ease 0.2s forwards;
     }
     .fv h1 {
-      font-family: 'Shippori Mincho', serif;
+      font-family: 'Noto Sans JP', sans-serif;
       font-size: clamp(48px, 8vw, 88px);
       font-weight: 800;
       line-height: 1.2;
@@ -285,7 +285,7 @@
       flex-shrink: 0;
     }
     .conclusion {
-      font-family: 'Shippori Mincho', serif;
+      font-family: 'Noto Sans JP', sans-serif;
       font-size: clamp(20px, 3vw, 32px);
       font-weight: 600;
       line-height: 1.6;
@@ -301,7 +301,7 @@
       border-radius: 0 12px 12px 0;
     }
     .insight-quote p {
-      font-family: 'Shippori Mincho', serif;
+      font-family: 'Noto Sans JP', sans-serif;
       font-size: clamp(18px, 2.5vw, 26px);
       font-weight: 600;
       color: var(--text);
@@ -454,7 +454,7 @@
       margin: 0 auto;
     }
     .cta-sec h2 {
-      font-family: 'Shippori Mincho', serif;
+      font-family: 'Noto Sans JP', sans-serif;
       font-size: clamp(40px, 7vw, 72px);
       font-weight: 800;
       letter-spacing: -2px;
@@ -493,7 +493,7 @@
       font-size: 17px;
       color: var(--text);
       line-height: 1.9;
-      font-family: 'Shippori Mincho', serif;
+      font-family: 'Noto Sans JP', sans-serif;
       font-weight: 500;
     }
 
@@ -620,7 +620,7 @@
 
   <div class="fv-content">
     <div class="fv-label">THOUGHT LOGGING APP</div>
-    <h1>思考を、<br>進化させよう。</h1>
+    <h1>思考を、<br><span style="color:var(--green)">進化</span>させよう。</h1>
     <p class="fv-sub">
       1行のログが、つなぎ、深め、<strong>前に進める。</strong><br>
       記録ではなく、構造をつくる。
@@ -722,9 +722,10 @@
 <!-- 03 SPIRAL -->
 <section class="spiral-sec reveal">
   <div class="sec-num" style="text-align:center">03 — THE SPIRAL</div>
-  <h2 style="font-family:'Shippori Mincho',serif;font-size:clamp(28px,4vw,48px);font-weight:700;margin-bottom:16px;">思考は、螺旋を描く。</h2>
-  <p style="color:var(--text2);font-size:15px;margin-bottom:8px">思考はループではない。螺旋である。</p>
-  <p style="color:var(--text2);font-size:14px;line-height:1.9">同じ場所に戻るのではなく、<br>考えるたびに、少しずつ外側へ進んでいく。</p>
+  <h2 style="font-family:'Noto Sans JP',sans-serif;font-size:clamp(28px,4vw,48px);font-weight:700;margin-bottom:16px;">思考は、螺旋を描く。</h2>
+
+
+  <p style="color:var(--text2);font-size:15px;line-height:2;margin-bottom:40px">1行のログは、そこで終わらない。<br>次の思考を生み、やがて螺旋のように広がっていく。</p>
 
   <div class="spiral-canvas-wrap">
     <canvas id="spiralChart" width="320" height="320"></canvas>
@@ -739,10 +740,6 @@
     <span class="spiral-label">🔥 Trend</span>
     <span class="spiral-label">♾️ Next</span>
   </div>
-  <p style="margin-top:48px;color:var(--text2);font-size:15px;line-height:2">
-    1行のログは、そこで終わらない。<br>
-    次の思考を生み、やがて螺旋のように広がっていく。
-  </p>
 </section>
 
 <div class="divider"></div>
@@ -752,7 +749,6 @@
   <div class="sec-num">04 — SOLUTION</div>
   <h2>記録を、<br>次の思考へ。</h2>
   <p style="margin-bottom:8px">思考を進化させる力学を実装したツールである。</p>
-  <p style="margin-bottom:40px;color:var(--text3);font-size:13px">このループは、繰り返されない。螺旋として積み上がる。</p>
   <div class="loop-steps">
     <div class="loop-step">
       <div class="loop-num">01</div>
@@ -862,17 +858,17 @@
   </p>
   <div class="ai-providers">
     <div class="ai-p">
-      <div class="ai-logo"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+      <div class="ai-logo"><svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 24 24'><title>claude_line</title><g fill='none' fill-rule='nonzero'><path d='M24 0v24H0V0zM12.594 23.258l-.012.002-.071.035-.02.004-.014-.004-.071-.036q-.016-.004-.024.006l-.004.01-.017.428.005.02.01.013.104.074.015.004.012-.004.104-.074.012-.016.004-.017-.017-.427q-.004-.016-.016-.018m.264-.113-.014.002-.184.093-.01.01-.003.011.018.43.005.012.008.008.201.092q.019.005.029-.008l.004-.014-.034-.614q-.005-.019-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014-.034.614q.001.018.017.024l.015-.002.201-.093.01-.008.003-.011.018-.43-.003-.012-.01-.01z'/><path fill='#4ade80' d='M13.604 2.006a1 1 0 0 1 .89 1.099l-.643 6.104 3.868-4.834a1 1 0 0 1 1.562 1.25l-4.19 5.237 5.68-1.336a1.001 1.001 0 0 1 .458 1.948l-3.77.886 3.715.656a1 1 0 1 1-.348 1.968l-4.901-.865 4.225 3.622a.999.999 0 1 1-1.3 1.518l-2.324-1.991 1.331 2.217a1 1 0 0 1-1.715 1.03l-2.992-4.988-.657 5.59a1 1 0 0 1-1.986-.234l.556-4.732-3.256 4.44a1 1 0 0 1-1.614-1.183l2.564-3.497-3.242 1.947a1 1 0 0 1-1.03-1.715l4.693-2.817L2.948 13a1 1 0 0 1 .105-1.998l6.218.327L3.901 7.3A1 1 0 1 1 5.1 5.7l4.446 3.335-2.93-5.57a1 1 0 0 1 1.769-.93l3.466 6.584.655-6.223a1 1 0 0 1 1.098-.89'/></g></svg></div>
       <div class="ai-name">Claude</div>
       <div class="ai-sub">Anthropic</div>
     </div>
     <div class="ai-p">
-      <div class="ai-logo"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
+      <div class="ai-logo"><svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 24 24'><g fill='none' fill-rule='evenodd'><path d='M24 0v24H0V0zM12.594 23.258l-.012.002-.071.035-.02.004-.014-.004-.071-.036c-.01-.003-.019 0-.024.006l-.004.01-.017.428.005.02.01.013.104.074.015.004.012-.004.104-.074.012-.016.004-.017-.017-.427c-.002-.01-.009-.017-.016-.018m.264-.113-.014.002-.184.093-.01.01-.003.011.018.43.005.012.008.008.201.092c.012.004.023 0 .029-.008l.004-.014-.034-.614c-.003-.012-.01-.02-.02-.022m-.715.002a.023.023 0 0 0-.027.006l-.006.014-.034.614c0 .012.007.02.017.024l.015-.002.201-.093.01-.008.003-.011.018-.43-.003-.012-.01-.01z'/><path fill='#4ade80' d='M10 2a4 4 0 0 1 3.46 1.99l.098.182.638-.368a4 4 0 0 1 5.475 5.446l-.113.186.638.368a4 4 0 0 1-1.979 7.464L18 17.264V18a4 4 0 0 1-7.459 2.01l-.1-.182-.637.368a4 4 0 0 1-5.475-5.446l.113-.186-.638-.368a4 4 0 0 1 1.979-7.464L6 6.736V6a4 4 0 0 1 4-4m4.702 10.787-.068 4.06a1 1 0 0 1-.391.777l-.109.072-1.956 1.13a2.002 2.002 0 0 0 3.817-.677L16 18v-4.434zm-2.033 1.947-3.55 1.97-.118.056a1 1 0 0 1-.75-.006l-.117-.058-1.956-1.13-.09.136a2 2 0 0 0 2.578 2.835l.138-.073 3.84-2.217zm2.688-5.415-1.324.735 3.482 2.089.107.074a1 1 0 0 1 .37.653L18 13v2.26l.162.008a2 2 0 0 0 1.167-3.649l-.133-.083zM6 8.741a2.001 2.001 0 0 0-1.328 3.64l.132.083 3.84 2.217 1.323-.735-3.481-2.088a1 1 0 0 1-.477-.728L6 11zm6.014 2.434-.722.4-.014.826.708.425.722-.401.014-.826zM10 4a2 2 0 0 0-1.995 1.85L8 6v4.434l1.298.779.068-4.06.01-.13a1 1 0 0 1 .381-.647l.109-.072 1.957-1.13-.068-.135A2 2 0 0 0 10 4m7.928 2.268a2 2 0 0 0-2.594-.805l-.138.073-3.84 2.217-.025 1.513 3.55-1.97a1 1 0 0 1 .868-.05l.117.058 1.957 1.13c.442-.62.51-1.465.105-2.166'/></g></svg></div>
       <div class="ai-name">ChatGPT</div>
       <div class="ai-sub">OpenAI</div>
     </div>
     <div class="ai-p">
-      <div class="ai-logo"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+      <div class="ai-logo"><svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 24 24'><title>gemini_line</title><g fill='none' fill-rule='nonzero'><path d='M24 0v24H0V0zM12.594 23.258l-.012.002-.071.035-.02.004-.014-.004-.071-.036q-.016-.004-.024.006l-.004.01-.017.428.005.02.01.013.104.074.015.004.012-.004.104-.074.012-.016.004-.017-.017-.427q-.004-.016-.016-.018m.264-.113-.014.002-.184.093-.01.01-.003.011.018.43.005.012.008.008.201.092q.019.005.029-.008l.004-.014-.034-.614q-.005-.019-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014-.034.614q.001.018.017.024l.015-.002.201-.093.01-.008.003-.011.018-.43-.003-.012-.01-.01z'/><path fill='#4ade80' d='M12 2c.774 0 .949.711 1.173 1.292.15.387.367.922.639 1.51.559 1.21 1.294 2.526 2.077 3.31.783.782 2.1 1.518 3.308 2.076.589.272 1.124.49 1.511.64.567.218 1.292.43 1.292 1.172 0 .774-.711.949-1.292 1.173-.387.15-.922.367-1.51.639-1.21.559-2.526 1.294-3.31 2.077-.782.783-1.517 2.1-2.076 3.308-.272.589-.49 1.124-.64 1.511C12.95 21.286 12.769 22 12 22c-.761 0-.951-.718-1.173-1.292-.15-.387-.367-.922-.639-1.51-.558-1.21-1.294-2.526-2.077-3.31-.783-.782-2.1-1.517-3.308-2.076a26 26 0 0 0-1.511-.64C2.712 12.95 2 12.774 2 12c0-.774.711-.949 1.292-1.173.387-.15.922-.367 1.51-.639 1.21-.558 2.526-1.294 3.31-2.077.782-.783 1.518-2.1 2.076-3.308.272-.589.49-1.124.64-1.511C11.047 2.719 11.235 2 12 2m0 3.647c-.574 1.242-1.428 2.832-2.475 3.878C8.48 10.572 6.89 11.425 5.647 12c1.242.574 2.832 1.428 3.878 2.475 1.047 1.046 1.9 2.635 2.475 3.877.574-1.242 1.428-2.831 2.475-3.877 1.046-1.047 2.635-1.9 3.877-2.475-1.242-.574-2.831-1.428-3.877-2.475C13.428 8.48 12.575 6.89 12 5.647'/></g></svg></div>
       <div class="ai-name">Gemini</div>
       <div class="ai-sub">Google</div>
     </div>
