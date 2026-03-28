@@ -84,7 +84,7 @@
       border-radius:12px; padding:20px 24px; margin-bottom:12px;
     }
     .check-item {
-      display:flex; align-items:center; gap:10px;
+      display:flex; align-items:flex-start; gap:10px;
       padding:7px 0; color:var(--text); font-size:14px;
     }
     .check-icon {
@@ -174,7 +174,7 @@
       </div>
       <div class="check-item">
         <div class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5L4 7L8 3" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        ログの内容はAIの学習に使用されません
+        <span>Claude・OpenAI APIはログの内容をAIの学習に使用しません。<br>Gemini API無料枠ご利用の場合はGoogleのデータポリシーが適用されます。<br><a href="https://ai.google.dev/gemini-api/terms" target="_blank" style="color:var(--green)">Gemini API利用規約</a></span>
       </div>
     </div>
   </div>
