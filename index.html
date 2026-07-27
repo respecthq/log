@@ -1,1087 +1,997 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Log — 思考を、進化させよう。</title>
-  <meta name="description" content="1行のログが、思考を進化させる。AIと連携した思考ログアプリ。">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Shippori+Mincho:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #0a0a0a;
-      --surface: #111;
-      --surface2: #161616;
-      --border: #1e1e1e;
-      --border2: #2a2a2a;
-      --text: #f0f0f0;
-      --text2: #c0c0c0;
-      --text3: #666;
-      --green: #4ade80;
-      --green-dim: rgba(74,222,128,0.08);
-      --green-border: rgba(74,222,128,0.2);
-    }
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Noto Sans JP', sans-serif;
-      font-weight: 300;
-      line-height: 1.7;
-      overflow-x: hidden;
-    }
-
-    /* ===== NAV ===== */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      padding: 0 32px;
-      height: 80px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: rgba(10,10,10,0.95);
-      border-bottom: 1px solid var(--border);
-      backdrop-filter: blur(16px);
-    }
-    .nav-logo {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      text-decoration: none;
-    }
-    .nav-logo img { width: 36px; height: 36px; border-radius: 9px; }
-    .nav-logo-text {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 28px;
-      font-weight: 700;
-      color: var(--text);
-      letter-spacing: -0.5px;
-    }
-    .nav-cta {
-      background: var(--green);
-      color: #000;
-      padding: 9px 22px;
-      border-radius: 6px;
-      font-size: 13px;
-      font-weight: 700;
-      text-decoration: none;
-      transition: opacity 0.2s;
-    }
-    .nav-cta:hover { opacity: 0.85; }
-
-    /* ===== DIVIDER ===== */
-    .divider { height: 1px; background: var(--border); max-width: 800px; margin: 0 auto; }
-
-    /* ===== COMMON SEC ===== */
-    .sec {
-      padding: 120px 32px;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-    .sec-num {
-      font-size: 11px;
-      letter-spacing: 3px;
-      color: var(--text3);
-      margin-bottom: 48px;
-      font-family: 'DM Mono', monospace;
-    }
-    .sec h2 {
-      font-family: 'Noto Sans JP', sans-serif;
-      font-size: clamp(28px, 4vw, 48px);
-      font-weight: 700;
-      line-height: 1.4;
-      margin-bottom: 40px;
-      letter-spacing: -0.5px;
-    }
-    .sec p { font-size: 16px; color: var(--text2); line-height: 2.2; }
-
-    /* ===== REVEAL ===== */
-    @keyframes up {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .reveal {
-      opacity: 0;
-      transform: translateY(28px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-
-    /* ===== FV ===== */
-    .fv {
-      position: relative;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      padding: 100px 32px 60px;
-    }
-
-    /* 背景数式 */
-    .fv-formula {
-      position: absolute;
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      color: rgba(74,222,128,0.22);
-      pointer-events: none;
-      white-space: nowrap;
-      z-index: 0;
-    }
-    /* ページ全体の数式装飾 */
-    .formula-bg {
-      display: none;
-    }
-    .fv-content {
-      position: relative;
-      z-index: 1;
-      text-align: center;
-      max-width: 720px;
-    }
-    .fv-label {
-      font-size: 11px;
-      letter-spacing: 4px;
-      color: var(--green);
-      margin-bottom: 40px;
-      font-family: 'DM Mono', monospace;
-      opacity: 0;
-      animation: up 0.8s ease 0.2s forwards;
-    }
-    .fv h1 {
-      font-family: 'Noto Sans JP', sans-serif;
-      font-size: clamp(48px, 8vw, 88px);
-      font-weight: 800;
-      line-height: 1.2;
-      letter-spacing: -2px;
-      margin-bottom: 32px;
-      opacity: 0;
-      animation: up 0.9s ease 0.4s forwards;
-    }
-    .fv-sub {
-      font-size: 17px;
-      color: var(--text2);
-      line-height: 2;
-      margin-bottom: 52px;
-      opacity: 0;
-      animation: up 0.9s ease 0.6s forwards;
-    }
-    .fv-sub strong { color: var(--text); font-weight: 500; }
-    .fv-actions {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 20px;
-      flex-wrap: wrap;
-      opacity: 0;
-      animation: up 0.9s ease 0.8s forwards;
-    }
-    .btn-green {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--green);
-      color: #000;
-      padding: 15px 30px;
-      border-radius: 8px;
-      font-size: 15px;
-      font-weight: 700;
-      text-decoration: none;
-      transition: opacity 0.2s, transform 0.2s;
-    }
-    .btn-green:hover { opacity: 0.88; transform: translateY(-1px); }
-    .appstore-badge { display: inline-flex; transition: opacity 0.2s, transform 0.2s; }
-    .appstore-badge:hover { opacity: 0.85; transform: translateY(-1px); }
-
-    /* スマホ画像エリア */
-    .fv-phone {
-      position: relative;
-      z-index: 1;
-      margin-top: 60px;
-      max-width: 300px;
-      width: 100%;
-      opacity: 0;
-      animation: up 1s ease 1s forwards;
-    }
-
-    /* ===== SLIDER ===== */
-    .slider {
-      width: 100%;
-    }
-    .slider-track {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 9/19;
-      overflow: hidden;
-      border-radius: 32px;
-      border: 1px solid var(--border2);
-      box-shadow: 0 40px 80px rgba(0,0,0,0.6);
-      background: var(--surface);
-    }
-    .slider-item {
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      transition: opacity 0.5s ease;
-      pointer-events: none;
-    }
-    .slider-item.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-    .slider-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    /* 画像がない場合のプレースホルダー */
-    .slider-item img[src=""] ,
-    .slider-item img:not([src]) {
-      background: var(--surface);
-    }
-    .slider-dots {
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      margin-top: 16px;
-    }
-    .slider-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--border2);
-      cursor: pointer;
-      transition: background 0.3s, transform 0.3s;
-    }
-    .slider-dot.active {
-      background: var(--green);
-      transform: scale(1.2);
-    }
-
-    /* ===== PROBLEM ===== */
-    .problem-list {
-      display: flex;
-      flex-direction: column;
-      margin-bottom: 48px;
-    }
-    .problem-item {
-      padding: 18px 0;
-      border-bottom: 1px solid var(--border);
-      font-size: 18px;
-      color: var(--text2);
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-    .problem-item::before {
-      content: '';
-      width: 5px; height: 5px;
-      background: var(--text3);
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-    .conclusion {
-      font-family: 'Noto Sans JP', sans-serif;
-      font-size: clamp(20px, 3vw, 32px);
-      font-weight: 600;
-      line-height: 1.6;
-      color: var(--text);
-    }
-
-    /* ===== INSIGHT ===== */
-    .insight-quote {
-      border-left: 2px solid var(--green);
-      padding: 24px 32px;
-      margin: 40px 0;
-      background: var(--green-dim);
-      border-radius: 0 12px 12px 0;
-    }
-    .insight-quote p {
-      font-family: 'Noto Sans JP', sans-serif;
-      font-size: clamp(18px, 2.5vw, 26px);
-      font-weight: 600;
-      color: var(--text);
-      line-height: 1.7;
-    }
-
-    /* ===== SPIRAL ===== */
-    .spiral-sec {
-      padding: 120px 32px;
-      max-width: 800px;
-      margin: 0 auto;
-      text-align: center;
-    }
-    .spiral-canvas-wrap {
-      position: relative;
-      margin: 60px auto;
-      width: 320px;
-      height: 320px;
-    }
-    .spiral-canvas-wrap canvas {
-      width: 100%;
-      height: 100%;
-    }
-    .spiral-labels {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 8px;
-      margin-top: 40px;
-    }
-    .spiral-label {
-      background: var(--surface);
-      border: 1px solid var(--border2);
-      border-radius: 20px;
-      padding: 6px 14px;
-      font-size: 12px;
-      color: var(--text2);
-      font-family: 'DM Mono', monospace;
-    }
-    .spiral-label.active {
-      border-color: var(--green-border);
-      color: var(--green);
-      background: var(--green-dim);
-    }
-
-    /* ===== LOOP ===== */
-    .loop-steps {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      margin: 40px 0;
-    }
-    .loop-step {
-      background: var(--surface);
-      padding: 24px 28px;
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      transition: background 0.2s;
-    }
-    .loop-step:first-child { border-radius: 12px 12px 0 0; }
-    .loop-step:last-child { border-radius: 0 0 12px 12px; }
-    .loop-step:hover { background: var(--surface2); }
-    .loop-num {
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      color: var(--green);
-      width: 24px;
-      flex-shrink: 0;
-    }
-    .loop-title { font-size: 15px; color: var(--text); font-weight: 500; }
-    .loop-desc { font-size: 13px; color: #ccc; margin-top: 3px; }
-    .loop-arrow {
-      text-align: center;
-      padding: 8px;
-      color: var(--text3);
-      font-size: 18px;
-    }
-
-    /* ===== FEATURES ===== */
-    .feature-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2px;
-      margin-top: 40px;
-    }
-    .feature-card {
-      background: var(--surface);
-      padding: 32px 28px;
-      transition: background 0.2s;
-    }
-    .feature-card:nth-child(1) { border-radius: 12px 0 0 0; }
-    .feature-card:nth-child(2) { border-radius: 0 12px 0 0; }
-    .feature-card:nth-child(3) { border-radius: 0 0 0 12px; }
-    .feature-card:nth-child(4) { border-radius: 0 0 12px 0; }
-    .feature-card:hover { background: var(--surface2); }
-    .feature-icon { margin-bottom: 16px; color: var(--green); }
-    .feature-icon svg { display: block; }
-    .feature-name { font-size: 16px; font-weight: 700; margin-bottom: 10px; }
-    .feature-desc { font-size: 13px; color: #ccc; line-height: 1.9; }
-
-    /* ===== AI ===== */
-    .ai-providers {
-      display: flex;
-      gap: 2px;
-      margin-top: 40px;
-    }
-    .ai-p {
-      flex: 1;
-      background: var(--surface);
-      padding: 28px 20px;
-      text-align: center;
-      transition: background 0.2s;
-    }
-    .ai-p:first-child { border-radius: 12px 0 0 12px; }
-    .ai-p:last-child { border-radius: 0 12px 12px 0; }
-    .ai-p:hover { background: var(--surface2); }
-    .ai-logo { margin-bottom: 8px; color: var(--text2); }
-    .ai-logo svg { display: block; margin: 0 auto; }
-    .ai-name { font-size: 14px; font-weight: 600; }
-    .ai-sub { font-size: 11px; color: #ccc; margin-top: 4px; }
-
-    /* ===== FOR WHO ===== */
-    .who-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2px;
-      margin-top: 40px;
-    }
-    .who-item {
-      background: var(--surface);
-      padding: 28px 24px;
-      transition: background 0.2s;
-    }
-    .who-item:nth-child(1) { border-radius: 12px 0 0 0; }
-    .who-item:nth-child(2) { border-radius: 0 12px 0 0; }
-    .who-item:nth-child(3) { border-radius: 0 0 0 12px; }
-    .who-item:nth-child(4) { border-radius: 0 0 12px 0; }
-    .who-item:hover { background: var(--surface2); }
-    .who-icon { margin-bottom: 12px; color: var(--text2); }
-    .who-icon svg { display: block; }
-    .who-name { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
-    .who-desc { font-size: 13px; color: #ccc; }
-
-    /* ===== CTA ===== */
-    .cta-sec {
-      text-align: center;
-      padding: 120px 32px;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-    .cta-sec h2 {
-      font-family: 'Noto Sans JP', sans-serif;
-      font-size: clamp(40px, 7vw, 72px);
-      font-weight: 800;
-      letter-spacing: -2px;
-      line-height: 1.2;
-      margin-bottom: 24px;
-    }
-    .cta-sec p {
-      font-size: 16px;
-      color: var(--text2);
-      margin-bottom: 48px;
-    }
-    .cta-actions {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    /* ===== CONTEXT ===== */
-    .context-block {
-      background: var(--green-dim);
-      border: 1px solid var(--green-border);
-      border-radius: 12px;
-      padding: 32px;
-    }
-    .context-label {
-      font-size: 11px;
-      letter-spacing: 3px;
-      color: var(--green);
-      font-family: 'DM Mono', monospace;
-      margin-bottom: 16px;
-      text-transform: uppercase;
-    }
-    .context-desc {
-      font-size: 17px;
-      color: var(--text);
-      line-height: 1.9;
-      font-family: 'Noto Sans JP', sans-serif;
-      font-weight: 500;
-    }
-
-    /* ===== POINT LIST ===== */
-    .point-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin: 32px 0;
-    }
-    .point-item {
-      font-size: 17px;
-      color: var(--text2);
-      padding: 14px 20px;
-      background: var(--surface);
-      border-radius: 8px;
-      border-left: 2px solid var(--border2);
-    }
-    .point-x { color: var(--text3); margin-right: 8px; }
-    .point-arrow { color: var(--text2); margin-right: 8px; }
-    .point-check { color: var(--green); margin-right: 8px; font-weight: 500; }
-
-    /* ===== DIFFERENCE ===== */
-    .diff-list {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      margin-top: 40px;
-    }
-    .diff-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2px;
-    }
-    .diff-normal {
-      background: var(--surface);
-      padding: 24px 28px;
-      font-size: 14px;
-      color: #777;
-      border-radius: 0;
-    }
-    .diff-log {
-      background: var(--surface2);
-      padding: 24px 28px;
-      font-size: 14px;
-      color: var(--text2);
-      border-left: 2px solid var(--green-border);
-    }
-    .diff-log strong { color: var(--green); }
-    .diff-row:first-child .diff-normal { border-radius: 12px 0 0 0; }
-    .diff-row:first-child .diff-log { border-radius: 0 12px 0 0; }
-    .diff-row:last-child .diff-normal { border-radius: 0 0 0 12px; }
-    .diff-row:last-child .diff-log { border-radius: 0 0 12px 0; }
-    @media (max-width: 640px) {
-      .diff-row { grid-template-columns: 1fr; }
-      .diff-row:first-child .diff-normal { border-radius: 12px 12px 0 0; }
-      .diff-row:first-child .diff-log { border-radius: 0; }
-      .diff-row:last-child .diff-normal { border-radius: 0; }
-      .diff-row:last-child .diff-log { border-radius: 0 0 12px 12px; }
-    }
-
-    /* ===== FOOTER ===== */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 40px 32px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 12px;
-      color: var(--text3);
-      max-width: 800px;
-      margin: 0 auto;
-    }
-    footer a { color: var(--text3); text-decoration: none; transition: color 0.2s; }
-    footer a:hover { color: var(--text2); }
-    .footer-links { display: flex; gap: 24px; }
-
-    /* ===== RESPONSIVE ===== */
-    @media (max-width: 640px) {
-      nav { padding: 0 20px; }
-      .sec { padding: 80px 20px; }
-      .fv { padding: 100px 20px 60px; }
-      .spiral-sec { padding: 80px 20px; }
-      .cta-sec { padding: 80px 20px; }
-      .feature-grid { grid-template-columns: 1fr; }
-      .feature-card:nth-child(1) { border-radius: 12px 12px 0 0; }
-      .feature-card:nth-child(2) { border-radius: 0; }
-      .feature-card:nth-child(3) { border-radius: 0; }
-      .feature-card:nth-child(4) { border-radius: 0 0 12px 12px; }
-      .who-grid { grid-template-columns: 1fr; }
-      .who-item:nth-child(1) { border-radius: 12px 12px 0 0; }
-      .who-item:nth-child(2), .who-item:nth-child(3) { border-radius: 0; }
-      .who-item:nth-child(4) { border-radius: 0 0 12px 12px; }
-      .ai-providers { flex-direction: column; }
-      .ai-p:first-child { border-radius: 12px 12px 0 0; }
-      .ai-p:last-child { border-radius: 0 0 12px 12px; }
-      footer { flex-direction: column; gap: 16px; text-align: center; }
-      .spiral-canvas-wrap { width: 260px; height: 260px; }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Log | 思考が、進化する。</title>
+<meta name="description" content="Logは、一行の記録から思考を関連づけ、AIで深掘りし、Spiral Graphで進化を可視化する思考ログアプリです。">
+<meta name="theme-color" content="#0a0c0b">
+<link rel="icon" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{margin:0;background:#0a0c0b;color:#f1f4f1;font-family:'Zen Kaku Gothic New',system-ui,sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+  img,video{display:block;max-width:100%}
+  ::selection{background:rgba(80,200,120,.3);color:#fff}
+  a,button{-webkit-tap-highlight-color:transparent}
+  a:focus-visible,button:focus-visible{outline:2px solid #7df0a3;outline-offset:4px}
+  .lp-scroll-progress{position:fixed;z-index:160;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,#50c878,#8af0ad);box-shadow:0 0 18px rgba(80,200,120,.65);transform:scaleX(0);transform-origin:left center;pointer-events:none}
+  [data-scroll-section]{isolation:isolate}
+  [data-parallax]{will-change:transform}
+  [data-reveal].lp-reveal-label>span:first-child,[data-reveal].lp-reveal-label--center>span:last-child{transform:scaleX(0);transform-origin:left center;opacity:.25;transition:transform .85s cubic-bezier(.16,.84,.44,1),opacity .7s ease}
+  [data-reveal].lp-reveal-label--center>span:last-child{transform-origin:right center}
+  [data-reveal].lp-reveal-label.is-revealed>span:first-child,[data-reveal].lp-reveal-label--center.is-revealed>span:last-child{transform:scaleX(1);opacity:1}
+  .lp-scroll-bridge{position:relative;z-index:5;height:0;pointer-events:none}
+  .lp-scroll-cue{position:absolute;left:50%;top:-36px;display:flex;flex-direction:column;align-items:center;gap:9px;transform:translateX(-50%);font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;color:#7f8b84}
+  .lp-scroll-cue span{position:relative;width:1px;height:72px;overflow:hidden;background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(80,200,120,.38))}
+  .lp-scroll-cue span::after{content:'';position:absolute;inset:0;background:#50c878;animation:lp-scroll-line 2.2s cubic-bezier(.16,.84,.44,1) infinite}
+  .lp-footer-links{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  .lp-footer-links a{font-size:12px;color:#7b857f;text-decoration:none;transition:color .25s}
+  .lp-footer-links a:hover{color:#72e99a}
+  .lp-mobile-break{display:none}
+  .lp-hero-title{text-wrap:balance}
+  .lp-hero-proof{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:2px}
+  .lp-hero-proof span{display:inline-flex;align-items:center;min-height:28px;padding:6px 11px;border:1px solid rgba(255,255,255,.12);border-radius:999px;background:rgba(8,14,10,.45);backdrop-filter:blur(10px);font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:.8px;color:#b7c4bd}
+  .lp-hero-video-wrap{position:absolute;inset:-3%;overflow:hidden}
+  .lp-hero-video-wrap video{width:100%;height:100%;object-fit:cover}
+  .lp-hero-phone{position:absolute;top:50%;width:clamp(210px,17vw,264px);aspect-ratio:900/1956;border-radius:34px;background:#0a0a0a;border:2px solid rgba(255,255,255,.13);box-shadow:0 60px 120px -40px rgba(0,0,0,.9),0 0 0 1px rgba(0,0,0,.6);padding:6px;pointer-events:none;will-change:transform}
+  .lp-hero-phone>div{width:100%;height:100%;border-radius:28px;overflow:hidden;background-size:cover;background-position:top center}
+  .lp-hero-phone--left{left:clamp(16px,7vw,120px);transform:translateY(-50%) perspective(1200px) rotateY(16deg) rotateZ(-4deg);animation:lp-float 9s ease-in-out infinite}
+  .lp-hero-phone--right{right:clamp(16px,7vw,120px);transform:translateY(-50%) perspective(1200px) rotateY(-16deg) rotateZ(4deg);animation:lp-float 9s ease-in-out 1.4s infinite}
+  .lp-hero-phone::after{content:'';position:absolute;inset:6px;border-radius:28px;background:linear-gradient(155deg,rgba(255,255,255,.14),rgba(255,255,255,0) 34%);pointer-events:none}
+  .lp-lucide{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .lp-value-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  .lp-value-card{position:relative;min-height:168px;padding:20px;border:1px solid rgba(255,255,255,.09);border-radius:12px;background:linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.012));overflow:hidden;transition:transform .35s,border-color .35s,background .35s}
+  .lp-value-card::after{content:'';position:absolute;right:-35px;bottom:-50px;width:110px;height:110px;border-radius:50%;background:rgba(80,200,120,.08);filter:blur(18px);transition:transform .35s}
+  .lp-value-card:hover{transform:translateY(-4px);border-color:rgba(80,200,120,.42);background:linear-gradient(145deg,rgba(80,200,120,.09),rgba(255,255,255,.015))}
+  .lp-value-card:hover::after{transform:scale(1.35)}
+  .lp-icon-shell{position:relative;z-index:1;width:44px;height:44px;display:grid;place-items:center;margin-bottom:20px;border:1px solid rgba(80,200,120,.28);border-radius:10px;background:rgba(80,200,120,.08);color:#72e99a}
+  .lp-value-meta{position:absolute;top:22px;right:20px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;color:#66716a}
+  .lp-value-card strong{position:relative;z-index:1;display:block;margin-bottom:7px;font-size:15px;line-height:1.45}
+  .lp-value-card p{position:relative;z-index:1;margin:0;font-size:12.5px;line-height:1.7;color:#8d958f}
+  .lp-carousel-phone{position:relative;width:min(310px,74vw);aspect-ratio:900/1956;border-radius:44px;background:#0a0a0a;border:2px solid rgba(255,255,255,.12);box-shadow:0 50px 110px -36px rgba(0,0,0,.85);padding:7px;touch-action:pan-y}
+  .lp-carousel-mask{width:100%;height:100%;border-radius:36px;overflow:hidden}
+  .lp-carousel-track{display:flex;height:100%;transition:transform .55s cubic-bezier(.16,.84,.44,1)}
+  .lp-carousel-track>div{flex:0 0 100%;height:100%;background-size:cover;background-position:top center}
+  .lp-carousel-btn{width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.03);color:#c4ccc6;cursor:pointer;font-size:21px;line-height:1;display:grid;place-items:center;transition:border-color .25s,color .25s}
+  .lp-carousel-btn:hover{border-color:#50c878;color:#50c878}
+  .lp-carousel-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.25);border:none;cursor:pointer;padding:0;transition:all .3s}
+  .lp-carousel-dot.is-active{width:22px;border-radius:5px;background:#50c878}
+  #features{background:linear-gradient(180deg,#fbfcfa 0%,#edf1ec 100%) !important;overflow:hidden}
+  .lp-features-intro{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(280px,.65fr);gap:clamp(30px,6vw,90px);align-items:end;margin-bottom:clamp(44px,6vh,72px)}
+  .lp-feature-promise{padding-left:24px;border-left:1px solid rgba(20,24,21,.16);font-size:15px;line-height:1.9;color:#59615b}
+  .lp-feature-promise b{display:block;margin-bottom:7px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;color:#1f9a57}
+  .lp-feature-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+  .lp-feature-card{position:relative;min-height:196px;padding:28px;border:1px solid rgba(15,24,18,.09);border-radius:12px;background:rgba(255,255,255,.72);box-shadow:0 24px 60px -48px rgba(10,22,14,.5);overflow:hidden;transition:transform .35s,box-shadow .35s,border-color .35s}
+  .lp-feature-card:hover{transform:translateY(-4px);border-color:rgba(31,154,87,.35);box-shadow:0 32px 70px -44px rgba(10,22,14,.55)}
+  .lp-feature-card:nth-child(1),.lp-feature-card:nth-child(4){grid-column:span 7}
+  .lp-feature-card:nth-child(2),.lp-feature-card:nth-child(3){grid-column:span 5}
+  .lp-feature-card:nth-child(5),.lp-feature-card:nth-child(6){grid-column:span 6}
+  .lp-feature-card--dark{color:#f1f4f1;background:linear-gradient(145deg,#102016,#0b120e);border-color:rgba(80,200,120,.18)}
+  .lp-feature-top{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:34px}
+  .lp-feature-icon{width:46px;height:46px;display:grid;place-items:center;border:1px solid rgba(31,154,87,.2);border-radius:10px;background:rgba(31,154,87,.08);color:#1f9a57}
+  .lp-feature-card--dark .lp-feature-icon{border-color:rgba(80,200,120,.25);background:rgba(80,200,120,.1);color:#72e99a}
+  .lp-feature-index{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;color:#7c867f}
+  .lp-feature-card h3{margin:0 0 10px;font-size:clamp(19px,2vw,24px);line-height:1.4;color:#141815}
+  .lp-feature-card--dark h3{color:#f1f4f1}
+  .lp-feature-card p{max-width:44ch;margin:0;font-size:14px;line-height:1.85;color:#59615b}
+  .lp-feature-card--dark p{color:#9ca8a0}
+  .lp-feature-demo{display:flex;align-items:center;gap:10px;margin-top:24px;padding:13px 15px;border:1px solid rgba(80,200,120,.18);border-radius:9px;background:rgba(80,200,120,.06);font-family:'DM Mono',monospace;font-size:11px;color:#9ad9ae}
+  .lp-feature-demo i{width:7px;height:7px;border-radius:50%;background:#50c878;box-shadow:0 0 16px #50c878}
+  .lp-feature-chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:24px}
+  .lp-feature-chips span{padding:7px 10px;border:1px solid rgba(31,154,87,.16);border-radius:999px;background:rgba(31,154,87,.06);font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:.8px;color:#277c4c}
+  .lp-layer-dots{display:flex;gap:7px;margin-top:27px}
+  .lp-layer-dots span{width:28px;height:5px;border-radius:3px;background:rgba(31,154,87,.18)}
+  .lp-layer-dots span:nth-child(-n+4){background:#2ba45f}
+  .lp-shield-note{display:inline-flex;align-items:center;gap:8px;margin-top:24px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;color:#277c4c}
+  .lp-shield-note::before{content:'';width:7px;height:7px;border-radius:50%;background:#2ba45f;box-shadow:0 0 0 5px rgba(43,164,95,.1)}
+  .lp-layers-showcase{display:grid;grid-template-columns:minmax(0,1fr) minmax(350px,.95fr);gap:clamp(42px,7vw,96px);align-items:center}
+  .lp-layers-art{position:relative;min-height:380px;display:flex;align-items:center;justify-content:center}
+  .lp-layers-art video,.lp-layers-art img{position:relative;width:100%;max-width:none}
+  .lp-layer-track{position:relative;display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-top:clamp(42px,6vw,70px)}
+  .lp-layer-card{position:relative;min-height:170px;padding:20px 16px;border:1px solid rgba(255,255,255,.08);border-radius:10px;background:rgba(255,255,255,.025);overflow:hidden;transition:transform .3s,border-color .3s,background .3s}
+  .lp-layer-card:hover{transform:translateY(-4px);border-color:rgba(80,200,120,.32);background:rgba(80,200,120,.045)}
+  .lp-layer-card strong{display:block;margin:35px 0 7px;font-size:15px;line-height:1.35;color:#f1f4f1}
+  .lp-layer-card p{margin:0;font-size:12.5px;line-height:1.7;color:#8d958f}
+  .lp-layer-num{position:relative;z-index:1;display:inline-flex;align-items:center;height:28px;padding:0 9px;border:1px solid rgba(80,200,120,.3);border-radius:999px;background:#0a0c0b;font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:1px;color:#72e99a}
+  .lp-ai-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,.52fr);gap:clamp(32px,6vw,80px);align-items:center;margin-bottom:clamp(40px,6vh,64px)}
+  .lp-ai-phone{position:relative;justify-self:center;width:min(280px,68vw);aspect-ratio:900/1956;border-radius:40px;background:#0a0a0a;border:2px solid rgba(255,255,255,.12);box-shadow:0 50px 110px -36px rgba(0,0,0,.85);padding:7px;animation:lp-float 8s ease-in-out infinite}
+  .lp-ai-phone>div{width:100%;height:100%;border-radius:33px;background-size:cover;background-position:top center}
+  #forwho{background:linear-gradient(180deg,#f6f4ee 0%,#e8e4d8 100%) !important;overflow:hidden}
+  .lp-who-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,.6fr);gap:clamp(30px,6vw,90px);align-items:end;margin-bottom:clamp(42px,6vh,68px)}
+  .lp-who-lead{font-size:15px;line-height:1.95;color:#59615b}
+  .lp-who-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+  .lp-who-card{position:relative;min-height:360px;border:1px solid rgba(15,24,18,.1);border-radius:12px;overflow:hidden;background:#152019;color:#fff;box-shadow:0 28px 70px -46px rgba(10,22,14,.65)}
+  .lp-who-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.72) contrast(1.04);transition:transform .7s,filter .7s}
+  .lp-who-card::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,10,8,.05) 18%,rgba(6,10,8,.38) 54%,rgba(6,10,8,.94) 100%)}
+  .lp-who-card:hover img{transform:scale(1.035);filter:saturate(.9) contrast(1.04)}
+  .lp-who-content{position:absolute;z-index:1;left:0;right:0;bottom:0;padding:28px}
+  .lp-who-tag{display:inline-flex;margin-bottom:14px;padding:5px 9px;border:1px solid rgba(126,238,164,.32);border-radius:999px;background:rgba(7,18,11,.36);backdrop-filter:blur(9px);font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;color:#93ecb1}
+  .lp-who-content h3{margin:0 0 7px;font-size:clamp(21px,2.4vw,28px);line-height:1.35}
+  .lp-who-content p{margin:0 0 17px;font-size:13.5px;line-height:1.75;color:#c4cec7}
+  .lp-who-use{display:flex;gap:7px;flex-wrap:wrap}
+  .lp-who-use span{padding:6px 9px;border:1px solid rgba(255,255,255,.13);border-radius:6px;background:rgba(255,255,255,.07);font-size:10.5px;color:#dce3de}
+  .lp-faq-item{border-bottom:1px solid rgba(255,255,255,.09)}
+  .lp-faq-q{width:100%;display:flex;align-items:center;gap:18px;background:none;border:none;cursor:pointer;padding:26px 2px;text-align:left;color:#f1f4f1;font-family:inherit}
+  .lp-faq-q .lp-faq-n{font-family:'DM Mono',monospace;font-size:13px;color:#50c878;flex:none}
+  .lp-faq-q .lp-faq-t{flex:1;font-size:clamp(15px,2vw,19px);font-weight:700;line-height:1.5}
+  .lp-faq-q .lp-faq-sign{font-size:26px;color:#50c878;font-weight:300;flex:none;line-height:1;transition:transform .35s}
+  .lp-faq-a{overflow:hidden;max-height:0;transition:max-height .5s cubic-bezier(.16,.84,.44,1)}
+  .lp-faq-a>div{padding:0 2px 30px 47px;font-size:15px;line-height:2;color:#9aa39d;max-width:64ch}
+  .lp-faq-item.is-open .lp-faq-sign{transform:rotate(45deg)}
+  .lp-cta-video{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+  .lp-cta-video video{width:100%;height:100%;object-fit:cover;opacity:.6;mix-blend-mode:screen}
+  .lp-spiral-stage{position:relative;display:flex;justify-content:center;padding:clamp(10px,2vh,26px) 0}
+  .lp-orbit{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);border:1px dashed rgba(80,200,120,.22);border-radius:50%;pointer-events:none}
+  .lp-orbit--1{width:min(430px,86vw);aspect-ratio:1;animation:lp-orbit-spin 26s linear infinite}
+  .lp-orbit--2{width:min(560px,102vw);aspect-ratio:1;border-color:rgba(80,200,120,.14);animation:lp-orbit-spin 40s linear infinite reverse}
+  .lp-orbit--3{width:min(700px,120vw);aspect-ratio:1;border-color:rgba(80,200,120,.08);animation:lp-orbit-spin 58s linear infinite}
+  .lp-orbit i{position:absolute;top:-4px;left:50%;width:7px;height:7px;margin-left:-3.5px;border-radius:50%;background:#50c878;box-shadow:0 0 14px #50c878}
+  .lp-orbit--2 i{width:5px;height:5px;background:#8af0ad;box-shadow:0 0 10px #50c878}
+  .lp-orbit--3 i{width:4px;height:4px;background:rgba(138,240,173,.75);box-shadow:0 0 8px rgba(80,200,120,.8)}
+  .lp-spiral-chip{position:absolute;top:50%;z-index:3;padding:9px 13px;border:1px solid rgba(80,200,120,.3);border-radius:999px;background:rgba(8,14,10,.72);backdrop-filter:blur(8px);font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:1px;color:#9aebb6;white-space:nowrap}
+  .lp-spiral-chip--left{left:clamp(0px,12vw,190px);transform:translateY(-190%);animation:lp-float-simple 7s ease-in-out infinite}
+  .lp-spiral-chip--right{right:clamp(0px,12vw,190px);transform:translateY(90%);animation:lp-float-simple 7s ease-in-out 1.2s infinite}
+  .lp-spiral-stats{display:flex;justify-content:center;gap:clamp(14px,3vw,28px);flex-wrap:wrap;margin:clamp(40px,6vh,60px) 0 clamp(30px,4vh,44px)}
+  .lp-spiral-stat{min-width:170px;padding:22px 26px;border:1px solid rgba(80,200,120,.2);border-radius:14px;background:linear-gradient(160deg,rgba(80,200,120,.08),rgba(255,255,255,.015))}
+  .lp-spiral-stat b{display:block;font-family:'Space Grotesk',sans-serif;font-size:clamp(34px,4vw,44px);font-weight:700;line-height:1.1;color:#8af0ad;margin-bottom:6px}
+  .lp-spiral-stat b i{font-style:normal;font-size:.55em;margin-left:2px;color:#50c878}
+  .lp-spiral-stat>span{font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:1.5px;color:#86a392}
+  .lp-spiral-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:940px;margin:0 auto;text-align:left}
+  .lp-spiral-step{display:flex;gap:14px;align-items:flex-start;padding:18px 20px;border:1px solid rgba(255,255,255,.08);border-radius:12px;background:rgba(255,255,255,.02);transition:border-color .3s,background .3s}
+  .lp-spiral-step:hover{border-color:rgba(80,200,120,.32);background:rgba(80,200,120,.05)}
+  .lp-spiral-step>span{flex:none;font-family:'DM Mono',monospace;font-size:12px;color:#50c878;padding-top:3px}
+  .lp-spiral-step b{display:block;font-size:14.5px;line-height:1.5;margin-bottom:4px}
+  .lp-spiral-step p{margin:0;font-size:12.5px;line-height:1.7;color:#8d958f}
+  #features .lp-ghost{position:absolute;left:50%;top:clamp(30px,6vh,70px);transform:translateX(-50%);z-index:0;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(70px,11vw,168px);letter-spacing:.02em;line-height:1;color:transparent;-webkit-text-stroke:1px rgba(31,154,87,.13);white-space:nowrap;pointer-events:none;user-select:none}
+  #features .lp-orb{position:absolute;border-radius:50%;filter:blur(30px);pointer-events:none}
+  .lp-feature-card{z-index:1}
+  .lp-feature-card::before{content:attr(data-num);position:absolute;right:14px;bottom:-14px;z-index:0;font-family:'Space Grotesk',sans-serif;font-size:104px;font-weight:700;line-height:1;color:rgba(31,154,87,.07);pointer-events:none;user-select:none;transition:color .35s}
+  .lp-feature-card:hover::before{color:rgba(31,154,87,.14)}
+  .lp-feature-card--dark::before{color:rgba(80,200,120,.08)}
+  .lp-feature-card--dark:hover::before{color:rgba(80,200,120,.15)}
+  .lp-feature-card::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,rgba(31,154,87,0),rgba(31,154,87,.55),rgba(31,154,87,0));opacity:0;transition:opacity .35s}
+  .lp-feature-card:hover::after{opacity:1}
+  .lp-features-strip{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:clamp(40px,6vh,60px);font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:2px;color:#59615b}
+  .lp-features-strip b{color:#1f9a57;font-weight:500}
+  .lp-features-strip i{font-style:normal;color:rgba(20,24,21,.35)}
+  @keyframes lp-orbit-spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+  @media (max-width:960px){.lp-hero-phone{display:none}.lp-ai-head{grid-template-columns:1fr}.lp-ai-phone{order:2;margin-top:10px}.lp-spiral-chip{display:none}.lp-spiral-steps{grid-template-columns:1fr}}
+  @media (max-width:720px){
+    [data-nav]{padding:14px 18px !important;background:rgba(9,11,10,.72) !important;backdrop-filter:blur(16px) !important;-webkit-backdrop-filter:blur(16px) !important;border-bottom-color:rgba(255,255,255,.08) !important}
+    [data-nav] > div{gap:10px !important}
+    [data-nav] > div a:not(:last-child){display:none !important}
+    [data-nav] > div a:last-child{padding:10px 14px !important;border-radius:8px !important;font-size:12px !important;line-height:1.15 !important;text-align:center !important;box-shadow:0 10px 24px -14px rgba(80,200,120,.9) !important}
+    #hero{min-height:100svh !important;padding:116px 20px 72px !important}
+    #hero::after{content:'';position:absolute;left:0;right:0;bottom:0;z-index:0;height:36%;background:linear-gradient(180deg,rgba(5,7,6,0),rgba(5,7,6,.78));pointer-events:none}
+    #hero > [data-reveal]{z-index:1}
+    .lp-mobile-break{display:block}
+    .lp-hero-title{font-size:clamp(42px,14.5vw,58px) !important;line-height:1.06 !important;letter-spacing:0 !important;margin-bottom:18px !important;text-shadow:0 4px 28px rgba(0,0,0,.82) !important}
+    #hero p{font-size:15px !important;line-height:1.8 !important;margin-bottom:30px !important;max-width:24em !important}
+    #hero a img{height:48px !important}
+    .lp-hero-proof{max-width:300px;margin-inline:auto}
+    .lp-hero-proof span{font-size:9.5px;padding:5px 9px;min-height:25px}
+    .lp-scroll-cue{top:-28px}
+    .lp-scroll-cue span{height:56px}
+    .lp-footer-links{width:100%;justify-content:center;gap:16px}
+    .lp-value-cards{grid-template-columns:1fr}
+    .lp-value-card{min-height:0}
+    .lp-features-intro,.lp-who-head{grid-template-columns:1fr;gap:22px}
+    .lp-feature-promise{padding-left:18px}
+    .lp-feature-grid{grid-template-columns:1fr}
+    .lp-feature-card:nth-child(n){grid-column:1;min-height:0}
+    .lp-who-grid{grid-template-columns:1fr}
+    .lp-who-card{min-height:330px}
+    .lp-layers-showcase{grid-template-columns:1fr;gap:26px}
+    .lp-layers-art{min-height:250px;margin:0 -24px}
+    .lp-layer-track{grid-template-columns:1fr}
+    .lp-layer-card{min-height:0}
+  }
+  @keyframes lp-float{0%,100%{transform:translateY(-50%) perspective(1200px) rotateY(var(--ry,0deg)) rotateZ(var(--rz,0deg)) translateY(0)}50%{transform:translateY(-50%) perspective(1200px) rotateY(var(--ry,0deg)) rotateZ(var(--rz,0deg)) translateY(-14px)}}
+  .lp-hero-phone--left{--ry:16deg;--rz:-4deg}
+  .lp-hero-phone--right{--ry:-16deg;--rz:4deg}
+  .lp-ai-phone,.lp-float-simple{animation-name:lp-float-simple !important}
+  @keyframes lp-float-simple{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+  @keyframes lp-pulse{0%,100%{opacity:.45}50%{opacity:.95}}
+  @keyframes lp-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+  @keyframes lp-scroll-line{0%{transform:translateY(-105%)}45%,60%{transform:translateY(0)}100%{transform:translateY(105%)}}
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    [data-reveal],.lp-scroll-cue span::after{animation:none !important;transition:none !important;transform:none !important;filter:none !important;opacity:1 !important}
+    [data-reveal].lp-reveal-label>span:first-child,[data-reveal].lp-reveal-label--center>span:last-child{transition:none !important;transform:none !important;opacity:1 !important}
+    [data-parallax]{transition:none !important}
+    .lp-scroll-cue{display:none}
+    .lp-hero-phone,.lp-ai-phone{animation:none !important}
+  }
+</style>
 </head>
 <body>
+<div id="lp-root" style="background:#0a0c0b">
 
-
-<!-- ページ全体の数式装飾 -->
-<nav id="nav">
-  <a href="/" class="nav-logo">
-    <img src="assets/logo.png" alt="Log" width="36" height="36">
-    <span class="nav-logo-text">Log</span>
-  </a>
-  <a href="#download" class="nav-cta">試してみる</a>
-</nav>
-
-<!-- FV -->
-<section class="fv">
-
-  <!-- 背景数式 -->
-  <div class="fv-formula" style="top:12%;left:5%;transform:rotate(-6deg)">Δ(t) = x(t) - x̄(t)</div>
-  <div class="fv-formula" style="top:22%;right:6%;transform:rotate(4deg)">r = ae^(bθ)</div>
-  <div class="fv-formula" style="top:38%;left:3%;transform:rotate(-5deg)">log(Z△) → depth</div>
-  <div class="fv-formula" style="top:50%;right:5%;transform:rotate(3deg)">∫ d(thought) → structure</div>
-  <div class="fv-formula" style="top:65%;left:4%;transform:rotate(-4deg)">x(t+1) = x(t) + α(t)Δ(t)</div>
-  <div class="fv-formula" style="top:75%;right:8%;transform:rotate(6deg)">Δφ ≠ 0</div>
-
-  <div class="fv-content">
-    <div class="fv-label">THOUGHT LOGGING APP</div>
-    <h1>思考を、<br><span style="color:var(--green)">進化</span>させよう。</h1>
-    <p class="fv-sub">
-      1行のログが、つなぎ、深め、<strong>前に進める。</strong><br>
-      記録ではなく、構造をつくる。
-    </p>
-    <div class="fv-actions">
-      <a href="#download" class="btn-green">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-        Logを試す
-      </a>
-      <a href="#" class="appstore-badge">
-        <img src="assets/appstore_badge_jp.svg" alt="App Storeからダウンロード" height="40">
-      </a>
-    </div>
-  </div>
-
-  <!-- スマホ画像（後で差し替え） -->
-  <div class="fv-phone">
-    <div class="slider">
-      <div class="slider-track">
-        <div class="slider-item active">
-          <img src="assets/screenshot_entries.png" alt="エントリー一覧">
-        </div>
-        <div class="slider-item">
-          <img src="assets/screenshot_relations.png" alt="関連ログ・思考の履歴">
-        </div>
-        <div class="slider-item">
-          <img src="assets/screenshot_ai_action.png" alt="next actionをAIに相談">
-        </div>
-        <div class="slider-item">
-          <img src="assets/screenshot_ai_chat.png" alt="AIと深掘り">
-        </div>
-      </div>
-      <div class="slider-dots">
-        <span class="slider-dot active"></span>
-        <span class="slider-dot"></span>
-        <span class="slider-dot"></span>
-        <span class="slider-dot"></span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- 00 CONTEXT -->
-<section class="sec reveal">
-  <div class="sec-num">00 — CONTEXT</div>
-  <h2>情報過多時代。<br>思考は、流されていく。</h2>
-  <p style="margin-bottom:48px">
-    毎日、無数の情報が流れ込む。<br>
-    思いついても、すぐ次の情報に上書きされる。<br>
-    考えたはずなのに、振り返ると何も残っていない。<br><br>
-    問題は、忘れることだけじゃない。<br>
-    思考が、つながらないこと。
-  </p>
-  <div class="context-block">
-    <div class="context-item">
-      <div class="context-label">Pre-Taskの記録と進化</div>
-      <div class="context-desc">タスクになる前の思考を残す。<br>1行のログが、次の思考と行動につながる。</div>
-    </div>
-  </div>
-  <p style="margin-top:48px;font-size:17px;color:var(--text)">まず、1行残すことから始めよう。</p>
-</section>
-
-<div class="divider"></div>
-
-<!-- 01 PROBLEM -->
-<section class="sec reveal">
-  <div class="sec-num">01 — PROBLEM</div>
-  <h2>記録だけでは、<br>思考は深まらない。</h2>
-  <p style="margin-bottom:32px;font-size:17px;color:var(--text2)">保存しても、眺めるだけでは揮発する。</p>
-  <div class="problem-list">
-    <div class="problem-item">記録しても、つながらない</div>
-    <div class="problem-item">アイデアが、構造にならない</div>
-    <div class="problem-item">深く考えたはずなのに、何も残らない</div>
-  </div>
-  <div class="conclusion">残すだけでは、<br>思考は前に進まない。</div>
-</section>
-
-<div class="divider"></div>
-
-<!-- 02 INSIGHT -->
-<section class="sec reveal">
-  <div class="sec-num">02 — INSIGHT</div>
-  <h2>深く考えた人だけが、<br>見える景色がある。</h2>
-  <div class="insight-quote">
-    <p>思考は点ではない。<br>構造である。</p>
-  </div>
-  <div class="point-list">
-    <div class="point-item"><span class="point-x">点は</span>消える</div>
-    <div class="point-item"><span class="point-arrow">線は</span>つながる</div>
-    <div class="point-item"><span class="point-check">構造は</span>残る</div>
-  </div>
-  <p style="margin-top:40px">思考は、構造になった瞬間に進化する。</p>
-</section>
-
-<div class="divider"></div>
-
-<!-- 03 SPIRAL -->
-<section class="spiral-sec reveal">
-  <div class="sec-num" style="text-align:center">03 — THE SPIRAL</div>
-  <h2 style="font-family:'Noto Sans JP',sans-serif;font-size:clamp(28px,4vw,48px);font-weight:700;margin-bottom:16px;">思考は、螺旋を描く。</h2>
-
-
-  <p style="color:var(--text2);font-size:15px;line-height:2;margin-bottom:40px">1行のログは、そこで終わらない。<br>次の思考を生み、やがて螺旋のように広がっていく。</p>
-
-  <div class="spiral-canvas-wrap">
-    <canvas id="spiralChart" width="320" height="320"></canvas>
-  </div>
-
-  <div class="spiral-labels">
-    <span class="spiral-label active">💡 Idea</span>
-    <span class="spiral-label">📝 Output</span>
-    <span class="spiral-label">⚙️ Build</span>
-    <span class="spiral-label">🚀 Launch</span>
-    <span class="spiral-label">💬 React</span>
-    <span class="spiral-label">🔥 Trend</span>
-    <span class="spiral-label">♾️ Next</span>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- 04 SOLUTION -->
-<section class="sec reveal">
-  <div class="sec-num">04 — SOLUTION</div>
-  <h2>記録を、<br>次の思考へ。</h2>
-  <p style="margin-bottom:8px">思考を進化させる力学を実装したツールである。</p>
-  <div class="loop-steps">
-    <div class="loop-step">
-      <div class="loop-num">01</div>
-      <div>
-        <div class="loop-title">1行で記録する</div>
-        <div class="loop-desc">思いついた瞬間に残す。完璧じゃなくていい。</div>
-      </div>
-    </div>
-    <div class="loop-arrow">↓</div>
-    <div class="loop-step">
-      <div class="loop-num">02</div>
-      <div>
-        <div class="loop-title">Layerで段階を把握する</div>
-        <div class="loop-desc">今の思考がどの段階にあるかを可視化。💡Idea から ♾️Next まで。</div>
-      </div>
-    </div>
-    <div class="loop-arrow">↓</div>
-    <div class="loop-step">
-      <div class="loop-num">03</div>
-      <div>
-        <div class="loop-title">AIが次のアクションを提案する</div>
-        <div class="loop-desc">Deep（深掘り）/ Wide（横展開）/ Next（次の段階へ）の3つで思考を前に進める。</div>
-      </div>
-    </div>
-    <div class="loop-arrow">↓</div>
-    <div class="loop-step">
-      <div class="loop-num">04</div>
-      <div>
-        <div class="loop-title">新しいログが生まれる</div>
-        <div class="loop-desc">アクションの結果が次のログになる。螺旋が一周し、外へ広がる。</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- 05 DIFFERENCE -->
-<section class="sec reveal">
-  <div class="sec-num">05 — DIFFERENCE</div>
-  <h2>なぜ他のメモアプリでは<br>足りないのか。</h2>
-  <div class="diff-list">
-    <div class="diff-row">
-      <div class="diff-normal">普通のアプリは、記録する。</div>
-      <div class="diff-log">Logは、<strong>進化させる。</strong></div>
-    </div>
-    <div class="diff-row">
-      <div class="diff-normal">普通は、情報が溜まる。</div>
-      <div class="diff-log">Logは、<strong>構造が生まれる。</strong></div>
-    </div>
-    <div class="diff-row">
-      <div class="diff-normal">普通は、過去を見る。</div>
-      <div class="diff-log">Logは、<strong>未来を生成する。</strong></div>
-    </div>
-  </div>
-  <p style="margin-top:40px;font-size:15px;color:var(--text2)">Logは、メモの置き場ではない。<br><strong style="color:var(--text)">思考を前に進めるための場だ。</strong></p>
-</section>
-
-<div class="divider"></div>
-
-<!-- 06 FEATURES -->
-<section class="sec reveal">
-  <div class="sec-num">06 — FEATURES</div>
-  <h2>思考が育つ、<br>4つの機能。</h2>
-  <div class="feature-grid">
-    <div class="feature-card">
-      <div class="feature-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-      </div>
-      <div class="feature-name">思考ログ</div>
-      <div class="feature-desc">1行で素早く記録。タグ・Layerで整理。時系列で思考の軌跡が残る。</div>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-      </div>
-      <div class="feature-name">思考リンク</div>
-      <div class="feature-desc">ログ同士をつなぐ。バラバラなアイデアが構造になる。</div>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
-      </div>
-      <div class="feature-name">思考バージョン</div>
-      <div class="feature-desc">考えの変化を系列として残す。思考がどう深まったか可視化できる。</div>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-      </div>
-      <div class="feature-name">AIと深掘り</div>
-      <div class="feature-desc">Claude・ChatGPT・Geminiと連携。ログをもとにAIが思考を加速する。</div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- 06 AI -->
-<section class="sec reveal">
-  <div class="sec-num">07 — AI</div>
-  <h2>思考を進化させる<br>AI。</h2>
-  <p style="margin-bottom:40px">
-    AIは、答えを出さない。<strong style="color:var(--text)">次の"問い"を生成する。</strong><br><br><br><br>
-    AIが次のLayerへの行動をDeep / Wide / Nextで生成する。<br>
-    思考ループが止まらない。これがLogの本質。
-  </p>
-  <div class="ai-providers">
-    <div class="ai-p">
-      <div class="ai-logo"><svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 24 24'><title>claude_line</title><g fill='none' fill-rule='nonzero'><path d='M24 0v24H0V0zM12.594 23.258l-.012.002-.071.035-.02.004-.014-.004-.071-.036q-.016-.004-.024.006l-.004.01-.017.428.005.02.01.013.104.074.015.004.012-.004.104-.074.012-.016.004-.017-.017-.427q-.004-.016-.016-.018m.264-.113-.014.002-.184.093-.01.01-.003.011.018.43.005.012.008.008.201.092q.019.005.029-.008l.004-.014-.034-.614q-.005-.019-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014-.034.614q.001.018.017.024l.015-.002.201-.093.01-.008.003-.011.018-.43-.003-.012-.01-.01z'/><path fill='#4ade80' d='M13.604 2.006a1 1 0 0 1 .89 1.099l-.643 6.104 3.868-4.834a1 1 0 0 1 1.562 1.25l-4.19 5.237 5.68-1.336a1.001 1.001 0 0 1 .458 1.948l-3.77.886 3.715.656a1 1 0 1 1-.348 1.968l-4.901-.865 4.225 3.622a.999.999 0 1 1-1.3 1.518l-2.324-1.991 1.331 2.217a1 1 0 0 1-1.715 1.03l-2.992-4.988-.657 5.59a1 1 0 0 1-1.986-.234l.556-4.732-3.256 4.44a1 1 0 0 1-1.614-1.183l2.564-3.497-3.242 1.947a1 1 0 0 1-1.03-1.715l4.693-2.817L2.948 13a1 1 0 0 1 .105-1.998l6.218.327L3.901 7.3A1 1 0 1 1 5.1 5.7l4.446 3.335-2.93-5.57a1 1 0 0 1 1.769-.93l3.466 6.584.655-6.223a1 1 0 0 1 1.098-.89'/></g></svg></div>
-      <div class="ai-name">Claude</div>
-      <div class="ai-sub">Anthropic</div>
-    </div>
-    <div class="ai-p">
-      <div class="ai-logo"><svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 24 24'><g fill='none' fill-rule='evenodd'><path d='M24 0v24H0V0zM12.594 23.258l-.012.002-.071.035-.02.004-.014-.004-.071-.036c-.01-.003-.019 0-.024.006l-.004.01-.017.428.005.02.01.013.104.074.015.004.012-.004.104-.074.012-.016.004-.017-.017-.427c-.002-.01-.009-.017-.016-.018m.264-.113-.014.002-.184.093-.01.01-.003.011.018.43.005.012.008.008.201.092c.012.004.023 0 .029-.008l.004-.014-.034-.614c-.003-.012-.01-.02-.02-.022m-.715.002a.023.023 0 0 0-.027.006l-.006.014-.034.614c0 .012.007.02.017.024l.015-.002.201-.093.01-.008.003-.011.018-.43-.003-.012-.01-.01z'/><path fill='#4ade80' d='M10 2a4 4 0 0 1 3.46 1.99l.098.182.638-.368a4 4 0 0 1 5.475 5.446l-.113.186.638.368a4 4 0 0 1-1.979 7.464L18 17.264V18a4 4 0 0 1-7.459 2.01l-.1-.182-.637.368a4 4 0 0 1-5.475-5.446l.113-.186-.638-.368a4 4 0 0 1 1.979-7.464L6 6.736V6a4 4 0 0 1 4-4m4.702 10.787-.068 4.06a1 1 0 0 1-.391.777l-.109.072-1.956 1.13a2.002 2.002 0 0 0 3.817-.677L16 18v-4.434zm-2.033 1.947-3.55 1.97-.118.056a1 1 0 0 1-.75-.006l-.117-.058-1.956-1.13-.09.136a2 2 0 0 0 2.578 2.835l.138-.073 3.84-2.217zm2.688-5.415-1.324.735 3.482 2.089.107.074a1 1 0 0 1 .37.653L18 13v2.26l.162.008a2 2 0 0 0 1.167-3.649l-.133-.083zM6 8.741a2.001 2.001 0 0 0-1.328 3.64l.132.083 3.84 2.217 1.323-.735-3.481-2.088a1 1 0 0 1-.477-.728L6 11zm6.014 2.434-.722.4-.014.826.708.425.722-.401.014-.826zM10 4a2 2 0 0 0-1.995 1.85L8 6v4.434l1.298.779.068-4.06.01-.13a1 1 0 0 1 .381-.647l.109-.072 1.957-1.13-.068-.135A2 2 0 0 0 10 4m7.928 2.268a2 2 0 0 0-2.594-.805l-.138.073-3.84 2.217-.025 1.513 3.55-1.97a1 1 0 0 1 .868-.05l.117.058 1.957 1.13c.442-.62.51-1.465.105-2.166'/></g></svg></div>
-      <div class="ai-name">ChatGPT</div>
-      <div class="ai-sub">OpenAI</div>
-    </div>
-    <div class="ai-p">
-      <div class="ai-logo"><svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 24 24'><title>gemini_line</title><g fill='none' fill-rule='nonzero'><path d='M24 0v24H0V0zM12.594 23.258l-.012.002-.071.035-.02.004-.014-.004-.071-.036q-.016-.004-.024.006l-.004.01-.017.428.005.02.01.013.104.074.015.004.012-.004.104-.074.012-.016.004-.017-.017-.427q-.004-.016-.016-.018m.264-.113-.014.002-.184.093-.01.01-.003.011.018.43.005.012.008.008.201.092q.019.005.029-.008l.004-.014-.034-.614q-.005-.019-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014-.034.614q.001.018.017.024l.015-.002.201-.093.01-.008.003-.011.018-.43-.003-.012-.01-.01z'/><path fill='#4ade80' d='M12 2c.774 0 .949.711 1.173 1.292.15.387.367.922.639 1.51.559 1.21 1.294 2.526 2.077 3.31.783.782 2.1 1.518 3.308 2.076.589.272 1.124.49 1.511.64.567.218 1.292.43 1.292 1.172 0 .774-.711.949-1.292 1.173-.387.15-.922.367-1.51.639-1.21.559-2.526 1.294-3.31 2.077-.782.783-1.517 2.1-2.076 3.308-.272.589-.49 1.124-.64 1.511C12.95 21.286 12.769 22 12 22c-.761 0-.951-.718-1.173-1.292-.15-.387-.367-.922-.639-1.51-.558-1.21-1.294-2.526-2.077-3.31-.783-.782-2.1-1.517-3.308-2.076a26 26 0 0 0-1.511-.64C2.712 12.95 2 12.774 2 12c0-.774.711-.949 1.292-1.173.387-.15.922-.367 1.51-.639 1.21-.558 2.526-1.294 3.31-2.077.782-.783 1.518-2.1 2.076-3.308.272-.589.49-1.124.64-1.511C11.047 2.719 11.235 2 12 2m0 3.647c-.574 1.242-1.428 2.832-2.475 3.878C8.48 10.572 6.89 11.425 5.647 12c1.242.574 2.832 1.428 3.878 2.475 1.047 1.046 1.9 2.635 2.475 3.877.574-1.242 1.428-2.831 2.475-3.877 1.046-1.047 2.635-1.9 3.877-2.475-1.242-.574-2.831-1.428-3.877-2.475C13.428 8.48 12.575 6.89 12 5.647'/></g></svg></div>
-      <div class="ai-name">Gemini</div>
-      <div class="ai-sub">Google</div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- 07 FOR WHO -->
-<section class="sec reveal">
-  <div class="sec-num">08 — FOR WHO</div>
-  <h2>Logは、<br>思考を止めたくない人へ。</h2>
-  <p style="margin-bottom:40px">ただ残すだけでは足りない。考えたことを、つながる思考に変えたい人へ。</p>
-  <div class="who-grid">
-    <div class="who-item">
-      <div class="who-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="4"/><line x1="4.93" y1="4.93" x2="6.34" y2="6.34"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="4.93" y1="19.07" x2="6.34" y2="17.66"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="17.66" y1="6.34" x2="19.07" y2="4.93"/><path d="M12 6a6 6 0 0 1 0 12 6 6 0 0 1 0-12z"/></svg></div>
-      <div class="who-name">学習者</div>
-      <div class="who-desc">学んだことを深めたい人</div>
-    </div>
-    <div class="who-item">
-      <div class="who-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="who-name">クリエイター</div>
-      <div class="who-desc">アイデアを形にしたい人</div>
-    </div>
-    <div class="who-item">
-      <div class="who-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
-      <div class="who-name">思考するビジネスマン</div>
-      <div class="who-desc">思考を整理・深化させたい人</div>
-    </div>
-    <div class="who-item">
-      <div class="who-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-      <div class="who-name">芸人・ライター</div>
-      <div class="who-desc">ネタ・発想を蓄積したい人</div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- 08 CTA -->
-<section class="cta-sec reveal" id="download">
-  <h2>思考を、<br>進化させよう。</h2>
-  <p style="margin-bottom:16px">あなたの中にあるアイデアを、<br>消える記録で終わらせない。</p>
-  <p style="color:var(--text3);font-size:14px;margin-bottom:32px">1行から始まる。その一行が、次の思考を生み、やがて大きな流れになる。</p>
-  <img src="assets/composer.png" alt="Log" width="80" height="80" style="border-radius:20px;margin-bottom:48px;opacity:0.9;">
-  <div class="cta-actions">
-    <a href="#" class="btn-green">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-      Logを試す — 無料
+  <!-- NAV -->
+  <nav data-nav style="position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:16px clamp(18px,5vw,64px);border-bottom:1px solid rgba(255,255,255,0);transition:background .4s,backdrop-filter .4s,border-color .4s">
+    <a href="#hero" style="display:flex;align-items:center;gap:11px;text-decoration:none">
+      <img src="assets/logo.png" alt="Log" style="width:26px;height:26px">
+      <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:21px;letter-spacing:.5px;color:#f1f4f1">Log</span>
     </a>
-    <a href="#" class="appstore-badge">
-      <img src="assets/appstore_badge_jp.svg" alt="App Storeからダウンロード" height="40">
-    </a>
-  </div>
-</section>
+    <div style="display:flex;align-items:center;gap:clamp(14px,2.4vw,34px)">
+      <a href="#features" style="font-size:13.5px;color:#c4ccc6;text-decoration:none;letter-spacing:.5px">特長</a>
+      <a href="#spiral" style="font-size:13.5px;color:#c4ccc6;text-decoration:none;letter-spacing:.5px">Spiral Graph</a>
+      <a href="#pricing" style="font-size:13.5px;color:#c4ccc6;text-decoration:none;letter-spacing:.5px">料金</a>
+      <a href="https://apps.apple.com/jp/app/log-%E6%80%9D%E8%80%83%E3%83%AD%E3%82%B0%E3%82%A2%E3%83%97%E3%83%AA/id6760690075" target="_blank" rel="noopener noreferrer" style="background:#50c878;color:#08130b;font-weight:700;padding:10px 20px;border-radius:10px;font-size:13.5px;text-decoration:none;box-shadow:0 8px 28px -10px rgba(80,200,120,.55)">ダウンロード</a>
+    </div>
+  </nav>
+  <div data-scroll-progress class="lp-scroll-progress" aria-hidden="true"></div>
 
-<div class="divider"></div>
+  <!-- 00 HERO -->
+  <section id="hero" data-screen-label="00 HERO" style="position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:130px clamp(20px,5vw,64px) 90px;overflow:hidden;background:#050605">
+    <div data-parallax="0.055" data-parallax-scale="1.06" style="position:absolute;inset:-3%;background-image:url('assets/hero-bg.png');background-size:cover;background-position:center"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(5,7,6,.5) 0%, rgba(5,7,6,.12) 38%, rgba(5,7,6,.2) 66%, rgba(5,7,6,.8) 100%)"></div>
+    <div style="position:absolute;inset:0;background:radial-gradient(68% 48% at 50% 40%, rgba(5,7,6,.42), rgba(5,7,6,0) 72%)"></div>
+    <div data-reveal style="position:relative;display:inline-flex;align-items:center;gap:10px;padding:7px 16px;border:1px solid rgba(80,200,120,.35);border-radius:999px;background:rgba(80,200,120,.08);margin-bottom:34px;backdrop-filter:blur(4px)">
+      <span style="width:6px;height:6px;border-radius:50%;background:#50c878;animation:lp-pulse 2.4s ease-in-out infinite"></span>
+      <span style="font-family:'DM Mono',monospace;font-size:11.5px;letter-spacing:2px;color:#9aebb6">思考ログアプリ</span>
+    </div>
+    <h1 class="lp-hero-title" data-reveal data-delay="80" style="position:relative;font-size:clamp(46px,9vw,116px);font-weight:900;line-height:1.04;letter-spacing:-.02em;margin:0 0 28px;text-shadow:0 4px 40px rgba(0,0,0,.7)">思考が、<br class="lp-mobile-break"><span style="color:#50c878">進化</span>する。</h1>
+    <p data-reveal data-delay="160" style="position:relative;font-size:clamp(15px,2vw,21px);line-height:2;color:#dde4de;font-weight:500;margin:0 0 44px;max-width:560px;text-shadow:0 2px 24px rgba(0,0,0,.7)">アイデアを一行で記録。<br>記録ではなく、進化のためのログ。</p>
+    <div data-reveal data-delay="240" style="position:relative;display:flex;flex-direction:column;align-items:center;gap:18px">
+      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;align-items:center">
+        <a href="https://apps.apple.com/jp/app/log-%E6%80%9D%E8%80%83%E3%83%AD%E3%82%B0%E3%82%A2%E3%83%97%E3%83%AA/id6760690075" target="_blank" rel="noopener noreferrer" style="display:inline-flex;border-radius:11px;transition:transform .25s"><img src="assets/badge-appstore.svg" alt="App Storeからダウンロード" style="height:56px;width:auto"></a>
+        <a href="#cta" style="display:inline-flex;border-radius:11px;transition:transform .25s"><img src="assets/badge-googleplay.png" alt="Google Playで手に入れよう" style="height:56px;width:auto"></a>
+      </div>
+      <div class="lp-hero-proof">
+        <span>無料ではじめる</span>
+        <span>サブスクなし</span>
+        <span>完全オフライン</span>
+      </div>
+    </div>
+  </section>
+  <div class="lp-scroll-bridge" aria-hidden="true"><div class="lp-scroll-cue"><span></span><b>SCROLL</b></div></div>
 
-<footer>
-  <a href="/" style="font-family:'DM Sans',sans-serif;font-size:18px;font-weight:700;letter-spacing:-0.3px">Log</a>
-  <div class="footer-links">
-    <a href="privacy-policy.html">プライバシーポリシー</a>
-    <a href="terms-of-service.html">利用規約</a>
-    <a href="mailto:respecthq.dev@gmail.com">サポート</a>
-  </div>
-  <div>© 2026 Log</div>
-</footer>
+  <!-- 01 VALUE -->
+  <section id="value" data-screen-label="01 VALUE" style="position:relative;padding:clamp(80px,13vh,160px) clamp(20px,5vw,64px);background:#0a0c0b">
+    <div style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:clamp(40px,6vw,84px);align-items:center">
+      <div>
+        <div data-reveal style="display:inline-flex;align-items:center;gap:12px;margin-bottom:24px"><span style="width:30px;height:1px;background:#50c878"></span><span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:3px;color:#50c878">01 — VALUE PROPOSITION</span></div>
+        <h2 data-reveal data-delay="60" style="font-size:clamp(28px,4vw,48px);font-weight:900;line-height:1.3;letter-spacing:-.01em;margin:0 0 18px">Logにしかない、<br>思考の<span style="color:#50c878">進化メソッド</span>。</h2>
+        <p data-reveal data-delay="120" style="font-size:clamp(15px,1.7vw,17px);line-height:2;color:#9aa39d;margin:0 0 clamp(30px,4vh,42px);max-width:42ch">一行で記録し、関連づけ、深掘りし、螺旋として可視化する。</p>
+        <div class="lp-value-cards">
+          <div data-reveal class="lp-value-card">
+            <div class="lp-icon-shell"><svg class="lp-lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"></path><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path><path d="m15 5 3 3"></path></svg></div>
+            <span class="lp-value-meta">01 / CAPTURE</span>
+            <strong>一行で記録</strong>
+            <p>思いつきの熱が冷める前に残す。</p>
+          </div>
+          <div data-reveal data-delay="70" class="lp-value-card">
+            <div class="lp-icon-shell"><svg class="lp-lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></div>
+            <span class="lp-value-meta">02 / CONNECT</span>
+            <strong>関連ログ × 思考履歴</strong>
+            <p>バラバラの点をつなぎ、文脈にする。</p>
+          </div>
+          <div data-reveal data-delay="140" class="lp-value-card">
+            <div class="lp-icon-shell"><svg class="lp-lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"></path><path d="M5 3v4"></path><path d="M3 5h4"></path><path d="M19 17v4"></path><path d="M17 19h4"></path></svg></div>
+            <span class="lp-value-meta">03 / DEEPEN</span>
+            <strong>AIで深掘り</strong>
+            <p>答えで閉じず、次の問いをひらく。</p>
+          </div>
+          <div data-reveal data-delay="210" class="lp-value-card">
+            <div class="lp-icon-shell"><svg class="lp-lucide" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><circle cx="19" cy="5" r="2"></circle><circle cx="5" cy="19" r="2"></circle><path d="M10.4 21.9a10 10 0 0 0 11.5-11.5"></path><path d="M13.5 2.1A10 10 0 0 0 2.1 13.5"></path></svg></div>
+            <span class="lp-value-meta">04 / VISUALIZE</span>
+            <strong>Spiral Graph™</strong>
+            <p>思考の進化と現在地を可視化する。</p>
+          </div>
+        </div>
+      </div>
+      <div data-reveal data-delay="160" style="position:relative;display:flex;flex-direction:column;align-items:center;gap:24px">
+        <div style="position:absolute;top:-4%;width:min(460px,92%);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(80,200,120,.16),rgba(80,200,120,0) 65%);pointer-events:none"></div>
+        <div class="lp-carousel-phone" data-carousel>
+          <div class="lp-carousel-mask">
+            <div class="lp-carousel-track" data-carousel-track>
+              <div style="background-image:url('assets/screen2-home.png')"></div>
+              <div style="background-image:url('assets/screen2-loglist.png')"></div>
+              <div style="background-image:url('assets/screen2-spiral.png')"></div>
+              <div style="background-image:url('assets/screen2-layer.png')"></div>
+              <div style="background-image:url('assets/screen2-detail.png')"></div>
+            </div>
+          </div>
+        </div>
+        <div style="position:relative;display:flex;align-items:center;gap:18px">
+          <button data-carousel-prev class="lp-carousel-btn" aria-label="前の画面">‹</button>
+          <div style="display:flex;gap:8px;align-items:center" data-carousel-dots></div>
+          <button data-carousel-next class="lp-carousel-btn" aria-label="次の画面">›</button>
+        </div>
+        <div data-carousel-label style="position:relative;font-family:'DM Mono',monospace;font-size:11.5px;letter-spacing:1.5px;color:#86a392">ホーム</div>
+      </div>
+    </div>
+  </section>
 
+  <!-- 02 FEATURES (light) -->
+  <section id="features" data-screen-label="02 FEATURES" style="position:relative;padding:clamp(80px,13vh,160px) clamp(20px,5vw,64px);background:#f3f5f1;color:#151916">
+    <div style="position:absolute;inset:0;background-image:radial-gradient(rgba(31,154,87,.1) 1px,transparent 1px);background-size:28px 28px;opacity:.22;pointer-events:none"></div>
+    <div class="lp-ghost" aria-hidden="true">THINK - LOG - EVOLVE</div>
+    <div class="lp-orb" data-parallax="0.04" data-parallax-scale="1" style="left:-6%;top:18%;width:26vw;max-width:380px;aspect-ratio:1;background:radial-gradient(circle,rgba(31,154,87,.16),rgba(31,154,87,0) 70%)" aria-hidden="true"></div>
+    <div class="lp-orb" data-parallax="-0.03" data-parallax-scale="1" style="right:-8%;bottom:6%;width:32vw;max-width:460px;aspect-ratio:1;background:radial-gradient(circle,rgba(31,154,87,.13),rgba(31,154,87,0) 70%)" aria-hidden="true"></div>
+    <div style="position:relative;max-width:1200px;margin:0 auto">
+      <div class="lp-features-intro">
+        <div>
+          <div data-reveal style="display:inline-flex;align-items:center;gap:12px;margin-bottom:26px"><span style="width:30px;height:1px;background:#1f9a57"></span><span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:3px;color:#1f9a57">02 — FEATURES</span></div>
+          <h2 data-reveal data-delay="60" style="font-size:clamp(28px,4.4vw,54px);font-weight:900;line-height:1.3;letter-spacing:-.01em;margin:0;color:#141815">思考が育つ、<br><span style="color:#1f9a57">6つの仕組み</span>。</h2>
+        </div>
+        <div data-reveal data-delay="120" class="lp-feature-promise"><b>FROM NOTE TO NEXT MOVE</b>記録して終わらず、次の行動へつながるところまで。Logは思考の流れ全体をひとつの体験にします。</div>
+      </div>
+      <div class="lp-feature-grid">
+        <div data-reveal data-num="01" class="lp-feature-card lp-feature-card--dark">
+          <div class="lp-feature-top"><div class="lp-feature-icon"><svg class="lp-lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"></path><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path><path d="m15 5 3 3"></path></svg></div><span class="lp-feature-index">01 / CAPTURE</span></div>
+          <h3>一行で記録</h3>
+          <p>考えが消える前に、最小の操作で残す。整理はあとからで大丈夫。</p>
+        </div>
+        <div data-reveal data-delay="70" data-num="02" class="lp-feature-card">
+          <div class="lp-feature-top"><div class="lp-feature-icon"><svg class="lp-lucide" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="3"></circle><circle cx="6" cy="19" r="3"></circle><circle cx="18" cy="19" r="3"></circle><path d="M12 8v3"></path><path d="M6 16v-3h12v3"></path></svg></div><span class="lp-feature-index">02 / CONNECT</span></div>
+          <h3>関連ログ・思考の履歴</h3>
+          <p>過去のログを結び、どこから考えが生まれたかを残します。</p>
+        </div>
+        <div data-reveal data-delay="120" data-num="03" class="lp-feature-card">
+          <div class="lp-feature-top"><div class="lp-feature-icon"><svg class="lp-lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"></path><path d="M5 3v4"></path><path d="M3 5h4"></path></svg></div><span class="lp-feature-index">03 / DEEPEN</span></div>
+          <h3>AIと深掘り</h3>
+          <p>3つのAIと対話し、別の視点や次に考えるべき問いを増やします。</p>
+        </div>
+        <div data-reveal data-delay="170" data-num="04" class="lp-feature-card">
+          <div class="lp-feature-top"><div class="lp-feature-icon"><svg class="lp-lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 9 5-9 5-9-5 9-5Z"></path><path d="m3 12 9 5 9-5"></path><path d="m3 17 9 5 9-5"></path></svg></div><span class="lp-feature-index">04 / LAYERS</span></div>
+          <h3>レイヤーで段階を把握</h3>
+          <p>IdeaからReachまで、いまの思考がどの段階にいるかを迷わず把握。</p>
+        </div>
+        <div data-reveal data-delay="220" data-num="05" class="lp-feature-card lp-feature-card--dark">
+          <div class="lp-feature-top"><div class="lp-feature-icon"><svg class="lp-lucide" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><circle cx="19" cy="5" r="2"></circle><circle cx="5" cy="19" r="2"></circle><path d="M10.4 21.9a10 10 0 0 0 11.5-11.5"></path><path d="M13.5 2.1A10 10 0 0 0 2.1 13.5"></path></svg></div><span class="lp-feature-index">05 / VISUALIZE</span></div>
+          <h3>Spiral Graph™</h3>
+          <p>思考の密度・深さ・到達率を、Log独自の対数螺旋で可視化します。</p>
+        </div>
+        <div data-reveal data-delay="270" data-num="06" class="lp-feature-card">
+          <div class="lp-feature-top"><div class="lp-feature-icon"><svg class="lp-lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-8 9-4.5-1.5-8-4-8-9V5l8-3 8 3v8Z"></path><path d="m9 12 2 2 4-4"></path></svg></div><span class="lp-feature-index">06 / PRIVATE</span></div>
+          <h3>完全オフライン</h3>
+          <p>ログは端末内に保存。大切な思考を、サービス側に預けません。</p>
+        </div>
+      </div>
+      <div data-reveal class="lp-features-strip"><b>CAPTURE</b><i>—</i><b>CONNECT</b><i>—</i><b>DEEPEN</b><i>—</i><b>LAYERS</b><i>—</i><b>VISUALIZE</b><i>—</i><b>PRIVATE</b></div>
+    </div>
+  </section>
+
+  <!-- 03 SPIRAL GRAPH -->
+  <section id="spiral" data-screen-label="03 SPIRAL GRAPH" style="position:relative;padding:clamp(80px,13vh,160px) clamp(20px,5vw,64px) clamp(90px,14vh,170px);background:radial-gradient(80% 55% at 50% 34%, #0c130e 0%, #080a09 62%);overflow:hidden;text-align:center">
+    <div style="max-width:1100px;margin:0 auto">
+      <div data-reveal style="display:inline-flex;align-items:center;gap:12px;margin-bottom:26px"><span style="width:30px;height:1px;background:#50c878"></span><span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:3px;color:#50c878">03 — SPIRAL GRAPH™</span><span style="width:30px;height:1px;background:#50c878"></span></div>
+      <h2 data-reveal data-delay="60" style="font-size:clamp(28px,4.4vw,52px);font-weight:900;line-height:1.3;margin:0 0 18px">一行のログが、<br class="lp-mobile-break">思考の<span style="color:#50c878">現在地</span>になる。</h2>
+      <p data-reveal data-delay="120" style="font-size:clamp(15px,1.7vw,17px);line-height:2;color:#9aa39d;margin:0 auto clamp(40px,6vh,60px);max-width:46ch">レイヤーごとのログ数、到達率、深まりを、対数螺旋で可視化します。</p>
+      <div class="lp-spiral-stage" data-reveal data-delay="140">
+        <div class="lp-orbit lp-orbit--1" aria-hidden="true"><i></i></div>
+        <div class="lp-orbit lp-orbit--2" aria-hidden="true"><i></i></div>
+        <div class="lp-orbit lp-orbit--3" aria-hidden="true"><i></i></div>
+        <div class="lp-spiral-chip lp-spiral-chip--left" aria-hidden="true">● Idea — ひらめく</div>
+        <div class="lp-spiral-chip lp-spiral-chip--right" aria-hidden="true">◎ Reach — 到達する</div>
+        <div class="lp-float-simple" style="position:relative;z-index:2;margin:0 auto;width:min(300px,72vw);aspect-ratio:900/1956;border-radius:42px;background:#0a0a0a;border:2px solid rgba(255,255,255,.12);box-shadow:0 50px 110px -36px rgba(0,0,0,.85);padding:7px;animation:lp-float-simple 8s ease-in-out infinite">
+          <div style="width:100%;height:100%;border-radius:35px;background-image:url('assets/screen2-spiral.png');background-size:cover;background-position:top center"></div>
+        </div>
+      </div>
+      <div class="lp-spiral-steps" style="margin-top:clamp(44px,7vh,68px)">
+        <div data-reveal class="lp-spiral-step">
+          <span>01</span>
+          <div><b>レイヤーごとの思考が点になる</b><p>ログ数が点の大きさに反映される。</p></div>
+        </div>
+        <div data-reveal data-delay="90" class="lp-spiral-step">
+          <span>02</span>
+          <div><b>点をタップで思考を展開</b><p>関連ログ・思考の履歴が見える。</p></div>
+        </div>
+        <div data-reveal data-delay="180" class="lp-spiral-step">
+          <span>03</span>
+          <div><b>思考の深まりを定量化</b><p>到達率・平均レイヤー・Reach数を計測。</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 LAYERS (spiral) -->
+  <section id="layers" data-screen-label="04 LAYERS" style="position:relative;padding:clamp(92px,14vh,176px) clamp(20px,5vw,64px);background:#000203;border-top:1px solid rgba(255,255,255,.04);overflow:hidden">
+    <div style="position:relative;max-width:1240px;margin:0 auto">
+      <div class="lp-layers-showcase">
+        <div>
+          <div data-reveal style="display:inline-flex;align-items:center;gap:12px;margin-bottom:26px"><span style="width:30px;height:1px;background:#50c878"></span><span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:3px;color:#50c878">04 — LAYERS</span></div>
+          <h2 data-reveal data-delay="60" style="font-size:clamp(29px,4.4vw,54px);font-weight:900;line-height:1.28;letter-spacing:-.01em;margin:0 0 24px">思考の<br><span style="color:#50c878">6つの段階</span>。</h2>
+          <p data-reveal data-delay="120" style="font-size:clamp(15px,1.7vw,18px);line-height:2;color:#a8b2ac;margin:0;max-width:42ch">ひらめきから到達まで。Logは、思考の進化を6つのレイヤーで追跡します。</p>
+        </div>
+        <div data-reveal data-delay="140" class="lp-layers-art" aria-hidden="true">
+          <video data-ambient data-parallax="0.035" data-parallax-scale="1" autoplay muted loop playsinline preload="metadata" poster="assets/video/spiral-loop-poster.jpg">
+            <source src="assets/video/spiral-loop.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="lp-layer-track">
+        <div data-reveal class="lp-layer-card">
+          <div class="lp-layer-num">01 / IDEA</div>
+          <strong>ひらめく</strong>
+          <p>気づき、疑問、直感を一行で残す。</p>
+        </div>
+        <div data-reveal data-delay="60" class="lp-layer-card">
+          <div class="lp-layer-num">02 / OUTPUT</div>
+          <strong>書き出す</strong>
+          <p>頭の中のもやを、扱える言葉にする。</p>
+        </div>
+        <div data-reveal data-delay="120" class="lp-layer-card">
+          <div class="lp-layer-num">03 / BUILD</div>
+          <strong>構造化する</strong>
+          <p>点を線に、線を面にして関係を見る。</p>
+        </div>
+        <div data-reveal data-delay="180" class="lp-layer-card">
+          <div class="lp-layer-num">04 / LAUNCH</div>
+          <strong>外へ出す</strong>
+          <p>小さく公開し、反応から次を見つける。</p>
+        </div>
+        <div data-reveal data-delay="240" class="lp-layer-card">
+          <div class="lp-layer-num">05 / REVIEW</div>
+          <strong>振り返る</strong>
+          <p>起きたことを観測し、意味づける。</p>
+        </div>
+        <div data-reveal data-delay="300" class="lp-layer-card">
+          <div class="lp-layer-num">06 / REACH</div>
+          <strong>到達する</strong>
+          <p>次の螺旋を始める起点をつくる。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 WHY LOG -->
+  <section id="why" data-screen-label="05 WHY LOG" style="position:relative;padding:clamp(90px,15vh,180px) clamp(20px,5vw,64px);background:#070908;overflow:hidden">
+    <div data-parallax="-0.025" data-parallax-scale="1.06" style="position:absolute;inset:-3%;background-image:url('assets/bg-network.png');background-size:cover;background-position:center;opacity:.18"></div>
+    <canvas data-why-canvas aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;opacity:.8;pointer-events:none"></canvas>
+    <div style="position:absolute;inset:0;background:radial-gradient(circle at 50% 42%,rgba(80,200,120,.12) 0%,rgba(80,200,120,.045) 28%,rgba(80,200,120,0) 58%),linear-gradient(180deg,rgba(7,9,8,.9) 0%,rgba(7,9,8,.48) 42%,rgba(7,9,8,.95) 100%)"></div>
+    <div style="position:relative;max-width:760px;margin:0 auto;text-align:center">
+      <div data-reveal style="display:inline-flex;align-items:center;gap:12px;margin-bottom:28px"><span style="width:30px;height:1px;background:#50c878"></span><span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:3px;color:#50c878">05 — WHY “LOG”</span><span style="width:30px;height:1px;background:#50c878"></span></div>
+      <h2 data-reveal data-delay="60" style="font-size:clamp(30px,5vw,60px);font-weight:900;line-height:1.25;margin:0 0 28px">Logは、記録。<br>そして、<span style="color:#50c878">対数</span>。</h2>
+      <p data-reveal data-delay="120" style="font-size:clamp(15px,1.8vw,19px);line-height:2;color:#aab3ad;margin:0 0 44px">増えすぎる情報を、人間が扱える思考に変える。</p>
+      <div data-reveal data-delay="180" style="display:inline-flex;align-items:center;gap:clamp(10px,2vw,20px);flex-wrap:wrap;justify-content:center;padding:24px clamp(22px,4vw,44px);border:1px solid rgba(80,200,120,.42);border-radius:16px;background:rgba(80,200,120,.09);box-shadow:0 24px 80px rgba(80,200,120,.13),inset 0 0 32px rgba(80,200,120,.06);margin-bottom:40px">
+        <span style="font-family:'DM Mono',monospace;font-size:clamp(15px,2.4vw,22px);color:#dfe5e0">log<span style="color:#6b746e">(記録)</span></span>
+        <span style="color:#50c878;font-size:clamp(16px,2.4vw,22px)">=</span>
+        <span style="font-family:'DM Mono',monospace;font-size:clamp(15px,2.4vw,22px);color:#dfe5e0">構造</span>
+        <span style="color:#50c878;font-size:clamp(16px,2.4vw,22px)">=</span>
+        <span style="font-family:'DM Mono',monospace;font-size:clamp(15px,2.4vw,22px);color:#50c878">思考可能</span>
+      </div>
+      <p data-reveal data-delay="240" style="font-size:15px;line-height:2;color:#8d958f;margin:0 auto;max-width:54ch">Logは、思考を保存するだけではありません。複雑になった思考を、もう一度扱える形に変換します。</p>
+    </div>
+  </section>
+
+  <!-- 06 AI INTEGRATION -->
+  <section id="ai" data-screen-label="06 AI INTEGRATION" style="position:relative;padding:clamp(80px,13vh,160px) clamp(20px,5vw,64px);background:#1c211d;border-top:1px solid rgba(255,255,255,.06);overflow:hidden">
+    <div data-parallax="-0.025" data-parallax-scale="1.06" style="position:absolute;inset:-3%;background-image:url('assets/bg-deskdark.jpg');background-size:cover;background-position:center;opacity:.2"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(28,33,29,.85) 0%,rgba(28,33,29,.4) 45%,rgba(28,33,29,.92) 100%)"></div>
+    <div style="position:relative;max-width:1100px;margin:0 auto">
+      <div class="lp-ai-head">
+        <div>
+          <div data-reveal style="display:inline-flex;align-items:center;gap:12px;margin-bottom:26px"><span style="width:30px;height:1px;background:#50c878"></span><span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:3px;color:#50c878">06 — AI INTEGRATION</span></div>
+          <h2 data-reveal data-delay="60" style="font-size:clamp(28px,4.4vw,52px);font-weight:900;line-height:1.3;margin:0 0 22px">3つのAIと、<span style="color:#50c878">対話</span>する。</h2>
+          <p data-reveal data-delay="120" style="font-size:clamp(15px,1.7vw,18px);line-height:2;color:#9aa39d;margin:0;max-width:52ch">自分のAPIキーを使うから、Logの月額課金は不要。用途で使い分けて、思考を多面的に深める。</p>
+        </div>
+        <div data-reveal data-delay="160" class="lp-ai-phone" aria-hidden="true"><div style="background-image:url('assets/screen2-ai.png')"></div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:clamp(14px,1.6vw,20px)">
+        <div data-reveal style="padding:34px 28px;border:1px solid rgba(255,255,255,.12);border-radius:18px;background:rgba(255,255,255,.05);transition:border-color .3s">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:18px">
+            <div>
+              <div style="font-size:22px;font-weight:700;margin-bottom:8px">Claude</div>
+              <div style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;color:#6b746e">ANTHROPIC</div>
+            </div>
+            <img src="assets/logo-claude.svg" alt="Claude" style="width:30px;height:30px;flex:none;filter:brightness(0) invert(1);opacity:.9">
+          </div>
+          <div style="font-size:13.5px;line-height:1.8;color:#8d958f">長い文脈の整理と、深い対話に。</div>
+        </div>
+        <div data-reveal data-delay="90" style="padding:34px 28px;border:1px solid rgba(255,255,255,.12);border-radius:18px;background:rgba(255,255,255,.05);transition:border-color .3s">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:18px">
+            <div>
+              <div style="font-size:22px;font-weight:700;margin-bottom:8px">ChatGPT</div>
+              <div style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;color:#6b746e">OPENAI</div>
+            </div>
+            <img src="assets/logo-openai.svg" alt="ChatGPT" style="width:30px;height:30px;flex:none;filter:brightness(0) invert(1);opacity:.9">
+          </div>
+          <div style="font-size:13.5px;line-height:1.8;color:#8d958f">発散とアイデア出しの相棒に。</div>
+        </div>
+        <div data-reveal data-delay="180" style="padding:34px 28px;border:1px solid rgba(255,255,255,.12);border-radius:18px;background:rgba(255,255,255,.05);transition:border-color .3s">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:18px">
+            <div>
+              <div style="font-size:22px;font-weight:700;margin-bottom:8px">Gemini</div>
+              <div style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;color:#6b746e">GOOGLE</div>
+            </div>
+            <img src="assets/logo-gemini.svg" alt="Gemini" style="width:30px;height:30px;flex:none;filter:brightness(0) invert(1);opacity:.9">
+          </div>
+          <div style="font-size:13.5px;line-height:1.8;color:#8d958f">最新情報と多面的な視点に。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 FOR WHO (light) -->
+  <section id="forwho" data-screen-label="07 FOR WHO" style="position:relative;padding:clamp(80px,13vh,160px) clamp(20px,5vw,64px);background:#efece4;color:#151916">
+    <div data-parallax="0.035" data-parallax-scale="1" style="position:absolute;right:-8%;top:-18%;width:42vw;max-width:620px;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(31,154,87,.11),rgba(31,154,87,0) 68%);pointer-events:none"></div>
+    <div style="position:relative;max-width:1200px;margin:0 auto">
+      <div class="lp-who-head">
+        <div>
+          <div data-reveal style="display:inline-flex;align-items:center;gap:12px;margin-bottom:26px"><span style="width:30px;height:1px;background:#1f9a57"></span><span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:3px;color:#1f9a57">07 — FOR WHO</span></div>
+          <h2 data-reveal data-delay="60" style="font-size:clamp(28px,4.4vw,54px);font-weight:900;line-height:1.3;margin:0;color:#141815">思考を、<span style="color:#1f9a57">止めたくない</span><br>すべての人へ。</h2>
+        </div>
+        <p data-reveal data-delay="120" class="lp-who-lead">学びも、企画も、創作も。考えた軌跡を残すほど、次の一手は見つけやすくなる。</p>
+      </div>
+      <div class="lp-who-grid">
+        <article data-reveal class="lp-who-card">
+          <img src="assets/photo-student.png" alt="ノートを広げて学ぶ人" loading="lazy">
+          <div class="lp-who-content"><span class="lp-who-tag">LEARNER / 01</span><h3>学習者</h3><p>知識を点で終わらせず、自分の言葉でつなぎ直す。</p><div class="lp-who-use"><span>読書メモ</span><span>研究ノート</span><span>資格学習</span></div></div>
+        </article>
+        <article data-reveal data-delay="80" class="lp-who-card">
+          <img src="assets/photo-creator.png" alt="アイデアをスケッチするクリエイター" loading="lazy">
+          <div class="lp-who-content"><span class="lp-who-tag">CREATOR / 02</span><h3>クリエイター</h3><p>断片的なアイデアから、作品になるまでの道筋を残す。</p><div class="lp-who-use"><span>企画の種</span><span>構成メモ</span><span>制作ログ</span></div></div>
+        </article>
+        <article data-reveal data-delay="160" class="lp-who-card">
+          <img src="assets/photo-business.png" alt="企画を検討するビジネスパーソン" loading="lazy">
+          <div class="lp-who-content"><span class="lp-who-tag">STRATEGIST / 03</span><h3>ビジネスパーソン</h3><p>仮説・検証・振り返りをつなぎ、意思決定の質を上げる。</p><div class="lp-who-use"><span>戦略設計</span><span>会議メモ</span><span>レビュー</span></div></div>
+        </article>
+        <article data-reveal data-delay="240" class="lp-who-card">
+          <img src="assets/photo-laptop.png" alt="ラップトップで文章を書く表現者" loading="lazy">
+          <div class="lp-who-content"><span class="lp-who-tag">WRITER / 04</span><h3>表現者</h3><p>記事・ネタ・作品の種を育て、伝わる形まで磨いていく。</p><div class="lp-who-use"><span>執筆メモ</span><span>ネタ帳</span><span>発信計画</span></div></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 PRICING -->
+  <section id="pricing" data-screen-label="08 PRICING" style="position:relative;padding:clamp(80px,13vh,160px) clamp(20px,5vw,64px);background:#121513">
+    <div style="max-width:980px;margin:0 auto">
+      <div data-reveal style="text-align:center;margin-bottom:clamp(44px,6vh,72px)">
+        <div style="display:inline-flex;align-items:center;gap:12px;margin-bottom:24px"><span style="width:30px;height:1px;background:#50c878"></span><span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:3px;color:#50c878">08 — PRICING</span><span style="width:30px;height:1px;background:#50c878"></span></div>
+        <h2 style="font-size:clamp(28px,4.4vw,54px);font-weight:900;line-height:1.3;margin:0 0 18px"><span style="color:#50c878">シンプル</span>な料金。</h2>
+        <p style="font-size:clamp(14px,1.6vw,17px);line-height:1.9;color:#9aa39d;margin:0">サブスクなし。広告なし。思考にノイズを与えません。</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(16px,2vw,24px)">
+        <div data-reveal style="display:flex;flex-direction:column;padding:36px 30px;border:1px solid rgba(255,255,255,.1);border-radius:16px;background:rgba(255,255,255,.02)">
+          <div style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:2px;color:#9aa39d;margin-bottom:8px">FREE</div>
+          <div style="font-size:14px;color:#8d958f;margin-bottom:16px">まずは試してみる</div>
+          <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:4px"><span style="font-family:'Space Grotesk',sans-serif;font-size:48px;font-weight:700">¥0</span></div>
+          <div style="font-size:12px;color:#6b746e;margin-bottom:28px">無料・期間制限なし</div>
+          <div style="display:flex;flex-direction:column;gap:13px;margin-bottom:30px">
+            <div style="display:flex;gap:10px;align-items:center;font-size:14px;color:#c4ccc6"><span style="color:#50c878">✓</span>フォルダ 3つまで</div>
+            <div style="display:flex;gap:10px;align-items:center;font-size:14px;color:#c4ccc6"><span style="color:#50c878">✓</span>ログ 50件まで</div>
+            <div style="display:flex;gap:10px;align-items:center;font-size:14px;color:#c4ccc6"><span style="color:#50c878">✓</span>すべての機能</div>
+            <div style="display:flex;gap:10px;align-items:center;font-size:14px;color:#c4ccc6"><span style="color:#50c878">✓</span>AI連携</div>
+            <div style="display:flex;gap:10px;align-items:center;font-size:14px;color:#c4ccc6"><span style="color:#50c878">✓</span>Spiral Graph™</div>
+          </div>
+          <a href="https://apps.apple.com/jp/app/log-%E6%80%9D%E8%80%83%E3%83%AD%E3%82%B0%E3%82%A2%E3%83%97%E3%83%AA/id6760690075" target="_blank" rel="noopener noreferrer" style="display:block;margin-top:auto;text-align:center;padding:14px;border:1px solid rgba(255,255,255,.22);border-radius:12px;color:#f1f4f1;text-decoration:none;font-weight:700;font-size:14.5px;transition:border-color .25s">無料ではじめる</a>
+        </div>
+        <div data-reveal data-delay="100" style="position:relative;display:flex;flex-direction:column;padding:36px 30px;border:1.5px solid rgba(80,200,120,.5);border-radius:16px;background:linear-gradient(180deg,rgba(80,200,120,.1),rgba(80,200,120,.02))">
+          <div style="position:absolute;top:24px;right:26px;background:#50c878;color:#08130b;font-family:'DM Mono',monospace;font-size:10.5px;font-weight:500;padding:5px 11px;border-radius:7px;letter-spacing:.5px">買い切り</div>
+          <div style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:2px;color:#50c878;margin-bottom:8px">PRO</div>
+          <div style="font-size:14px;color:#8d958f;margin-bottom:16px">本格的に思考を進化させる</div>
+          <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:4px"><span style="font-family:'Space Grotesk',sans-serif;font-size:48px;font-weight:700">¥980</span><span style="font-size:15px;color:#9aa39d">買い切り</span></div>
+          <div style="font-size:12px;color:#6b746e;margin-bottom:28px">一度だけ・追加課金なし</div>
+          <div style="display:flex;flex-direction:column;gap:13px;margin-bottom:30px">
+            <div style="display:flex;gap:10px;align-items:center;font-size:14px;color:#e4eae5"><span style="color:#50c878">✓</span>フォルダ 無制限</div>
+            <div style="display:flex;gap:10px;align-items:center;font-size:14px;color:#e4eae5"><span style="color:#50c878">✓</span>ログ 無制限</div>
+            <div style="display:flex;gap:10px;align-items:center;font-size:14px;color:#e4eae5"><span style="color:#50c878">✓</span>すべての機能</div>
+            <div style="display:flex;gap:10px;align-items:center;font-size:14px;color:#e4eae5"><span style="color:#50c878">✓</span>AI連携</div>
+            <div style="display:flex;gap:10px;align-items:center;font-size:14px;color:#e4eae5"><span style="color:#50c878">✓</span>Spiral Graph™</div>
+            <div style="display:flex;gap:10px;align-items:center;font-size:14px;color:#e4eae5"><span style="color:#50c878">✓</span>今後のアップデート</div>
+          </div>
+          <a href="https://apps.apple.com/jp/app/log-%E6%80%9D%E8%80%83%E3%83%AD%E3%82%B0%E3%82%A2%E3%83%97%E3%83%AA/id6760690075" target="_blank" rel="noopener noreferrer" style="display:block;margin-top:auto;text-align:center;padding:14px;background:#50c878;border-radius:12px;color:#08130b;text-decoration:none;font-weight:700;font-size:14.5px;box-shadow:0 12px 36px -12px rgba(80,200,120,.6);transition:background .25s,transform .25s">Proを購入</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 FAQ -->
+  <section id="faq" data-screen-label="09 FAQ" style="position:relative;padding:clamp(80px,13vh,160px) clamp(20px,5vw,64px);background:#0a0c0b">
+    <div style="max-width:880px;margin:0 auto">
+      <div data-reveal style="display:inline-flex;align-items:center;gap:12px;margin-bottom:26px"><span style="width:30px;height:1px;background:#50c878"></span><span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:3px;color:#50c878">09 — FAQ</span></div>
+      <h2 data-reveal data-delay="60" style="font-size:clamp(28px,4.4vw,52px);font-weight:900;line-height:1.3;margin:0 0 clamp(36px,5vh,56px)">よくある質問。</h2>
+      <div style="border-top:1px solid rgba(255,255,255,.09)" data-faq>
+        <div data-reveal class="lp-faq-item is-open">
+          <button class="lp-faq-q" aria-expanded="true">
+            <span class="lp-faq-n">01</span>
+            <span class="lp-faq-t">Spiral Graph™って何？</span>
+            <span class="lp-faq-sign">+</span>
+          </button>
+          <div class="lp-faq-a"><div>対数螺旋で思考の進化を可視化する、Log独自のグラフです。レイヤーごとのログ数・到達率・深まりを、ひと目で把握できます。</div></div>
+        </div>
+        <div data-reveal class="lp-faq-item">
+          <button class="lp-faq-q" aria-expanded="false">
+            <span class="lp-faq-n">02</span>
+            <span class="lp-faq-t">他のメモアプリと何が違うの？</span>
+            <span class="lp-faq-sign">+</span>
+          </button>
+          <div class="lp-faq-a"><div>Logは記録するだけでなく、関連ログ・思考履歴・レイヤー・AI・Spiral Graphで思考を「進化」させます。記録の先にある、思考の構造化が目的です。</div></div>
+        </div>
+        <div data-reveal class="lp-faq-item">
+          <button class="lp-faq-q" aria-expanded="false">
+            <span class="lp-faq-n">03</span>
+            <span class="lp-faq-t">AIを使うのにお金はかかる？</span>
+            <span class="lp-faq-sign">+</span>
+          </button>
+          <div class="lp-faq-a"><div>ご自身のAPIキーを設定するため、各AIプロバイダーの利用料金のみがかかります。Logからの追加課金はありません。</div></div>
+        </div>
+        <div data-reveal class="lp-faq-item">
+          <button class="lp-faq-q" aria-expanded="false">
+            <span class="lp-faq-n">04</span>
+            <span class="lp-faq-t">データはどこに保存される？</span>
+            <span class="lp-faq-sign">+</span>
+          </button>
+          <div class="lp-faq-a"><div>すべてのログは端末内に保存されます。AIに質問する時のみ、選択した内容が送信されます。あなたの思考は、あなたのものです。</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 FINAL CTA -->
+  <section id="cta" data-screen-label="10 FINAL CTA" style="position:relative;padding:clamp(100px,17vh,200px) clamp(20px,5vw,64px);background:radial-gradient(120% 90% at 50% 100%, #11341f 0%, #0a160e 45%, #070908 100%);overflow:hidden;text-align:center">
+    <div class="lp-cta-video" aria-hidden="true">
+      <video data-ambient autoplay muted loop playsinline preload="metadata" poster="assets/video/hero-ambient-poster.jpg">
+        <source src="assets/video/hero-ambient.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div data-parallax="0.025" data-parallax-scale="1" data-parallax-base="translateX(-50%)" style="position:absolute;bottom:-30%;left:50%;transform:translateX(-50%);width:min(1000px,130vw);height:min(1000px,130vw);background:radial-gradient(circle,rgba(80,200,120,.18),rgba(80,200,120,0) 60%);pointer-events:none"></div>
+    <div style="position:relative;max-width:760px;margin:0 auto">
+      <img data-reveal src="assets/logo.png" alt="Log" style="width:46px;height:46px;margin:0 auto 30px;animation:lp-bob 5s ease-in-out infinite">
+      <h2 data-reveal data-delay="60" style="font-size:clamp(34px,6.5vw,80px);font-weight:900;line-height:1.12;letter-spacing:-.02em;margin:0 0 28px">一行から、<br><span style="color:#50c878">はじまる</span>。</h2>
+      <p data-reveal data-delay="120" style="font-size:clamp(15px,1.8vw,18px);line-height:2;color:#aab3ad;margin:0 0 8px">あなたの中にあるアイデアを、消える記録で終わらせない。</p>
+      <p data-reveal data-delay="160" style="font-size:clamp(15px,1.8vw,18px);line-height:2;color:#aab3ad;margin:0 0 44px">その一行が、次の思考を生み、やがて大きな螺旋になる。</p>
+      <div data-reveal data-delay="220" style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;align-items:center;margin-bottom:22px">
+        <a href="https://apps.apple.com/jp/app/log-%E6%80%9D%E8%80%83%E3%83%AD%E3%82%B0%E3%82%A2%E3%83%97%E3%83%AA/id6760690075" target="_blank" rel="noopener noreferrer" style="display:inline-flex;border-radius:11px;transition:transform .25s"><img src="assets/badge-appstore.svg" alt="App Storeからダウンロード" style="height:58px;width:auto"></a>
+        <a href="#hero" style="display:inline-flex;border-radius:11px;transition:transform .25s"><img src="assets/badge-googleplay.png" alt="Google Playで手に入れよう" style="height:58px;width:auto"></a>
+      </div>
+      <div data-reveal data-delay="280" style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1px;color:#6b746e">サブスクなし · 広告なし · 完全オフライン</div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="padding:40px clamp(20px,5vw,64px);background:#070908;border-top:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px">
+    <div style="display:flex;align-items:center;gap:10px"><img src="assets/logo.png" alt="Log" style="width:22px;height:22px"><span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px">Log</span><span style="font-size:12px;color:#6b746e;margin-left:8px">思考が、進化する。</span></div>
+    <div class="lp-footer-links"><a href="privacy-policy.html">プライバシーポリシー</a><a href="terms-of-service.html">利用規約</a><a href="mailto:respecthq.dev@gmail.com">お問い合わせ</a></div>
+    <div style="font-family:'DM Mono',monospace;font-size:11px;color:#5a635d;letter-spacing:.5px">© 2026 Log</div>
+  </footer>
+
+</div>
 <script>
-  // ===== スライダー =====
-  const items = document.querySelectorAll('.slider-item');
-  const dots = document.querySelectorAll('.slider-dot');
-  let current = 0;
-  let sliderTimer;
+(function () {
+  'use strict';
+  var root = document.getElementById('lp-root');
+  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  function goTo(index) {
-    items[current].classList.remove('active');
-    dots[current].classList.remove('active');
-    current = index;
-    items[current].classList.add('active');
-    dots[current].classList.add('active');
-  }
+  /* ---- ambient videos: reduced-motion なら再生停止 ---- */
+  var videos = Array.prototype.slice.call(root.querySelectorAll('video[data-ambient]'));
+  if (reduced) videos.forEach(function (v) { v.removeAttribute('autoplay'); v.pause(); });
 
-  function next() {
-    goTo((current + 1) % items.length);
-  }
-
-  function startTimer() {
-    sliderTimer = setInterval(next, 3000);
-  }
-
-  dots.forEach((dot, i) => {
-    dot.addEventListener('click', () => {
-      clearInterval(sliderTimer);
-      goTo(i);
-      startTimer();
-    });
-  });
-
-  // スワイプ対応
-  let touchStartX = 0;
-  const track = document.querySelector('.slider-track');
-  track.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
-  track.addEventListener('touchend', e => {
-    const diff = touchStartX - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 40) {
-      clearInterval(sliderTimer);
-      goTo(diff > 0 ? (current + 1) % items.length : (current - 1 + items.length) % items.length);
-      startTimer();
+  /* ---- カルーセル ---- */
+  (function () {
+    var wrap = root.querySelector('[data-carousel]');
+    if (!wrap) return;
+    var track = root.querySelector('[data-carousel-track]');
+    var dotsWrap = root.querySelector('[data-carousel-dots]');
+    var label = root.querySelector('[data-carousel-label]');
+    var labels = ['ホーム', 'ログ一覧', 'Spiral Graph™', 'レイヤー詳細', 'AIと深掘り'];
+    var n = track.children.length;
+    var cur = 0, auto = null, tx = null;
+    var dots = [];
+    for (var i = 0; i < n; i++) {
+      var b = document.createElement('button');
+      b.className = 'lp-carousel-dot';
+      b.setAttribute('aria-label', '画面切替 ' + (i + 1));
+      (function (idx) { b.addEventListener('click', function () { go(idx); }); })(i);
+      dotsWrap.appendChild(b);
+      dots.push(b);
     }
-  });
-
-  startTimer();
-
-  // ===== 03 螺旋チャート（静的・Layer表示） =====
-  const sc = document.getElementById('spiralChart');
-  const sctx = sc.getContext('2d');
-  const layers = [
-    { label: '💡', emoji: '💡' },
-    { label: '📝', emoji: '📝' },
-    { label: '⚙️', emoji: '⚙️' },
-    { label: '🚀', emoji: '🚀' },
-    { label: '💬', emoji: '💬' },
-    { label: '🔥', emoji: '🔥' },
-    { label: '♾️', emoji: '♾️' },
-  ];
-
-  let scProgress = 0;
-  function drawSpiralChart() {
-    const cw = 320, ch = 320;
-    sctx.clearRect(0, 0, cw, ch);
-    const cx = cw / 2, cy = ch / 2;
-
-    const a = 2;
-    const b = 0.10;
-    const maxTheta = scProgress * Math.PI * 14;
-    const startAngle = Math.PI / 4;
-
-    // 一筆書きで描画（カクつきなし）
-    sctx.beginPath();
-    sctx.strokeStyle = 'rgba(74,222,128,0.85)';
-    sctx.lineWidth = 1.8;
-    sctx.lineCap = 'round';
-    sctx.lineJoin = 'round';
-
-    let first = true;
-    let lastX = cx, lastY = cy;
-    for (let i = 0; i <= 800; i++) {
-      const theta = (i / 800) * maxTheta;
-      const r = a * Math.exp(b * theta);
-      if (r > 155) break;
-      const x = cx + r * Math.cos(theta + startAngle);
-      const y = cy + r * Math.sin(theta + startAngle);
-      if (first) { sctx.moveTo(x, y); first = false; }
-      else sctx.lineTo(x, y);
-      lastX = x; lastY = y;
+    function render() {
+      track.style.transform = 'translateX(-' + cur * 100 + '%)';
+      dots.forEach(function (d, i) { d.classList.toggle('is-active', i === cur); });
+      if (label) label.textContent = labels[cur] || '';
     }
-    sctx.stroke();
+    function go(i) {
+      cur = ((i % n) + n) % n;
+      render();
+      startAuto();
+    }
+    function startAuto() {
+      clearInterval(auto);
+      if (!reduced) auto = setInterval(function () { cur = (cur + 1) % n; render(); }, 4000);
+    }
+    root.querySelector('[data-carousel-prev]').addEventListener('click', function () { go(cur - 1); });
+    root.querySelector('[data-carousel-next]').addEventListener('click', function () { go(cur + 1); });
+    wrap.addEventListener('touchstart', function (e) { tx = e.touches[0].clientX; }, { passive: true });
+    wrap.addEventListener('touchend', function (e) {
+      if (tx == null) return;
+      var dx = e.changedTouches[0].clientX - tx; tx = null;
+      if (dx > 40) go(cur - 1); else if (dx < -40) go(cur + 1);
+    }, { passive: true });
+    wrap.addEventListener('mouseenter', function () { clearInterval(auto); });
+    wrap.addEventListener('mouseleave', startAuto);
+    render();
+    startAuto();
+  })();
 
-    // Layer点（内側から外側へ）
-    layers.forEach((layer, i) => {
-      const t = (i + 1) / (layers.length + 1);
-      const theta = t * Math.PI * 14;
-      if (theta > maxTheta) return;
-      const r = a * Math.exp(b * theta);
-      if (r > 155) return;
-      const x = cx + r * Math.cos(theta + startAngle);
-      const y = cy + r * Math.sin(theta + startAngle);
-
-      // グロー
-      sctx.beginPath();
-      sctx.arc(x, y, 8, 0, Math.PI * 2);
-      sctx.fillStyle = 'rgba(74,222,128,0.12)';
-      sctx.fill();
-
-      // 本体
-      sctx.beginPath();
-      sctx.arc(x, y, 4, 0, Math.PI * 2);
-      sctx.fillStyle = 'rgba(74,222,128,0.7)';
-      sctx.fill();
+  /* ---- FAQ アコーディオン ---- */
+  (function () {
+    var items = Array.prototype.slice.call(root.querySelectorAll('.lp-faq-item'));
+    function setOpen(item, open) {
+      item.classList.toggle('is-open', open);
+      var btn = item.querySelector('.lp-faq-q');
+      var a = item.querySelector('.lp-faq-a');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      a.style.maxHeight = open ? a.scrollHeight + 'px' : '0px';
+    }
+    items.forEach(function (item) {
+      var btn = item.querySelector('.lp-faq-q');
+      btn.addEventListener('click', function () {
+        var willOpen = !item.classList.contains('is-open');
+        items.forEach(function (it) { setOpen(it, false); });
+        if (willOpen) setOpen(item, true);
+      });
+      setOpen(item, item.classList.contains('is-open'));
     });
+    window.addEventListener('resize', function () {
+      items.forEach(function (it) {
+        if (it.classList.contains('is-open')) {
+          var a = it.querySelector('.lp-faq-a');
+          a.style.maxHeight = a.scrollHeight + 'px';
+        }
+      });
+    }, { passive: true });
+  })();
 
-    // ♾️Next = 線の終点に大きい丸
-    sctx.beginPath();
-    sctx.arc(lastX, lastY, 10, 0, Math.PI * 2);
-    sctx.fillStyle = 'rgba(74,222,128,0.2)';
-    sctx.fill();
-    sctx.beginPath();
-    sctx.arc(lastX, lastY, 6, 0, Math.PI * 2);
-    sctx.fillStyle = 'rgba(74,222,128,1)';
-    sctx.fill();
+  /* ---- ヒーロー: マウスで実機がわずかに追従 ---- */
+  (function () {
+    if (reduced) return;
+    var hero = root.querySelector('#hero');
+    var tilts = Array.prototype.slice.call(root.querySelectorAll('[data-tilt]'));
+    if (!hero || !tilts.length) return;
+    var raf = null, mx = 0, my = 0;
+    hero.addEventListener('mousemove', function (e) {
+      var r = hero.getBoundingClientRect();
+      mx = (e.clientX - r.left) / r.width - 0.5;
+      my = (e.clientY - r.top) / r.height - 0.5;
+      if (!raf) raf = requestAnimationFrame(apply);
+    }, { passive: true });
+    hero.addEventListener('mouseleave', function () {
+      mx = 0; my = 0;
+      if (!raf) raf = requestAnimationFrame(apply);
+    }, { passive: true });
+    function apply() {
+      raf = null;
+      tilts.forEach(function (el) {
+        el.style.marginTop = (my * 14) + 'px';
+        el.style.marginLeft = (mx * 10) + 'px';
+      });
+    }
+  })();
 
-    if (scProgress < 1) {
-      scProgress += 0.004;
-      requestAnimationFrame(drawSpiralChart);
+  /* ---- リビール ---- */
+  (function () {
+    var els = Array.prototype.slice.call(root.querySelectorAll('[data-reveal]'));
+    var cardSelector = '.lp-value-card,.lp-feature-card,.lp-layer-card,.lp-who-card';
+    var staggerGroups = root.querySelectorAll('.lp-value-cards,.lp-feature-grid,.lp-layer-track,.lp-who-grid');
+    Array.prototype.forEach.call(staggerGroups, function (group) {
+      Array.prototype.forEach.call(group.children, function (el, i) {
+        if (el.hasAttribute('data-reveal') && !el.hasAttribute('data-delay')) {
+          el.setAttribute('data-delay', String(Math.min(i * 70, 280)));
+        }
+      });
+    });
+    var timers = [];
+    function clearRevealStyles(el) {
+      ['opacity', 'transform', 'filter', 'transition', 'transition-delay', 'will-change'].forEach(function (p) { el.style.removeProperty(p); });
+    }
+    function reveal(el) {
+      if (el.getAttribute('data-revealed') === 'true') return;
+      el.setAttribute('data-revealed', 'true');
+      el.classList.add('is-revealed');
+      if (reduced) { clearRevealStyles(el); return; }
+      var delay = parseFloat(el.getAttribute('data-delay') || '0');
+      el.style.transitionDelay = delay + 'ms';
+      el.style.opacity = '1';
+      el.style.transform = 'translate3d(0,0,0) scale(1)';
+      el.style.filter = 'blur(0)';
+      timers.push(setTimeout(function () { clearRevealStyles(el); }, delay + 1050));
+    }
+    els.forEach(function (el) {
+      var first = el.firstElementChild;
+      var last = el.lastElementChild;
+      if (first && first.tagName === 'SPAN' && first.style.width === '30px') {
+        el.classList.add('lp-reveal-label');
+        if (last && last.tagName === 'SPAN' && last.style.width === '30px') el.classList.add('lp-reveal-label--center');
+      }
+      if (reduced) return;
+      var isCard = el.matches(cardSelector);
+      el.style.opacity = '0';
+      el.style.transform = isCard ? 'translate3d(0,42px,0) scale(.97)' : 'translate3d(0,28px,0) scale(.99)';
+      el.style.filter = isCard ? 'blur(4px)' : 'blur(2px)';
+      el.style.transition = 'opacity .9s cubic-bezier(.16,.84,.44,1),transform .95s cubic-bezier(.16,.84,.44,1),filter .8s ease';
+      el.style.willChange = 'opacity,transform,filter';
+    });
+    if (reduced || typeof IntersectionObserver === 'undefined') {
+      els.forEach(reveal);
     } else {
-      scProgress = 1;
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { reveal(entry.target); io.unobserve(entry.target); }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+      els.forEach(function (el) { io.observe(el); });
+      requestAnimationFrame(function () {
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        els.forEach(function (el) {
+          var rect = el.getBoundingClientRect();
+          if (rect.top < vh * 0.96 && rect.bottom > 0) { reveal(el); io.unobserve(el); }
+        });
+      });
     }
-  }
+  })();
 
-  // スクロールで螺旋チャートを起動
-  const spiralObs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting && scProgress === 0) drawSpiralChart();
-    });
-  }, { threshold: 0.3 });
-  spiralObs.observe(sc);
+  /* ---- 数値カウントアップ ---- */
+  (function () {
+    var els = Array.prototype.slice.call(root.querySelectorAll('[data-count]'));
+    if (!els.length) return;
+    function animate(el) {
+      var target = parseFloat(el.getAttribute('data-count') || '0');
+      var decimals = parseInt(el.getAttribute('data-count-decimals') || '0', 10);
+      if (reduced) { el.textContent = target.toFixed(decimals); return; }
+      var start = null, dur = 1300;
+      function step(ts) {
+        if (!start) start = ts;
+        var p = Math.min(1, (ts - start) / dur);
+        var eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = (target * eased).toFixed(decimals);
+        if (p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+    if (typeof IntersectionObserver === 'undefined') { els.forEach(animate); return; }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { animate(e.target); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.6 });
+    els.forEach(function (el) { io.observe(el); });
+  })();
 
-  // ===== Reveal =====
-  const obs = new IntersectionObserver((es) => es.forEach(e => {
-    if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
-  }), { threshold: 0.08 });
-  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  /* ---- ナビ / プログレスバー / パララックス ---- */
+  (function () {
+    var nav = root.querySelector('[data-nav]');
+    var progress = root.querySelector('[data-scroll-progress]');
+    var parallaxEls = Array.prototype.slice.call(root.querySelectorAll('[data-parallax]'));
+    var rafId = null;
+    function updateScroll() {
+      var scrollY = window.scrollY || window.pageYOffset || 0;
+      var maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+      var ratio = Math.max(0, Math.min(1, scrollY / maxScroll));
+      if (progress) progress.style.transform = 'scaleX(' + ratio + ')';
+      var scrolled = scrollY > 30;
+      if (nav) {
+        nav.style.background = scrolled ? 'rgba(9,11,10,.82)' : 'rgba(9,11,10,0)';
+        nav.style.backdropFilter = scrolled ? 'blur(16px)' : 'none';
+        nav.style.webkitBackdropFilter = scrolled ? 'blur(16px)' : 'none';
+        nav.style.borderBottomColor = scrolled ? 'rgba(255,255,255,.08)' : 'rgba(255,255,255,0)';
+      }
+      if (!reduced) {
+        var vh = window.innerHeight || 1;
+        parallaxEls.forEach(function (el) {
+          var section = el.closest('section');
+          if (!section) return;
+          var rect = section.getBoundingClientRect();
+          if (rect.bottom < -120 || rect.top > vh + 120) return;
+          var speed = parseFloat(el.getAttribute('data-parallax') || '0');
+          var scale = parseFloat(el.getAttribute('data-parallax-scale') || '1');
+          var base = el.getAttribute('data-parallax-base') || '';
+          var centerDelta = rect.top + rect.height * 0.5 - vh * 0.5;
+          var offset = Math.max(-48, Math.min(48, centerDelta * speed * -1));
+          el.style.transform = (base ? base + ' ' : '') + 'translate3d(0,' + offset.toFixed(2) + 'px,0) scale(' + scale + ')';
+        });
+      }
+      rafId = null;
+    }
+    function onScroll() { if (!rafId) rafId = requestAnimationFrame(updateScroll); }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    updateScroll();
+  })();
+
+  /* ---- WHY: パーティクルネットワーク ---- */
+  (function () {
+    var canvas = root.querySelector('[data-why-canvas]');
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    var section = root.querySelector('#why');
+    var raf = null, particles = [], width = 0, height = 0, dpr = 1;
+    var mouse = { x: -9999, y: -9999, active: false };
+    function resize() {
+      var rect = canvas.getBoundingClientRect();
+      width = Math.max(1, Math.floor(rect.width));
+      height = Math.max(1, Math.floor(rect.height));
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.floor(width * dpr);
+      canvas.height = Math.floor(height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      var count = Math.max(34, Math.min(86, Math.floor((width * height) / 12500)));
+      particles = [];
+      for (var i = 0; i < count; i++) {
+        particles.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.22,
+          vy: (Math.random() - 0.5) * 0.22,
+          r: 1 + Math.random() * 1.6
+        });
+      }
+      draw();
+    }
+    function draw() {
+      ctx.clearRect(0, 0, width, height);
+      var gradient = ctx.createRadialGradient(width * 0.5, height * 0.5, 0, width * 0.5, height * 0.5, Math.max(width, height) * 0.58);
+      gradient.addColorStop(0, 'rgba(80,200,120,0.24)');
+      gradient.addColorStop(1, 'rgba(80,200,120,0)');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, width, height);
+      for (var i = 0; i < particles.length; i++) {
+        var a = particles[i];
+        for (var j = i + 1; j < particles.length; j++) {
+          var b = particles[j];
+          var dx = a.x - b.x, dy = a.y - b.y;
+          var dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 118) {
+            ctx.strokeStyle = 'rgba(80,200,120,' + ((1 - dist / 118) * 0.46) + ')';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.stroke();
+          }
+        }
+      }
+      particles.forEach(function (p) {
+        var mdx = p.x - mouse.x, mdy = p.y - mouse.y;
+        var md = Math.sqrt(mdx * mdx + mdy * mdy);
+        if (mouse.active && md < 150) {
+          var force = (150 - md) / 150;
+          p.x += (mdx / (md || 1)) * force * 1.8;
+          p.y += (mdy / (md || 1)) * force * 1.8;
+        }
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(190,255,213,0.98)';
+        ctx.shadowColor = 'rgba(80,200,120,1)';
+        ctx.shadowBlur = 16;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      });
+    }
+    function tick() {
+      particles.forEach(function (p) {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < -10) p.x = width + 10;
+        if (p.x > width + 10) p.x = -10;
+        if (p.y < -10) p.y = height + 10;
+        if (p.y > height + 10) p.y = -10;
+      });
+      draw();
+      raf = requestAnimationFrame(tick);
+    }
+    resize();
+    window.addEventListener('resize', resize, { passive: true });
+    if (section) {
+      section.addEventListener('mousemove', function (e) {
+        var rect = canvas.getBoundingClientRect();
+        mouse.x = e.clientX - rect.left;
+        mouse.y = e.clientY - rect.top;
+        mouse.active = true;
+      }, { passive: true });
+      section.addEventListener('mouseleave', function () { mouse.active = false; }, { passive: true });
+    }
+    if (!reduced) raf = requestAnimationFrame(tick);
+  })();
+})();
 </script>
 </body>
 </html>
