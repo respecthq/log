@@ -83,15 +83,16 @@
   .lp-feature-card:nth-child(1),.lp-feature-card:nth-child(4){grid-column:span 7}
   .lp-feature-card:nth-child(2),.lp-feature-card:nth-child(3){grid-column:span 5}
   .lp-feature-card:nth-child(5),.lp-feature-card:nth-child(6){grid-column:span 6}
-  .lp-feature-card--dark{color:#f1f4f1;background:linear-gradient(145deg,#102016,#0b120e);border-color:rgba(80,200,120,.18)}
+  .lp-feature-card:hover{color:#f1f4f1;background:linear-gradient(145deg,#102016,#0b120e);border-color:rgba(80,200,120,.28)}
+  .lp-feature-card{transition:transform .35s,box-shadow .35s,border-color .35s,background .35s,color .35s}
   .lp-feature-top{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:34px}
   .lp-feature-icon{width:46px;height:46px;display:grid;place-items:center;border:1px solid rgba(31,154,87,.2);border-radius:10px;background:rgba(31,154,87,.08);color:#1f9a57}
-  .lp-feature-card--dark .lp-feature-icon{border-color:rgba(80,200,120,.25);background:rgba(80,200,120,.1);color:#72e99a}
+  .lp-feature-card:hover .lp-feature-icon{border-color:rgba(80,200,120,.25);background:rgba(80,200,120,.1);color:#72e99a}
   .lp-feature-index{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;color:#7c867f}
   .lp-feature-card h3{margin:0 0 10px;font-size:clamp(19px,2vw,24px);line-height:1.4;color:#141815}
-  .lp-feature-card--dark h3{color:#f1f4f1}
+  .lp-feature-card:hover h3{color:#f1f4f1}
   .lp-feature-card p{max-width:44ch;margin:0;font-size:14px;line-height:1.85;color:#59615b}
-  .lp-feature-card--dark p{color:#9ca8a0}
+  .lp-feature-card:hover p{color:#9ca8a0}
   .lp-feature-demo{display:flex;align-items:center;gap:10px;margin-top:24px;padding:13px 15px;border:1px solid rgba(80,200,120,.18);border-radius:9px;background:rgba(80,200,120,.06);font-family:'DM Mono',monospace;font-size:11px;color:#9ad9ae}
   .lp-feature-demo i{width:7px;height:7px;border-radius:50%;background:#50c878;box-shadow:0 0 16px #50c878}
   .lp-feature-chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:24px}
@@ -113,7 +114,7 @@
   .lp-ai-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,.52fr);gap:clamp(32px,6vw,80px);align-items:center;margin-bottom:clamp(40px,6vh,64px)}
   .lp-ai-phone{position:relative;justify-self:center;width:min(280px,68vw);aspect-ratio:900/1956;border-radius:40px;background:#0a0a0a;border:2px solid rgba(255,255,255,.12);box-shadow:0 50px 110px -36px rgba(0,0,0,.85);padding:7px;animation:lp-float 8s ease-in-out infinite}
   .lp-ai-phone>div{width:100%;height:100%;border-radius:33px;background-size:cover;background-position:top center}
-  #forwho{background:linear-gradient(180deg,#f6f4ee 0%,#e8e4d8 100%) !important;overflow:hidden}
+  #forwho{background:linear-gradient(180deg,#eeefec 0%,#dedfda 100%) !important;overflow:hidden}
   .lp-who-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,.6fr);gap:clamp(30px,6vw,90px);align-items:end;margin-bottom:clamp(42px,6vh,68px)}
   .lp-who-lead{font-size:15px;line-height:1.95;color:#59615b}
   .lp-who-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
@@ -164,8 +165,7 @@
   .lp-feature-card{z-index:1}
   .lp-feature-card::before{content:attr(data-num);position:absolute;right:14px;bottom:-14px;z-index:0;font-family:'Space Grotesk',sans-serif;font-size:104px;font-weight:700;line-height:1;color:rgba(31,154,87,.07);pointer-events:none;user-select:none;transition:color .35s}
   .lp-feature-card:hover::before{color:rgba(31,154,87,.14)}
-  .lp-feature-card--dark::before{color:rgba(80,200,120,.08)}
-  .lp-feature-card--dark:hover::before{color:rgba(80,200,120,.15)}
+  .lp-feature-card:hover::before{color:rgba(80,200,120,.16)}
   .lp-feature-card::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,rgba(31,154,87,0),rgba(31,154,87,.55),rgba(31,154,87,0));opacity:0;transition:opacity .35s}
   .lp-feature-card:hover::after{opacity:1}
   .lp-features-strip{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:clamp(40px,6vh,60px);font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:2px;color:#59615b}
@@ -285,7 +285,7 @@
   </section>
 
   <!-- 01 VALUE -->
-  <section id="value" data-screen-label="02 VALUE" style="position:relative;padding:clamp(80px,13vh,160px) clamp(20px,5vw,64px);background:#141815">
+  <section id="value" data-screen-label="02 VALUE" style="position:relative;padding:clamp(80px,13vh,160px) clamp(20px,5vw,64px);background:#1b201d">
     <div style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:clamp(40px,6vw,84px);align-items:center">
       <div>
         <div data-reveal style="display:inline-flex;align-items:center;gap:12px;margin-bottom:24px"><span style="width:30px;height:1px;background:#50c878"></span><span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:3px;color:#50c878">02 — VALUE PROPOSITION</span></div>
@@ -375,7 +375,7 @@
           <h3>レイヤーで段階を把握</h3>
           <p>IdeaからReachまで、いまの思考がどの段階にいるかを迷わず把握。</p>
         </div>
-        <div data-reveal data-delay="220" data-num="05" class="lp-feature-card lp-feature-card--dark">
+        <div data-reveal data-delay="220" data-num="05" class="lp-feature-card">
           <div class="lp-feature-top"><div class="lp-feature-icon"><svg class="lp-lucide" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><circle cx="19" cy="5" r="2"></circle><circle cx="5" cy="19" r="2"></circle><path d="M10.4 21.9a10 10 0 0 0 11.5-11.5"></path><path d="M13.5 2.1A10 10 0 0 0 2.1 13.5"></path></svg></div><span class="lp-feature-index">05 / VISUALIZE</span></div>
           <h3>Spiral Graph™</h3>
           <p>思考の密度・深さ・到達率を、Log独自の対数螺旋で可視化します。</p>
