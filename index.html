@@ -78,21 +78,20 @@
   .lp-feature-promise{padding-left:24px;border-left:1px solid rgba(20,24,21,.16);font-size:15px;line-height:1.9;color:#59615b}
   .lp-feature-promise b{display:block;margin-bottom:7px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;color:#1f9a57}
   .lp-feature-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
-  .lp-feature-card{position:relative;min-height:196px;padding:28px;border:1px solid rgba(15,24,18,.09);border-radius:12px;background:rgba(255,255,255,.72);box-shadow:0 24px 60px -48px rgba(10,22,14,.5);overflow:hidden;transition:transform .35s,box-shadow .35s,border-color .35s}
+  .lp-feature-card{position:relative;min-height:196px;padding:28px;border:1px solid rgba(80,200,120,.18);border-radius:12px;background:linear-gradient(145deg,#102016,#0b120e);color:#f1f4f1;box-shadow:0 24px 60px -48px rgba(10,22,14,.5);overflow:hidden;transition:transform .35s,box-shadow .35s,border-color .35s,background .35s,color .35s}
   .lp-feature-card:hover{transform:translateY(-4px);border-color:rgba(31,154,87,.35);box-shadow:0 32px 70px -44px rgba(10,22,14,.55)}
   .lp-feature-card:nth-child(1),.lp-feature-card:nth-child(4){grid-column:span 7}
   .lp-feature-card:nth-child(2),.lp-feature-card:nth-child(3){grid-column:span 5}
   .lp-feature-card:nth-child(5),.lp-feature-card:nth-child(6){grid-column:span 6}
-  .lp-feature-card:hover{color:#f1f4f1;background:linear-gradient(145deg,#102016,#0b120e);border-color:rgba(80,200,120,.28)}
-  .lp-feature-card{transition:transform .35s,box-shadow .35s,border-color .35s,background .35s,color .35s}
+  .lp-feature-card:hover{color:#141815;background:#ffffff;border-color:rgba(31,154,87,.4)}
   .lp-feature-top{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:34px}
-  .lp-feature-icon{width:46px;height:46px;display:grid;place-items:center;border:1px solid rgba(31,154,87,.2);border-radius:10px;background:rgba(31,154,87,.08);color:#1f9a57}
-  .lp-feature-card:hover .lp-feature-icon{border-color:rgba(80,200,120,.25);background:rgba(80,200,120,.1);color:#72e99a}
+  .lp-feature-icon{width:46px;height:46px;display:grid;place-items:center;border:1px solid rgba(80,200,120,.25);border-radius:10px;background:rgba(80,200,120,.1);color:#72e99a;transition:border-color .35s,background .35s,color .35s}
+  .lp-feature-card:hover .lp-feature-icon{border-color:rgba(31,154,87,.2);background:rgba(31,154,87,.08);color:#1f9a57}
   .lp-feature-index{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;color:#7c867f}
-  .lp-feature-card h3{margin:0 0 10px;font-size:clamp(19px,2vw,24px);line-height:1.4;color:#141815}
-  .lp-feature-card:hover h3{color:#f1f4f1}
-  .lp-feature-card p{max-width:44ch;margin:0;font-size:14px;line-height:1.85;color:#59615b}
-  .lp-feature-card:hover p{color:#9ca8a0}
+  .lp-feature-card h3{margin:0 0 10px;font-size:clamp(19px,2vw,24px);line-height:1.4;color:#f1f4f1;transition:color .35s}
+  .lp-feature-card:hover h3{color:#141815}
+  .lp-feature-card p{max-width:44ch;margin:0;font-size:14px;line-height:1.85;color:#9ca8a0;transition:color .35s}
+  .lp-feature-card:hover p{color:#59615b}
   .lp-feature-demo{display:flex;align-items:center;gap:10px;margin-top:24px;padding:13px 15px;border:1px solid rgba(80,200,120,.18);border-radius:9px;background:rgba(80,200,120,.06);font-family:'DM Mono',monospace;font-size:11px;color:#9ad9ae}
   .lp-feature-demo i{width:7px;height:7px;border-radius:50%;background:#50c878;box-shadow:0 0 16px #50c878}
   .lp-feature-chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:24px}
@@ -163,9 +162,9 @@
   #features .lp-ghost{position:absolute;left:50%;top:clamp(30px,6vh,70px);transform:translateX(-50%);z-index:0;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(70px,11vw,168px);letter-spacing:.02em;line-height:1;color:transparent;-webkit-text-stroke:1px rgba(31,154,87,.13);white-space:nowrap;pointer-events:none;user-select:none}
   #features .lp-orb{position:absolute;border-radius:50%;filter:blur(30px);pointer-events:none}
   .lp-feature-card{z-index:1}
-  .lp-feature-card::before{content:attr(data-num);position:absolute;right:14px;bottom:-14px;z-index:0;font-family:'Space Grotesk',sans-serif;font-size:104px;font-weight:700;line-height:1;color:rgba(31,154,87,.07);pointer-events:none;user-select:none;transition:color .35s}
+  .lp-feature-card::before{content:attr(data-num);position:absolute;right:14px;bottom:-14px;z-index:0;font-family:'Space Grotesk',sans-serif;font-size:104px;font-weight:700;line-height:1;color:rgba(80,200,120,.08);pointer-events:none;user-select:none;transition:color .35s}
   .lp-feature-card:hover::before{color:rgba(31,154,87,.14)}
-  .lp-feature-card:hover::before{color:rgba(80,200,120,.16)}
+  .lp-feature-card:hover::before{color:rgba(31,154,87,.14)}
   .lp-feature-card::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,rgba(31,154,87,0),rgba(31,154,87,.55),rgba(31,154,87,0));opacity:0;transition:opacity .35s}
   .lp-feature-card:hover::after{opacity:1}
   .lp-features-strip{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:clamp(40px,6vh,60px);font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:2px;color:#59615b}
@@ -386,7 +385,6 @@
           <p>ログは端末内に保存。大切な思考を、サービス側に預けません。</p>
         </div>
       </div>
-      <div data-reveal class="lp-features-strip"><b>CAPTURE</b><i>—</i><b>CONNECT</b><i>—</i><b>DEEPEN</b><i>—</i><b>LAYERS</b><i>—</i><b>VISUALIZE</b><i>—</i><b>PRIVATE</b></div>
     </div>
   </section>
 
@@ -473,6 +471,8 @@
 
   <!-- 06 UNFINISHED -->
   <section id="unfinished" data-screen-label="06 UNFINISHED" style="position:relative;padding:clamp(90px,14vh,176px) clamp(20px,5vw,64px);background:radial-gradient(85% 60% at 50% 30%, #0d1510 0%, #070908 65%);overflow:hidden;text-align:center">
+    <div data-parallax="0.04" data-parallax-scale="1.08" aria-hidden="true" style="position:absolute;inset:-4%;background-image:url('assets/bg-unfinished.jpg');background-size:cover;background-position:center;opacity:.5"></div>
+    <div style="position:absolute;inset:0;background:radial-gradient(70% 55% at 50% 45%, rgba(7,9,8,.35) 0%, rgba(7,9,8,.82) 70%, #070908 100%);pointer-events:none"></div>
     <div style="position:relative;max-width:860px;margin:0 auto">
       <div data-reveal style="display:inline-flex;align-items:center;gap:12px;margin-bottom:26px"><span style="width:30px;height:1px;background:#50c878"></span><span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:3px;color:#50c878">06 — UNFINISHED</span></div>
       <h2 data-reveal data-delay="60" style="font-size:clamp(28px,4.4vw,52px);font-weight:900;line-height:1.3;letter-spacing:-.01em;margin:0 0 clamp(20px,2.8vh,28px)">完成しなかったログにも、<br class="lp-mobile-break"><span style="color:#50c878">意味がある</span>。</h2>
