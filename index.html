@@ -73,6 +73,8 @@
   .lp-carousel-btn:hover{border-color:#50c878;color:#50c878}
   .lp-carousel-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.25);border:none;cursor:pointer;padding:0;transition:all .3s}
   .lp-carousel-dot.is-active{width:22px;border-radius:5px;background:#50c878}
+  .lp-demo-phone{position:relative;width:min(320px,76vw);margin:0 auto;aspect-ratio:640/1390;border-radius:46px;background:#0a0a0a;border:2px solid rgba(255,255,255,.12);box-shadow:0 50px 110px -36px rgba(0,0,0,.85);padding:7px}
+  .lp-demo-phone video{width:100%;height:100%;border-radius:38px;display:block;object-fit:cover;background:#000}
   #features{background:linear-gradient(180deg,#fbfcfa 0%,#edf1ec 100%) !important;overflow:hidden}
   .lp-features-intro{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(280px,.65fr);gap:clamp(30px,6vw,90px);align-items:end;margin-bottom:clamp(44px,6vh,72px)}
   .lp-feature-promise{padding-left:24px;border-left:1px solid rgba(20,24,21,.16);font-size:15px;line-height:1.9;color:#59615b}
@@ -160,7 +162,7 @@
   .lp-spiral-step b{display:block;font-size:14.5px;line-height:1.5;margin-bottom:4px}
   .lp-spiral-step p{margin:0;font-size:12.5px;line-height:1.7;color:#8d958f}
   #features .lp-ghost{position:absolute;left:50%;top:clamp(30px,6vh,70px);transform:translateX(-50%);z-index:0;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(70px,11vw,168px);letter-spacing:.02em;line-height:1;color:transparent;-webkit-text-stroke:1px rgba(31,154,87,.13);white-space:nowrap;pointer-events:none;user-select:none}
-  #features .lp-orb{position:absolute;border-radius:50%;filter:blur(30px);pointer-events:none}
+  .lp-orb{position:absolute;border-radius:50%;filter:blur(30px);pointer-events:none}
   .lp-feature-card{z-index:1}
   .lp-feature-card::before{content:attr(data-num);position:absolute;right:14px;bottom:-14px;z-index:0;font-family:'Space Grotesk',sans-serif;font-size:104px;font-weight:700;line-height:1;color:rgba(80,200,120,.08);pointer-events:none;user-select:none;transition:color .35s}
   .lp-feature-card:hover::before{color:rgba(31,154,87,.14)}
@@ -388,10 +390,26 @@
     </div>
   </section>
 
+  <!-- 04 IN ACTION -->
+  <section id="inaction" data-screen-label="04 IN ACTION" style="position:relative;padding:clamp(80px,13vh,160px) clamp(20px,5vw,64px);background:#070908;border-top:1px solid rgba(255,255,255,.05);overflow:hidden">
+    <div class="lp-orb" data-parallax="0.04" data-parallax-scale="1" style="left:-10%;top:12%;width:32vw;max-width:440px;aspect-ratio:1;background:radial-gradient(circle,rgba(80,200,120,.13),rgba(80,200,120,0) 70%)" aria-hidden="true"></div>
+    <div class="lp-orb" data-parallax="-0.03" data-parallax-scale="1" style="right:-10%;bottom:8%;width:28vw;max-width:400px;aspect-ratio:1;background:radial-gradient(circle,rgba(80,200,120,.1),rgba(80,200,120,0) 70%)" aria-hidden="true"></div>
+    <div style="position:relative;max-width:900px;margin:0 auto;text-align:center">
+      <div data-reveal style="display:inline-flex;align-items:center;gap:12px;margin-bottom:26px"><span style="width:30px;height:1px;background:#50c878"></span><span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:3px;color:#50c878">04 — IN ACTION</span></div>
+      <h2 data-reveal data-delay="60" style="font-size:clamp(28px,4.4vw,54px);font-weight:900;line-height:1.3;letter-spacing:-.01em;margin:0 0 24px">記録して、深めて、<br><span style="color:#50c878">積み上がる</span>まで。</h2>
+      <p data-reveal data-delay="120" style="font-size:clamp(14px,1.6vw,17px);line-height:2;color:#9aa8a0;margin:0 auto 54px;max-width:660px;text-wrap:pretty">一行の記録にメモとタグを足し、関連するログをつなぎ、AIと深掘りして、その答えをまた新しいログにする。ここまで通しで57秒。最後にSpiral Graphが、増えた2件のぶんだけ伸びます。</p>
+      <div data-reveal data-delay="160" class="lp-demo-phone">
+        <video data-demo playsinline muted loop preload="none" poster="assets/video/log-demo-poster.jpg" aria-label="Logの操作デモ">
+          <source src="assets/video/log-demo-lp.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+  </section>
+
   <!-- 03 SPIRAL GRAPH -->
-  <section id="spiral" data-screen-label="04 SPIRAL GRAPH" style="position:relative;padding:clamp(80px,13vh,160px) clamp(20px,5vw,64px) clamp(90px,14vh,170px);background:radial-gradient(80% 55% at 50% 34%, #0c130e 0%, #080a09 62%);overflow:hidden;text-align:center">
+  <section id="spiral" data-screen-label="05 SPIRAL GRAPH" style="position:relative;padding:clamp(80px,13vh,160px) clamp(20px,5vw,64px) clamp(90px,14vh,170px);background:radial-gradient(80% 55% at 50% 34%, #0c130e 0%, #080a09 62%);overflow:hidden;text-align:center">
     <div style="max-width:1100px;margin:0 auto">
-      <div data-reveal style="display:inline-flex;align-items:center;gap:12px;margin-bottom:26px"><span style="width:30px;height:1px;background:#50c878"></span><span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:3px;color:#50c878">04 — SPIRAL GRAPH™</span><span style="width:30px;height:1px;background:#50c878"></span></div>
+      <div data-reveal style="display:inline-flex;align-items:center;gap:12px;margin-bottom:26px"><span style="width:30px;height:1px;background:#50c878"></span><span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:3px;color:#50c878">05 — SPIRAL GRAPH™</span><span style="width:30px;height:1px;background:#50c878"></span></div>
       <h2 data-reveal data-delay="60" style="font-size:clamp(28px,4.4vw,52px);font-weight:900;line-height:1.3;margin:0 0 18px">一行のログが、<br class="lp-mobile-break">思考の<span style="color:#50c878">現在地</span>になる。</h2>
       <p data-reveal data-delay="120" style="font-size:clamp(15px,1.7vw,17px);line-height:2;color:#9aa39d;margin:0 auto clamp(40px,6vh,60px);max-width:46ch">レイヤーごとのログ数、到達率、深まりを、対数螺旋で可視化します。</p>
       <div class="lp-spiral-stage" data-reveal data-delay="140">
@@ -420,11 +438,11 @@
   </section>
 
   <!-- 04 LAYERS (spiral) -->
-  <section id="layers" data-screen-label="05 LAYERS" style="position:relative;padding:clamp(92px,14vh,176px) clamp(20px,5vw,64px);background:#000000;border-top:1px solid rgba(255,255,255,.04);overflow:hidden">
+  <section id="layers" data-screen-label="06 LAYERS" style="position:relative;padding:clamp(92px,14vh,176px) clamp(20px,5vw,64px);background:#000000;border-top:1px solid rgba(255,255,255,.04);overflow:hidden">
     <div style="position:relative;max-width:1240px;margin:0 auto">
       <div class="lp-layers-showcase">
         <div>
-          <div data-reveal style="display:inline-flex;align-items:center;gap:12px;margin-bottom:26px"><span style="width:30px;height:1px;background:#50c878"></span><span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:3px;color:#50c878">05 — LAYERS</span></div>
+          <div data-reveal style="display:inline-flex;align-items:center;gap:12px;margin-bottom:26px"><span style="width:30px;height:1px;background:#50c878"></span><span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:3px;color:#50c878">06 — LAYERS</span></div>
           <h2 data-reveal data-delay="60" style="font-size:clamp(29px,4.4vw,54px);font-weight:900;line-height:1.28;letter-spacing:-.01em;margin:0 0 24px">思考の<br><span style="color:#50c878">6つの段階</span>。</h2>
           <p data-reveal data-delay="120" style="font-size:clamp(15px,1.7vw,18px);line-height:2;color:#a8b2ac;margin:0;max-width:42ch">ひらめきから到達まで。Logは、思考の進化を6つのレイヤーで追跡します。</p>
         </div>
@@ -470,10 +488,10 @@
   </section>
 
   <!-- 06 UNFINISHED -->
-  <section id="unfinished" data-screen-label="06 UNFINISHED" style="position:relative;padding:clamp(90px,14vh,176px) clamp(20px,5vw,64px) clamp(128px,19vh,232px);background:radial-gradient(85% 60% at 50% 30%, #0d1510 0%, #070908 65%);overflow:hidden;text-align:center">
+  <section id="unfinished" data-screen-label="07 UNFINISHED" style="position:relative;padding:clamp(90px,14vh,176px) clamp(20px,5vw,64px) clamp(128px,19vh,232px);background:radial-gradient(85% 60% at 50% 30%, #0d1510 0%, #070908 65%);overflow:hidden;text-align:center">
     <div data-parallax="0.06" data-parallax-scale="1.04" aria-hidden="true" style="position:absolute;left:0;right:0;bottom:0;height:clamp(190px,30vh,330px);background-image:url('assets/bg-unfinished.jpg');background-size:cover;background-position:center 34%;opacity:1;-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 47%,#000 83%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0%,#000 47%,#000 83%,transparent 100%);pointer-events:none"></div>
     <div style="position:relative;max-width:860px;margin:0 auto">
-      <div data-reveal style="display:inline-flex;align-items:center;gap:12px;margin-bottom:26px"><span style="width:30px;height:1px;background:#50c878"></span><span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:3px;color:#50c878">06 — UNFINISHED</span></div>
+      <div data-reveal style="display:inline-flex;align-items:center;gap:12px;margin-bottom:26px"><span style="width:30px;height:1px;background:#50c878"></span><span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:3px;color:#50c878">07 — UNFINISHED</span></div>
       <h2 data-reveal data-delay="60" style="font-size:clamp(28px,4.4vw,52px);font-weight:900;line-height:1.3;letter-spacing:-.01em;margin:0 0 clamp(34px,4.5vh,48px)">完成しなかったログにも、<br class="lp-mobile-break"><span style="color:#50c878">意味がある</span>。</h2>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:clamp(12px,1.6vw,18px);text-align:left">
         <div data-reveal data-delay="170" style="padding:clamp(20px,3vw,30px) clamp(16px,2.4vw,26px);border:1px solid rgba(255,255,255,.08);border-radius:16px;background:rgba(255,255,255,.02)"><p style="margin:0;font-size:clamp(15px,1.9vw,18px);line-height:1.7;color:#c8d0ca;font-weight:600">採用しなかった案。</p></div>
@@ -487,12 +505,12 @@
   </section>
 
   <!-- 05 WHY LOG -->
-  <section id="why" data-screen-label="07 WHY LOG" style="position:relative;padding:clamp(90px,15vh,180px) clamp(20px,5vw,64px);background:#070908;overflow:hidden">
+  <section id="why" data-screen-label="08 WHY LOG" style="position:relative;padding:clamp(90px,15vh,180px) clamp(20px,5vw,64px);background:#070908;overflow:hidden">
     <div data-parallax="-0.025" data-parallax-scale="1.06" style="position:absolute;inset:-3%;background-image:url('assets/bg-network.png');background-size:cover;background-position:center;opacity:.18"></div>
     <canvas data-why-canvas aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;opacity:.8;pointer-events:none"></canvas>
     <div style="position:absolute;inset:0;background:radial-gradient(circle at 50% 42%,rgba(80,200,120,.12) 0%,rgba(80,200,120,.045) 28%,rgba(80,200,120,0) 58%),linear-gradient(180deg,rgba(7,9,8,.9) 0%,rgba(7,9,8,.48) 42%,rgba(7,9,8,.95) 100%)"></div>
     <div style="position:relative;max-width:760px;margin:0 auto;text-align:center">
-      <div data-reveal style="display:inline-flex;align-items:center;gap:12px;margin-bottom:28px"><span style="width:30px;height:1px;background:#50c878"></span><span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:3px;color:#50c878">07 — WHY “LOG”</span><span style="width:30px;height:1px;background:#50c878"></span></div>
+      <div data-reveal style="display:inline-flex;align-items:center;gap:12px;margin-bottom:28px"><span style="width:30px;height:1px;background:#50c878"></span><span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:3px;color:#50c878">08 — WHY “LOG”</span><span style="width:30px;height:1px;background:#50c878"></span></div>
       <h2 data-reveal data-delay="60" style="font-size:clamp(30px,5vw,60px);font-weight:900;line-height:1.25;margin:0 0 28px">Logは、記録。<br>そして、<span style="color:#50c878">対数</span>。</h2>
       <p data-reveal data-delay="120" style="font-size:clamp(15px,1.8vw,19px);line-height:2;color:#aab3ad;margin:0 0 44px">増えすぎる情報を、人間が扱える思考に変える。</p>
       <div data-reveal data-delay="180" style="display:inline-flex;align-items:center;gap:clamp(10px,2vw,20px);flex-wrap:wrap;justify-content:center;padding:24px clamp(22px,4vw,44px);border:1px solid rgba(80,200,120,.42);border-radius:16px;background:rgba(80,200,120,.09);box-shadow:0 24px 80px rgba(80,200,120,.13),inset 0 0 32px rgba(80,200,120,.06);margin-bottom:40px">
@@ -507,13 +525,13 @@
   </section>
 
   <!-- 06 AI INTEGRATION -->
-  <section id="ai" data-screen-label="08 AI INTEGRATION" style="position:relative;padding:clamp(80px,13vh,160px) clamp(20px,5vw,64px);background:#1c211d;border-top:1px solid rgba(255,255,255,.06);overflow:hidden">
+  <section id="ai" data-screen-label="09 AI INTEGRATION" style="position:relative;padding:clamp(80px,13vh,160px) clamp(20px,5vw,64px);background:#1c211d;border-top:1px solid rgba(255,255,255,.06);overflow:hidden">
     <div data-parallax="-0.025" data-parallax-scale="1.06" style="position:absolute;inset:-3%;background-image:url('assets/bg-deskdark.jpg');background-size:cover;background-position:center;opacity:.2"></div>
     <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(28,33,29,.85) 0%,rgba(28,33,29,.4) 45%,rgba(28,33,29,.92) 100%)"></div>
     <div style="position:relative;max-width:1100px;margin:0 auto">
       <div class="lp-ai-head">
         <div>
-          <div data-reveal style="display:inline-flex;align-items:center;gap:12px;margin-bottom:26px"><span style="width:30px;height:1px;background:#50c878"></span><span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:3px;color:#50c878">08 — AI INTEGRATION</span></div>
+          <div data-reveal style="display:inline-flex;align-items:center;gap:12px;margin-bottom:26px"><span style="width:30px;height:1px;background:#50c878"></span><span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:3px;color:#50c878">09 — AI INTEGRATION</span></div>
           <h2 data-reveal data-delay="60" style="font-size:clamp(28px,4.4vw,52px);font-weight:900;line-height:1.3;margin:0 0 22px">AIに、<span style="color:#50c878">あなたの思考</span>を読ませる。</h2>
           <p data-reveal data-delay="120" style="font-size:clamp(15px,1.7vw,18px);line-height:2;color:#9aa39d;margin:0 0 20px;max-width:52ch">気になるログを束ねてプロジェクトにすると、AIは<strong style="color:#c9d2cb;font-weight:600">それらを横断して</strong>答えます。単発の質問では出てこない、考えのつながりや、止まったままの問いが見えてくる。</p>
           <p data-reveal data-delay="160" style="font-size:clamp(13.5px,1.5vw,15px);line-height:1.9;color:#7d857f;margin:0;max-width:52ch">APIキーは自分のものを使うから、Logの月額課金は不要。</p>
@@ -563,12 +581,12 @@
   </section>
 
   <!-- 07 FOR WHO (light) -->
-  <section id="forwho" data-screen-label="09 FOR WHO" style="position:relative;padding:clamp(80px,13vh,160px) clamp(20px,5vw,64px);background:#e6e7e3;color:#151916">
+  <section id="forwho" data-screen-label="10 FOR WHO" style="position:relative;padding:clamp(80px,13vh,160px) clamp(20px,5vw,64px);background:#e6e7e3;color:#151916">
     <div data-parallax="0.035" data-parallax-scale="1" style="position:absolute;right:-8%;top:-18%;width:42vw;max-width:620px;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(31,154,87,.11),rgba(31,154,87,0) 68%);pointer-events:none"></div>
     <div style="position:relative;max-width:1200px;margin:0 auto">
       <div class="lp-who-head">
         <div>
-          <div data-reveal style="display:inline-flex;align-items:center;gap:12px;margin-bottom:26px"><span style="width:30px;height:1px;background:#1f9a57"></span><span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:3px;color:#1f9a57">09 — FOR WHO</span></div>
+          <div data-reveal style="display:inline-flex;align-items:center;gap:12px;margin-bottom:26px"><span style="width:30px;height:1px;background:#1f9a57"></span><span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:3px;color:#1f9a57">10 — FOR WHO</span></div>
           <h2 data-reveal data-delay="60" style="font-size:clamp(28px,4.4vw,54px);font-weight:900;line-height:1.3;margin:0;color:#141815">思考を、<span style="color:#1f9a57">止めたくない</span><br>すべての人へ。</h2>
         </div>
         <p data-reveal data-delay="120" class="lp-who-lead">学びも、企画も、創作も。考えた軌跡を残すほど、次の一手は見つけやすくなる。</p>
@@ -595,7 +613,7 @@
   </section>
 
   <!-- 08 PRICING -->
-  <section id="pricing" data-screen-label="10 PRICING" style="position:relative;padding:clamp(80px,13vh,160px) clamp(20px,5vw,64px);background:#121513">
+  <section id="pricing" data-screen-label="11 PRICING" style="position:relative;padding:clamp(80px,13vh,160px) clamp(20px,5vw,64px);background:#121513">
     <div style="max-width:980px;margin:0 auto">
       <div data-reveal style="text-align:center;margin-bottom:clamp(44px,6vh,72px)">
         <div style="display:inline-flex;align-items:center;gap:12px;margin-bottom:24px"><span style="width:30px;height:1px;background:#50c878"></span><span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:3px;color:#50c878">10 — PRICING</span><span style="width:30px;height:1px;background:#50c878"></span></div>
@@ -638,7 +656,7 @@
   </section>
 
   <!-- 09 FAQ -->
-  <section id="faq" data-screen-label="11 FAQ" style="position:relative;padding:clamp(80px,13vh,160px) clamp(20px,5vw,64px);background:#0a0c0b">
+  <section id="faq" data-screen-label="12 FAQ" style="position:relative;padding:clamp(80px,13vh,160px) clamp(20px,5vw,64px);background:#0a0c0b">
     <div style="max-width:880px;margin:0 auto">
       <div data-reveal style="display:inline-flex;align-items:center;gap:12px;margin-bottom:26px"><span style="width:30px;height:1px;background:#50c878"></span><span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:3px;color:#50c878">11 — FAQ</span></div>
       <h2 data-reveal data-delay="60" style="font-size:clamp(28px,4.4vw,52px);font-weight:900;line-height:1.3;margin:0 0 clamp(36px,5vh,56px)">よくある質問。</h2>
@@ -712,7 +730,7 @@
   </section>
 
   <!-- 10 FINAL CTA -->
-  <section id="cta" data-screen-label="12 FINAL CTA" style="position:relative;padding:clamp(100px,17vh,200px) clamp(20px,5vw,64px);background:radial-gradient(120% 90% at 50% 100%, #11341f 0%, #0a160e 45%, #070908 100%);overflow:hidden;text-align:center">
+  <section id="cta" data-screen-label="13 FINAL CTA" style="position:relative;padding:clamp(100px,17vh,200px) clamp(20px,5vw,64px);background:radial-gradient(120% 90% at 50% 100%, #11341f 0%, #0a160e 45%, #070908 100%);overflow:hidden;text-align:center">
     <div class="lp-cta-video" aria-hidden="true">
       <video data-ambient autoplay muted loop playsinline preload="metadata" poster="assets/video/hero-ambient-poster.jpg">
         <source src="assets/video/hero-ambient.mp4" type="video/mp4">
@@ -749,6 +767,25 @@
   /* ---- ambient videos: reduced-motion なら再生停止 ---- */
   var videos = Array.prototype.slice.call(root.querySelectorAll('video[data-ambient]'));
   if (reduced) videos.forEach(function (v) { v.removeAttribute('autoplay'); v.pause(); });
+
+  /* ---- デモ動画: 画面に入ったら読み込んで再生、外れたら停止 ---- */
+  (function () {
+    var v = root.querySelector('video[data-demo]');
+    if (!v) return;
+    if (reduced || !('IntersectionObserver' in window)) { v.setAttribute('controls', ''); v.preload = 'metadata'; return; }
+    var loaded = false;
+    new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          if (!loaded) { v.preload = 'auto'; v.load(); loaded = true; }
+          var pr = v.play();
+          if (pr && pr.catch) pr.catch(function () { v.setAttribute('controls', ''); });
+        } else if (!v.paused) {
+          v.pause();
+        }
+      });
+    }, { threshold: 0.35 }).observe(v);
+  })();
 
   /* ---- カルーセル ---- */
   (function () {
