@@ -84,17 +84,6 @@
   .lp-feature-card:nth-child(2),.lp-feature-card:nth-child(3){grid-column:span 5}
   .lp-feature-card:nth-child(5),.lp-feature-card:nth-child(6){grid-column:span 6}
   .lp-feature-card:hover{border-color:rgba(80,200,120,.5)}
-  .lp-feature-card>*{position:relative;z-index:2}
-  /* ホバーで背景写真が浮かぶ。hover非対応端末では ::before を作らないので画像を読みに行かない */
-  @media (hover:hover){
-    .lp-feature-card::before{content:"";position:absolute;inset:0;background-image:var(--fimg);background-size:cover;background-position:center;opacity:0;transform:scale(1.08);transition:opacity .5s ease,transform 1.2s ease;pointer-events:none;z-index:0}
-    .lp-feature-card:hover::before{opacity:.52;transform:scale(1)}
-    /* 文字が乗る左下を濃く落として可読性を確保する */
-    .lp-feature-card::after{content:"";position:absolute;inset:0;background:radial-gradient(135% 105% at 6% 92%,rgba(6,14,9,.92) 0%,rgba(6,14,9,.5) 46%,rgba(6,14,9,0) 78%),linear-gradient(180deg,rgba(6,14,9,.74) 0%,rgba(6,14,9,.4) 40%,rgba(6,14,9,.9) 100%);opacity:0;transition:opacity .5s ease;pointer-events:none;z-index:1}
-    .lp-feature-card:hover::after{opacity:1}
-    /* 数式カードだけ絵柄が文字なので、本文と競らないよう薄めに */
-    .lp-feature-card[data-num="04"]:hover::before{opacity:.4}
-  }
   .lp-feature-top{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:34px}
   .lp-feature-icon{width:46px;height:46px;display:grid;place-items:center;border:1px solid rgba(80,200,120,.25);border-radius:10px;background:rgba(80,200,120,.1);color:#72e99a;transition:border-color .35s,background .35s,color .35s}
   .lp-feature-card:hover .lp-feature-icon{border-color:rgba(80,200,120,.55);background:rgba(80,200,120,.2);color:#8af0ad}
@@ -175,8 +164,8 @@
   .lp-orb{position:absolute;border-radius:50%;filter:blur(30px);pointer-events:none}
   .lp-feature-card{z-index:1}
   .lp-feature-card::before{content:attr(data-num);position:absolute;right:14px;bottom:-14px;z-index:0;font-family:'Space Grotesk',sans-serif;font-size:104px;font-weight:700;line-height:1;color:rgba(80,200,120,.08);pointer-events:none;user-select:none;transition:color .35s}
-  .lp-feature-card:hover::before{color:rgba(31,154,87,.14)}
-  .lp-feature-card:hover::before{color:rgba(31,154,87,.14)}
+  .lp-feature-card:hover::before{color:rgba(80,200,120,.16)}
+  .lp-feature-card:hover::before{color:rgba(80,200,120,.16)}
   .lp-feature-card::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,rgba(31,154,87,0),rgba(31,154,87,.55),rgba(31,154,87,0));opacity:0;transition:opacity .35s}
   .lp-feature-card:hover::after{opacity:1}
   .lp-features-strip{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:clamp(40px,6vh,60px);font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:2px;color:#59615b}
@@ -366,32 +355,32 @@
         <div data-reveal data-delay="120" class="lp-feature-promise"><b>FROM NOTE TO NEXT MOVE</b>記録して終わらず、次の行動へつながるところまで。Logは思考の流れ全体をひとつの体験にします。</div>
       </div>
       <div class="lp-feature-grid">
-        <div data-reveal data-num="01" class="lp-feature-card" style="--fimg:url('assets/features/feature-01-capture.jpg')">
+        <div data-reveal data-num="01" class="lp-feature-card">
           <div class="lp-feature-top"><div class="lp-feature-icon"><svg class="lp-lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"></path><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path><path d="m15 5 3 3"></path></svg></div><span class="lp-feature-index">01 / CAPTURE</span></div>
           <h3>一行で記録</h3>
           <p>考えが消える前に、最小の操作で残す。整理はあとからで大丈夫。</p>
         </div>
-        <div data-reveal data-delay="70" data-num="02" class="lp-feature-card" style="--fimg:url('assets/features/feature-02-connect.jpg')">
+        <div data-reveal data-delay="70" data-num="02" class="lp-feature-card">
           <div class="lp-feature-top"><div class="lp-feature-icon"><svg class="lp-lucide" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="3"></circle><circle cx="6" cy="19" r="3"></circle><circle cx="18" cy="19" r="3"></circle><path d="M12 8v3"></path><path d="M6 16v-3h12v3"></path></svg></div><span class="lp-feature-index">02 / CONNECT</span></div>
           <h3>関連ログ・思考の履歴</h3>
           <p>過去のログを結び、どこから考えが生まれたかを残します。</p>
         </div>
-        <div data-reveal data-delay="120" data-num="03" class="lp-feature-card" style="--fimg:url('assets/features/feature-03-deepen.jpg')">
+        <div data-reveal data-delay="120" data-num="03" class="lp-feature-card">
           <div class="lp-feature-top"><div class="lp-feature-icon"><svg class="lp-lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"></path><path d="M5 3v4"></path><path d="M3 5h4"></path></svg></div><span class="lp-feature-index">03 / DEEPEN</span></div>
           <h3>AIと深掘り</h3>
           <p>3つのAIと対話し、別の視点や次に考えるべき問いを増やします。</p>
         </div>
-        <div data-reveal data-delay="170" data-num="04" class="lp-feature-card" style="--fimg:url('assets/features/feature-04-express.jpg')">
+        <div data-reveal data-delay="170" data-num="04" class="lp-feature-card">
           <div class="lp-feature-top"><div class="lp-feature-icon"><svg class="lp-lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 7V5a1 1 0 0 0-1-1H6.5a.5.5 0 0 0-.4.8l4.5 6a2 2 0 0 1 0 2.4l-4.5 6a.5.5 0 0 0 .4.8H17a1 1 0 0 0 1-1v-2"></path></svg></div><span class="lp-feature-index">04 / EXPRESS</span></div>
           <h3>LaTeXで数式を書く</h3>
           <p>$で囲むだけで数式として表示。メモもAIの回答も対応するので、数学・物理の学習ログに強い。</p>
         </div>
-        <div data-reveal data-delay="220" data-num="05" class="lp-feature-card" style="--fimg:url('assets/features/feature-05-visualize.jpg')">
+        <div data-reveal data-delay="220" data-num="05" class="lp-feature-card">
           <div class="lp-feature-top"><div class="lp-feature-icon"><svg class="lp-lucide" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><circle cx="19" cy="5" r="2"></circle><circle cx="5" cy="19" r="2"></circle><path d="M10.4 21.9a10 10 0 0 0 11.5-11.5"></path><path d="M13.5 2.1A10 10 0 0 0 2.1 13.5"></path></svg></div><span class="lp-feature-index">05 / VISUALIZE</span></div>
           <h3>Spiral Graph™</h3>
           <p>思考の密度・深さ・到達率を、Log独自の対数螺旋で可視化します。</p>
         </div>
-        <div data-reveal data-delay="270" data-num="06" class="lp-feature-card" style="--fimg:url('assets/features/feature-06-export.jpg')">
+        <div data-reveal data-delay="270" data-num="06" class="lp-feature-card">
           <div class="lp-feature-top"><div class="lp-feature-icon"><svg class="lp-lucide" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="M12 18v-6"></path><path d="m9 15 3 3 3-3"></path></svg></div><span class="lp-feature-index">06 / EXPORT</span></div>
           <h3>Markdownで書き出す</h3>
           <p>フォルダごとZIPで書き出し。1ログ＝1つのMarkdownファイルなので、他のメモアプリやエディタにそのまま持ち込めます。</p>
