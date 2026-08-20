@@ -77,6 +77,21 @@
   .lp-features-intro{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(280px,.65fr);gap:clamp(30px,6vw,90px);align-items:end;margin-bottom:clamp(44px,6vh,72px)}
   .lp-feature-promise{padding-left:24px;border-left:1px solid rgba(20,24,21,.16);font-size:15px;line-height:1.9;color:#59615b}
   .lp-feature-promise b{display:block;margin-bottom:7px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;color:#1f9a57}
+  /* HERO背景は3層。照明と軌道だけをゆっくり明滅させる。
+     transform は data-parallax のJSが毎フレーム上書きするので、CSSでは触らない */
+  .lp-hero-layer{position:absolute;inset:-3%;background-size:cover;background-position:center;pointer-events:none}
+  .lp-hero-light{background-image:url('assets/hero-light.jpg');animation:lp-hero-breathe 7.5s ease-in-out infinite}
+  .lp-hero-orbits{background-image:url('assets/hero-orbits.png');animation:lp-hero-twinkle 5.5s ease-in-out infinite}
+  .lp-hero-devices{background-image:url('assets/hero-devices.png')}
+  @keyframes lp-hero-breathe{0%,100%{opacity:.84;filter:brightness(.96)}50%{opacity:1;filter:brightness(1.12)}}
+  @keyframes lp-hero-twinkle{0%,100%{opacity:.62}50%{opacity:1}}
+  @media (prefers-reduced-motion:reduce){
+    .lp-hero-light,.lp-hero-orbits{animation:none}
+  }
+  /* スマホは背景がcoverで拡大され、端末のUIの上に見出しが乗るのでスクリムを濃くする */
+  @media (max-width:700px){
+    #hero .lp-hero-scrim{background:linear-gradient(180deg,rgba(5,7,6,.66) 0%,rgba(5,7,6,.48) 30%,rgba(5,7,6,.56) 62%,rgba(5,7,6,.9) 100%) !important}
+  }
   .lp-feature-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
   .lp-feature-card{position:relative;min-height:196px;padding:28px;border:1px solid rgba(80,200,120,.18);border-radius:12px;background:linear-gradient(145deg,#102016,#0b120e);color:#f1f4f1;box-shadow:0 24px 60px -48px rgba(10,22,14,.5);overflow:hidden;transition:transform .35s,box-shadow .35s,border-color .35s,background .35s,color .35s}
   .lp-feature-card:hover{transform:translateY(-4px);border-color:rgba(31,154,87,.35);box-shadow:0 32px 70px -44px rgba(10,22,14,.55)}
@@ -245,8 +260,10 @@
 
   <!-- 00 HERO -->
   <section id="hero" data-screen-label="00 HERO" style="position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:130px clamp(20px,5vw,64px) 90px;overflow:hidden;background:#050605">
-    <div data-parallax="0.055" data-parallax-scale="1.06" style="position:absolute;inset:-3%;background-image:url('assets/hero-bg3.jpg');background-size:cover;background-position:center"></div>
-    <div style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(5,7,6,.5) 0%, rgba(5,7,6,.12) 38%, rgba(5,7,6,.2) 66%, rgba(5,7,6,.8) 100%)"></div>
+    <div class="lp-hero-layer lp-hero-light" data-parallax="0.055" data-parallax-scale="1.06" aria-hidden="true"></div>
+    <div class="lp-hero-layer lp-hero-orbits" data-parallax="0.042" data-parallax-scale="1.07" aria-hidden="true"></div>
+    <div class="lp-hero-layer lp-hero-devices" data-parallax="0.055" data-parallax-scale="1.06" aria-hidden="true"></div>
+    <div class="lp-hero-scrim" style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(5,7,6,.5) 0%, rgba(5,7,6,.12) 38%, rgba(5,7,6,.2) 66%, rgba(5,7,6,.8) 100%)"></div>
     <div style="position:absolute;inset:0;background:radial-gradient(68% 48% at 50% 40%, rgba(5,7,6,.42), rgba(5,7,6,0) 72%)"></div>
     <div data-reveal style="position:relative;display:inline-flex;align-items:center;gap:10px;padding:7px 16px;border:1px solid rgba(80,200,120,.35);border-radius:999px;background:rgba(80,200,120,.08);margin-bottom:34px;backdrop-filter:blur(4px)">
       <span style="width:6px;height:6px;border-radius:50%;background:#50c878;animation:lp-pulse 2.4s ease-in-out infinite"></span>
