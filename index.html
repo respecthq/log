@@ -239,6 +239,7 @@
     .lp-hero-phone,.lp-ai-phone{animation:none !important}
   }
 </style>
+<link rel="stylesheet" href="assets/design-sections.css">
 </head>
 <body>
 <div id="lp-root" style="background:#0a0c0b">
@@ -454,38 +455,14 @@
           </video>
         </div>
       </div>
-      <div class="lp-layer-track">
-        <div data-reveal class="lp-layer-card">
-          <div class="lp-layer-num">01 / IDEA</div>
-          <strong>ひらめく</strong>
-          <p>気づき、疑問、直感を一行で残す。</p>
-        </div>
-        <div data-reveal data-delay="60" class="lp-layer-card">
-          <div class="lp-layer-num">02 / OUTPUT</div>
-          <strong>書き出す</strong>
-          <p>頭の中のもやを、扱える言葉にする。</p>
-        </div>
-        <div data-reveal data-delay="120" class="lp-layer-card">
-          <div class="lp-layer-num">03 / BUILD</div>
-          <strong>構造化する</strong>
-          <p>点を線に、線を面にして関係を見る。</p>
-        </div>
-        <div data-reveal data-delay="180" class="lp-layer-card">
-          <div class="lp-layer-num">04 / LAUNCH</div>
-          <strong>外へ出す</strong>
-          <p>小さく公開し、反応から次を見つける。</p>
-        </div>
-        <div data-reveal data-delay="240" class="lp-layer-card">
-          <div class="lp-layer-num">05 / REVIEW</div>
-          <strong>振り返る</strong>
-          <p>起きたことを観測し、意味づける。</p>
-        </div>
-        <div data-reveal data-delay="300" class="lp-layer-card">
-          <div class="lp-layer-num">06 / REACH</div>
-          <strong>到達する</strong>
-          <p>次の螺旋を始める起点をつくる。</p>
-        </div>
-      </div>
+      <ol class="lp-layer-track" aria-label="思考の6つのレイヤー">
+        <li data-reveal class="lp-layer-card"><span class="lp-layer-num">01</span><span class="lp-layer-word">IDEA</span><strong>ひらめく</strong><p>気づき、疑問、直感を一行で残す。</p><div class="lp-layer-depth" aria-hidden="true"><i class="is-filled"></i><i></i><i></i><i></i><i></i><i></i></div></li>
+        <li data-reveal data-delay="60" class="lp-layer-card"><span class="lp-layer-num">02</span><span class="lp-layer-word">OUTPUT</span><strong>書き出す</strong><p>頭の中のもやを、扱える言葉にする。</p><div class="lp-layer-depth" aria-hidden="true"><i class="is-filled"></i><i class="is-filled"></i><i></i><i></i><i></i><i></i></div></li>
+        <li data-reveal data-delay="120" class="lp-layer-card"><span class="lp-layer-num">03</span><span class="lp-layer-word">BUILD</span><strong>構造化する</strong><p>点を線に、線を面にして関係を見る。</p><div class="lp-layer-depth" aria-hidden="true"><i class="is-filled"></i><i class="is-filled"></i><i class="is-filled"></i><i></i><i></i><i></i></div></li>
+        <li data-reveal data-delay="180" class="lp-layer-card"><span class="lp-layer-num">04</span><span class="lp-layer-word">LAUNCH</span><strong>外へ出す</strong><p>小さく公開し、反応から次を見つける。</p><div class="lp-layer-depth" aria-hidden="true"><i class="is-filled"></i><i class="is-filled"></i><i class="is-filled"></i><i class="is-filled"></i><i></i><i></i></div></li>
+        <li data-reveal data-delay="240" class="lp-layer-card"><span class="lp-layer-num">05</span><span class="lp-layer-word">REVIEW</span><strong>振り返る</strong><p>起きたことを観測し、意味づける。</p><div class="lp-layer-depth" aria-hidden="true"><i class="is-filled"></i><i class="is-filled"></i><i class="is-filled"></i><i class="is-filled"></i><i class="is-filled"></i><i></i></div></li>
+        <li data-reveal data-delay="300" class="lp-layer-card"><span class="lp-layer-num">06</span><span class="lp-layer-word">REACH</span><strong>到達する</strong><p>次の螺旋を始める起点をつくる。</p><div class="lp-layer-depth" aria-hidden="true"><i class="is-filled"></i><i class="is-filled"></i><i class="is-filled"></i><i class="is-filled"></i><i class="is-filled"></i><i class="is-filled"></i></div></li>
+      </ol>
     </div>
   </section>
 
@@ -595,19 +572,19 @@
       </div>
       <div class="lp-who-grid">
         <article data-reveal class="lp-who-card">
-          <img src="assets/photo-student.png" alt="ノートを広げて学ぶ人" loading="lazy">
+          <figure class="lp-who-photo"><img src="assets/photo-student.png" alt="ノートを広げて学ぶ人" loading="lazy"></figure>
           <div class="lp-who-content"><span class="lp-who-tag">LEARNER / 01</span><h3>学習者</h3><p>知識を点で終わらせず、自分の言葉でつなぎ直す。</p><div class="lp-who-use"><span>読書メモ</span><span>研究ノート</span><span>資格学習</span></div></div>
         </article>
         <article data-reveal data-delay="80" class="lp-who-card">
-          <img src="assets/photo-creator.png" alt="アイデアをスケッチするクリエイター" loading="lazy">
+          <figure class="lp-who-photo"><img src="assets/photo-creator.png" alt="アイデアをスケッチするクリエイター" loading="lazy"></figure>
           <div class="lp-who-content"><span class="lp-who-tag">CREATOR / 02</span><h3>クリエイター</h3><p>断片的なアイデアから、作品になるまでの道筋を残す。</p><div class="lp-who-use"><span>企画の種</span><span>構成メモ</span><span>制作ログ</span></div></div>
         </article>
         <article data-reveal data-delay="160" class="lp-who-card">
-          <img src="assets/photo-business.png" alt="企画を検討するビジネスパーソン" loading="lazy">
+          <figure class="lp-who-photo"><img src="assets/photo-business.png" alt="企画を検討するビジネスパーソン" loading="lazy"></figure>
           <div class="lp-who-content"><span class="lp-who-tag">STRATEGIST / 03</span><h3>ビジネスパーソン</h3><p>仮説・検証・振り返りをつなぎ、意思決定の質を上げる。</p><div class="lp-who-use"><span>戦略設計</span><span>会議メモ</span><span>レビュー</span></div></div>
         </article>
         <article data-reveal data-delay="240" class="lp-who-card">
-          <img src="assets/photo-laptop.png" alt="ラップトップで文章を書く表現者" loading="lazy">
+          <figure class="lp-who-photo"><img src="assets/photo-laptop.png" alt="ラップトップで文章を書く表現者" loading="lazy"></figure>
           <div class="lp-who-content"><span class="lp-who-tag">WRITER / 04</span><h3>表現者</h3><p>記事・ネタ・作品の種を育て、伝わる形まで磨いていく。</p><div class="lp-who-use"><span>執筆メモ</span><span>ネタ帳</span><span>発信計画</span></div></div>
         </article>
       </div>

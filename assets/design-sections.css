@@ -1,0 +1,87 @@
+/* Approved update: 05 LAYERS and 09 FOR WHO only.
+   Green matches the existing site: #50c878 on dark, #1f9a57 on light. */
+#layers,#forwho{font-feature-settings:"palt"}
+#layers h2,#forwho h2{font-weight:700!important;letter-spacing:-.035em!important;line-height:1.4!important;text-wrap:balance}
+#layers p,#forwho p{text-wrap:pretty}
+
+/* 05 — One continuous thought, six distinct stages. */
+#layers .lp-layers-showcase{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:36px}
+#layers .lp-layers-art{min-height:0;height:clamp(300px,34vw,430px);justify-content:center;overflow:hidden}
+#layers .lp-layers-art video,#layers .lp-layers-art img{width:112%;max-width:none;height:100%;object-fit:contain}
+#layers .lp-layer-track{list-style:none;padding:0;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:0;margin-top:52px}
+#layers .lp-layer-card{position:relative;min-width:0;min-height:0;border:0;border-radius:0;background:none;padding:0 22px 0 0;overflow:visible}
+#layers .lp-layer-card::before{content:"";position:absolute;top:21px;left:0;right:0;height:1px;background:rgba(80,200,120,.3)}
+#layers .lp-layer-card:last-child::before{background:linear-gradient(90deg,rgba(80,200,120,.3),transparent)}
+#layers .lp-layer-card:hover{transform:none;background:none;border-color:transparent}
+#layers .lp-layer-num{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;width:43px;height:43px;padding:0;border:1px solid rgba(80,200,120,.5);border-radius:50%;background:#080c09;color:#50c878;font-size:13px;letter-spacing:0;box-shadow:0 0 0 8px #000}
+#layers .lp-layer-card:last-child .lp-layer-num{background:#50c878;color:#08130b;border-color:#50c878}
+#layers .lp-layer-word{display:block;font-family:'DM Mono',monospace;font-size:12px;letter-spacing:1.5px;color:#50c878;margin-top:28px}
+#layers .lp-layer-card strong{font-size:20px;line-height:1.5;margin:8px 0 12px;color:#f1f4f1;font-weight:700;letter-spacing:-.025em}
+#layers .lp-layer-card p{font-size:15px;line-height:1.9;color:#a2b0a7;max-width:18em}
+#layers .lp-layer-depth{display:flex;align-items:flex-end;gap:4px;height:29px;margin-top:25px}
+#layers .lp-layer-depth i{display:block;width:12px;height:5px;background:rgba(80,200,120,.14)}
+#layers .lp-layer-depth i.is-filled{background:rgba(80,200,120,.68)}
+#layers .lp-layer-depth i:nth-child(2){height:8px}
+#layers .lp-layer-depth i:nth-child(3){height:12px}
+#layers .lp-layer-depth i:nth-child(4){height:17px}
+#layers .lp-layer-depth i:nth-child(5){height:22px}
+#layers .lp-layer-depth i:nth-child(6){height:28px}
+#layers .lp-layer-card:last-child .lp-layer-depth i{background:#50c878}
+
+/* 09 — Photographs and text each have their own space. */
+#forwho{background:#f5f6f3!important}
+#forwho>div[data-parallax]{display:none}
+#forwho .lp-who-head{grid-template-columns:1.2fr 1fr;gap:72px;margin-bottom:52px}
+#forwho .lp-who-lead{font-size:16px;line-height:1.9;color:#59615b;max-width:420px;justify-self:end;margin:0 0 5px}
+#forwho .lp-who-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}
+#forwho .lp-who-card{min-width:0;min-height:0;overflow:visible;background:transparent;border:0;border-radius:0;box-shadow:none;color:#141815}
+#forwho .lp-who-card::after{display:none}
+#forwho .lp-who-photo{position:relative;margin:0 0 26px;aspect-ratio:4/5;overflow:hidden;border-radius:8px;background:#d3dbd3}
+#forwho .lp-who-card img{position:absolute;inset:0;object-fit:cover;filter:saturate(.55);transition:transform .7s,filter .7s}
+#forwho .lp-who-card:hover img{transform:scale(1.025);filter:saturate(.85)}
+#forwho .lp-who-content{position:relative;inset:auto;padding:0}
+#forwho .lp-who-tag{display:block;width:100%;font-size:12px;color:#1f9a57;letter-spacing:1.15px;background:none;padding:0 0 17px;margin-bottom:18px;border:0;border-bottom:1px solid rgba(20,24,21,.16);border-radius:0;backdrop-filter:none}
+#forwho .lp-who-content h3{font-size:23px;min-height:2.9em;line-height:1.45;margin:0 0 12px;font-weight:700;letter-spacing:-.025em;text-wrap:balance}
+#forwho .lp-who-content p{font-size:15px;line-height:1.9;color:#59615b;margin:0 0 22px;min-height:5.7em}
+#forwho .lp-who-use{gap:5px 8px;align-items:center}
+#forwho .lp-who-use span{background:none;border:0;border-radius:0;padding:0;font-size:12px;color:#59615b}
+#forwho .lp-who-use span+span::before{content:"/";padding-right:8px;color:#a1b2a6}
+
+@media (min-width:1120px){#forwho .lp-who-card:nth-child(even){padding-top:48px}}
+@media (max-width:1119px){
+  #layers .lp-layer-track{grid-template-columns:repeat(3,minmax(0,1fr));gap:44px 0}
+  #layers .lp-layer-card:nth-child(3)::before{background:linear-gradient(90deg,rgba(80,200,120,.3),transparent)}
+  #forwho .lp-who-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:42px 24px}
+  #forwho .lp-who-photo{aspect-ratio:4/3}
+  #forwho .lp-who-content h3,#forwho .lp-who-content p{min-height:0}
+}
+@media (max-width:900px){#forwho .lp-who-head{gap:32px}}
+@media (max-width:720px){
+  #layers h2,#forwho h2{font-size:clamp(28px,7.7vw,40px)!important}
+  #layers .lp-layers-showcase{grid-template-columns:minmax(0,1fr);gap:20px}
+  #layers .lp-layers-art{height:260px;min-height:0;margin:0}
+  #layers .lp-layers-art video,#layers .lp-layers-art img{width:100%}
+  #layers .lp-layer-track{grid-template-columns:minmax(0,1fr);gap:0;margin-top:36px}
+  #layers .lp-layer-card{padding:0 0 30px 66px;min-height:158px}
+  #layers .lp-layer-card:last-child{min-height:0;padding-bottom:0}
+  #layers .lp-layer-card::before,#layers .lp-layer-card:nth-child(3)::before{top:21px;left:21px;bottom:0;right:auto;width:1px;height:auto;background:rgba(80,200,120,.3)}
+  #layers .lp-layer-card:last-child::before{display:none}
+  #layers .lp-layer-num{position:absolute;left:0;top:0;box-shadow:0 0 0 6px #000}
+  #layers .lp-layer-word{margin:0;padding-top:2px}
+  #layers .lp-layer-card strong{margin:7px 0 8px;font-size:22px}
+  #layers .lp-layer-card p{font-size:16px;max-width:none}
+  #layers .lp-layer-depth{display:none}
+  #forwho .lp-who-head{grid-template-columns:1fr;gap:24px;margin-bottom:36px}
+  #forwho .lp-who-lead{justify-self:start;max-width:none}
+}
+@media (max-width:520px){
+  #forwho .lp-who-grid{grid-template-columns:minmax(0,1fr);gap:44px}
+  #forwho .lp-who-photo{aspect-ratio:4/3;margin-bottom:20px}
+  #forwho .lp-who-content h3{font-size:26px;min-height:0}
+  #forwho .lp-who-content p{font-size:16px;margin-bottom:16px;min-height:0}
+  #forwho .lp-who-use span{font-size:13px}
+  #forwho .lp-who-tag{margin-bottom:16px;padding-bottom:14px}
+}
+@media (prefers-reduced-motion:reduce){
+  #layers .lp-layer-card,#forwho .lp-who-card,#forwho .lp-who-card img{transition:none!important}
+}
