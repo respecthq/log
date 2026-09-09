@@ -1,4 +1,4 @@
-/* Approved update: 05 LAYERS and 09 FOR WHO only.
+/* Approved updates: 05 LAYERS, 09 FOR WHO, and FAQ hover.
    Green matches the existing site: #50c878 on dark, #1f9a57 on light. */
 #layers,#forwho{font-feature-settings:"palt"}
 #layers h2,#forwho h2{font-weight:700!important;letter-spacing:-.035em!important;line-height:1.4!important;text-wrap:balance}
@@ -46,6 +46,10 @@
 #forwho .lp-who-use{gap:5px 8px;align-items:center}
 #forwho .lp-who-use span{background:none;border:0;border-radius:0;padding:0;font-size:12px;color:#59615b}
 #forwho .lp-who-use span+span::before{content:"/";padding-right:8px;color:#a1b2a6}
+
+/* 11 — Match the FAQ hover and keyboard focus to the site's green. */
+#faq .lp-faq-q .lp-faq-t{transition:color .25s ease}
+#faq .lp-faq-q:hover .lp-faq-t,#faq .lp-faq-q:focus-visible .lp-faq-t{color:#50c878}
 
 @media (min-width:1120px){#forwho .lp-who-card:nth-child(even){padding-top:48px}}
 @media (max-width:1119px){
